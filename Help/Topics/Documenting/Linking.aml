@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+								 xmlns:xlink="http://www.w3.org/1999/xlink"
+								 xmlns:xsd="http://tempuri.org/XMLSchema.xsd">
+		<introduction>
+			<para>
+				This topic explains how you can link to XML items.
+			</para>
+		</introduction>
+		<section>
+			<title>Linking</title>
+			<content>
+				<para>
+					You can link to XML items from two different locations:
+				</para>
+				<list class="ordered">
+					<listItem>
+						<para>
+							From within MAML markup using the
+							<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+							element.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							From within an
+							<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3">external documentation</link>
+							file using the
+							<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member/@uri</xsd:xmlEntityReference>
+							attribute of the
+							<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+							element.
+						</para>
+					</listItem>
+				</list>
+				<para>
+					Both, the
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+					element as well as the
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+					element use a specially formatted URI to identify the XML item being linked to. The following sections
+					explain the format of this URI.
+				</para>
+				<para>
+					The following code sample shows how the
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+					element can be used to link to an element:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xsd:xmlEntityReference>http://schema.example.com#E/myElement&lt;/xsd:xmlEntityReference></code>
+				<para>
+					You can use the
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+					element everywhere in MAML where you could also use the <codeInline>link</codeInline> element. In
+					particular this includes paragraphs and the related topics section.
+				</para>
+			</content>
+		</section>
+		<section>
+			<title>Link URI</title>
+			<content>
+				<para>
+					The link URI must have one of the following forms:
+				</para>
+				<list class="ordered">
+					<listItem>
+						<para>
+							<command>
+								<replaceable>namespace</replaceable>
+							</command>
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<command>
+								<replaceable>namespace</replaceable>#<replaceable>rootClass</replaceable>/<replaceable>rootName</replaceable>
+							</command>
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<command>
+								<replaceable>namespace</replaceable>#<replaceable>rootClass</replaceable>/<replaceable>rootName</replaceable>/<replaceable>childPath</replaceable>
+							</command>
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<command>
+								<replaceable>namespace</replaceable>#<replaceable>schemaFile</replaceable>
+							</command>
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<command>
+								<replaceable>namespace</replaceable>#<replaceable>schemaFile</replaceable>#<replaceable>itemId</replaceable>
+							</command>
+						</para>
+					</listItem>
+				</list>
+				<para>
+				</para>
+				<definitionTable>
+					<definedTerm>namespace</definedTerm>
+					<definition>
+						<para>
+							Specifies the namespace of the item you want to link to.
+						</para>
+					</definition>
+					<definedTerm>rootClass</definedTerm>
+					<definition>
+						<para>
+							Specifies the type of the root item. Can be one of the following items:
+						</para>
+						<list class="bullet">
+							<listItem>
+								<para>
+									<codeInline>E</codeInline>. The root of all globally defined elements.
+								</para>
+							</listItem>
+							<listItem>
+								<para>
+									<codeInline>A</codeInline>. The root of all globally defined attributes.
+								</para>
+							</listItem>
+							<listItem>
+								<para>
+									<codeInline>G</codeInline>. The root of all groups.
+								</para>
+							</listItem>
+							<listItem>
+								<para>
+									<codeInline>AG</codeInline>. The root of all attribute groups.
+								</para>
+							</listItem>
+							<listItem>
+								<para>
+									<codeInline>T</codeInline>. The root of all types.
+								</para>
+							</listItem>
+						</list>
+					</definition>
+					<definedTerm>rootName</definedTerm>
+					<definition>
+						<para>
+							Specifies the name of the root item.
+						</para>
+						<alert class="important">
+							<para>
+								The name of a globally defined attribute is without the <codeInline>@</codeInline>-prefix.
+							</para>
+						</alert>
+					</definition>
+					<definedTerm>childPath</definedTerm>
+					<definition>
+						<para>
+							Specifies the optional path to a child item, which is either an element or an attribute.
+						</para>
+						<alert class="important">
+							<para>
+								Within the child path all attributes must be prefixed with an <codeInline>@</codeInline>.
+							</para>
+						</alert>
+					</definition>
+					<definedTerm>schemaFile</definedTerm>
+					<definition>
+						<para>
+							Specifies the name of a schema file.
+						</para>
+					</definition>
+					<definedTerm>itemId</definedTerm>
+					<definition>
+						<para>
+							Specifies the unique ID of an item within the specified schema file.
+						</para>
+						<alert class="important">
+							<para>
+								Although nearly every item in an XML schema file can have an ID you can only link
+								to elements, attributes, groups, attribute groups, simple types, and complex types.
+							</para>
+						</alert>
+					</definition>
+				</definitionTable>
+			</content>
+		</section>
+		<section>
+			<title>Link URI Examples</title>
+			<content>
+				<para>
+					The following table shows some examples for link URIs:
+				</para>
+				<table>
+					<tableHeader>
+						<row>
+							<entry>
+								<para>Item Type</para>
+							</entry>
+							<entry>
+								<para>Uri Examples</para>
+							</entry>
+						</row>
+					</tableHeader>
+					<row>
+						<entry>
+							<para>Namespace</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Schema</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com#mySchema.xsd</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Element</para>
+						</entry>
+						<entry>
+							<definitionTable>
+								<definedTerm>Globally Defined</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#E/myGlobalElement</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Defined in an Element</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#E/myGlobalElement/myChildElement</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Defined in a Group</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#G/myElementGroup/myChildElement</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Defined in a Complex Type</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#T/myComplexType/myChildElement</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Linked by ID</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#mySchema.xsd#myElementId</codeInline>
+									</para>
+								</definition>
+							</definitionTable>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Attribute</para>
+						</entry>
+						<entry>
+							<definitionTable>
+								<definedTerm>Globally Defined</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#A/myGlobalAttribute</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Defined in an Element</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#E/myGlobalElement/@myAttribute</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Defined in an Attribute Group</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#AG/myAttributeGroup/@myAttribute</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Defined in a Complex Type</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#T/myComplexType/@myAttribute</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Linked by ID</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#mySchema.xsd#myAttributeId</codeInline>
+									</para>
+								</definition>
+							</definitionTable>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Group</para>
+						</entry>
+						<entry>
+							<definitionTable>
+								<definedTerm>Linked by Name</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#G/myGroup</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Linked by ID</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#mySchema.xsd#myGroupId</codeInline>
+									</para>
+								</definition>
+							</definitionTable>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Attribute Group</para>
+						</entry>
+						<entry>
+							<definitionTable>
+								<definedTerm>Linked by Name</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#AG/myAttributeGroup</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Linked by ID</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#mySchema.xsd#myAttributeGroupId</codeInline>
+									</para>
+								</definition>
+							</definitionTable>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Simple Type</para>
+						</entry>
+						<entry>
+							<definitionTable>
+								<definedTerm>Linked by Name</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#T/mySimpleType</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Linked by ID</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#mySchema.xsd#mySimpleTypeId</codeInline>
+									</para>
+								</definition>
+							</definitionTable>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Complex Type</para>
+						</entry>
+						<entry>
+							<definitionTable>
+								<definedTerm>Linked by Name</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#T/myComplexType</codeInline>
+									</para>
+								</definition>
+								<definedTerm>Linked by ID</definedTerm>
+								<definition>
+									<para>
+										<codeInline>http://schema.example.com#mySchema.xsd#myComplexTypeId</codeInline>
+									</para>
+								</definition>
+							</definitionTable>
+						</entry>
+					</row>
+				</table>
+			</content>
+		</section>
+		<relatedTopics>
+			<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+			<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+			<link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f" />
+			<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3" />
+			<link xlink:href="613da747-f812-4393-98b6-c764a105bdf1" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

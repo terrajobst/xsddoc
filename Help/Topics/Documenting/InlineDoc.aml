@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="2d68098a-2601-4468-a0e0-7718f995414f" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+								 xmlns:xlink="http://www.w3.org/1999/xlink"
+								 xmlns:xsd="http://tempuri.org/XMLSchema.xsd">
+		<introduction>
+			<para>
+				This topic explains how you can document an XML schema directly
+				in the schema file.
+			</para>
+		</introduction>
+		<section address="xmlSchemaAnnotations">
+			<title>XML Schema Annotations</title>
+			<content>
+				<para>
+					XML schema provides a very powerful way to document a schema using the
+					<externalLink>
+						<linkText>annotation Element</linkText>
+						<linkUri>http://www.w3.org/TR/xmlschema-0/#CommVers</linkUri>
+					</externalLink>.
+					The <codeInline>annotation</codeInline> element has two children,
+					<codeInline>documentation</codeInline> and <codeInline>appinfo</codeInline>.
+				</para>
+				<para>
+					The <codeInline>documentation</codeInline> element was designed to hold
+					human readable text. Therefore, the content of this element is often used by tools
+					such as IDEs or XML editors to provide a short summary of the item the
+					<codeInline>annotation</codeInline> element has been attached to. For example, if
+					Visual Studio is able to locate the schema file it uses the
+					<codeInline>documentation</codeInline> element for IntelliSense popup windows and
+					tooltips. Although not strictly required by the W3C schema it is a convention that
+					this element only contains text and no markup. This ensures that the content can be
+					used directly by such tools without any further processing.
+				</para>
+				<para>
+					On the other hand, the <codeInline>appinfo</codeInline> element was designed to hold
+					machine processable content. This element can be used to hold any information you
+					find useful. For example, some tools use that to store information used to generate
+					code for an object-xml mapper.
+				</para>
+			</content>
+		</section>
+		<section address="simpleDocumentation">
+			<title>Simple Documentation</title>
+			<content>
+				<para>
+					Since the <codeInline>documentation</codeInline> element is used quite
+					often <token>AppName</token> uses it as the first documentation source.
+					If you do not specify more advanved elements (see below) <token>AppName</token>
+					will use the content of the <codeInline>documentation</codeInline> element
+					as the item's summary.
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xs:element name="myElement" type="xs:string">
+	&lt;xs:annotation>
+		&lt;xs:documentation>
+			This is documentation for myElement that will be used by both Visual Studio as well as
+			XML Schema Documenter.
+		&lt;/xs:documentation>
+	&lt;/xs:annotation>
+&lt;/xs:element></code>
+				<alert class="important">
+					<para>
+						Inside the <codeInline>documentation</codeInline> element you cannot use
+						markup such as
+						<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>.
+						If you want to you will have to use the extended documentation feature or
+						customize the documentation using an XSLT tranformation. Both options are
+						discussed below.
+					</para>
+				</alert>
+			</content>
+		</section>
+		<section address="extendedDocumentation">
+			<title>Extended Documentation</title>
+			<content>
+				<para>
+					Due to the limitation that you should not use markup inside the
+					<codeInline>documentation</codeInline> element <token>AppName</token> supports
+					extended documentation by utilizing the <codeInline>appinfo</codeInline> element.
+				</para>
+				<para>
+					<token>AppName</token> provides an element called
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					that you can place under the <codeInline>appinfo</codeInline> element. The
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					element allows you to document both a <codeInline>summary</codeInline> and a
+					<codeInline>remarks</codeInline> element from the Microsoft Assistance Markup Language (MAML).
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xs:element name="myElement" type="xs:string">
+	&lt;xs:annotation>
+		&lt;xs:appinfo>
+			&lt;schemaDoc xmlns="http://tempuri.org/XMLSchema.xsd"
+					   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+				&lt;ddue:summary>
+					&lt;ddue:para>
+						This is the summary description.
+					&lt;/ddue:para>
+				&lt;/ddue:summary>
+				&lt;ddue:remarks>
+					&lt;ddue:content>
+						&lt;ddue:para>
+							This is the remarks section for myElement. As you can see
+							both sections may contain any legal MAML markup.
+						&lt;/ddue:para>
+					&lt;/ddue:content>
+				&lt;/ddue:remarks>
+			&lt;/schemaDoc>
+		&lt;/xs:appinfo>
+	&lt;/xs:annotation>
+&lt;/xs:element></code>
+			</content>
+		</section>
+		<section address="customDocumentation">
+			<title>Custom Documentation</title>
+			<content>
+				<para>
+					If you have already documented your XML schema or you do not want to use the
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					element with all the MAML markup you can also integrate your own schema documentation
+					format by provding an XSLT transform that converts your format into the
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					element.
+				</para>
+				<para>
+					For example, consider the following schema:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.com/MySchema"
+		   elementFormDefault="qualified"
+		   xmlns="http://schemas.example.com/MySchema"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns:doc="http://schemas.example.com/MyDocSchema">
+	&lt;xs:element name="root" type="xs:string">
+		&lt;xs:annotation>
+			&lt;xs:documentation>
+				This is my standard summary.
+			&lt;/xs:documentation>
+			&lt;xs:appinfo>
+				&lt;doc:seeAlso namespace="http://schemas.example.com/MySchema" element="otherRoot1" />
+				&lt;doc:seeAlso namespace="http://schemas.example.com/MySchema" element="otherRoot2" />
+				&lt;doc:remarks>
+					These are my custom remarks.
+				&lt;/doc:remarks>
+			&lt;/xs:appinfo>
+		&lt;/xs:annotation>
+	&lt;/xs:element>
+	
+	&lt;xs:element name="otherRoot1" type="xs:string" />
+	&lt;xs:element name="otherRoot2" type="xs:string" />
+&lt;/xs:schema></code>
+				<para>
+					The <codeInline>root</codeInline> element is documented using a custom
+					documentation scheme. There is no custom summary element. Instead the standard
+					<codeInline>documentation</codeInline> element has been used. But there
+					is a custom <codeInline>remarks</codeInline> and a custom
+					<codeInline>seeAlso</codeInline> element.
+				</para>
+				<para>
+					The following transform would create a
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					element that can be used by <token>AppName</token>:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xsl:stylesheet version="1.0"
+				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+				xmlns:xsd="http://tempuri.org/XMLSchema.xsd"
+				xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
+				xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				xmlns:doc="http://schemas.example.com/MyDocSchema">
+	&lt;xsl:output method="xml" indent="yes"/>
+
+	&lt;xsl:template match="*">
+		&lt;xsl:variable name="summary" select="xs:annotation/xs:documentation" />
+		&lt;xsl:variable name="remarks" select="xs:annotation/xs:appinfo/doc:remarks" />
+		&lt;xsl:variable name="seeAlsos" select="xs:annotation/xs:appinfo/doc:seeAlso" />
+
+		&lt;xsd:schemaDoc>
+			&lt;ddue:summary>
+				&lt;ddue:para>
+					&lt;xsl:apply-templates select="$summary/@*|$summary/node()" mode="copy"/>
+				&lt;/ddue:para>
+			&lt;/ddue:summary>
+			&lt;xsl:if test="$remarks">
+				&lt;ddue:remarks>
+					&lt;ddue:content>
+						&lt;ddue:para>
+							&lt;xsl:apply-templates select="$remarks/@*|$remarks/node()" mode="copy"/>
+						&lt;/ddue:para>
+					&lt;/ddue:content>
+				&lt;/ddue:remarks>
+			&lt;/xsl:if>
+			&lt;xsl:if test="$seeAlsos">
+				&lt;ddue:relatedTopics>
+					&lt;xsl:for-each select="$seeAlsos">
+						&lt;xsd:xmlEntityReference xml:space="preserve">&lt;xsl:value-of select="@namespace"/>#E/&lt;xsl:value-of select="@element"/>&lt;/xsd:xmlEntityReference>
+					&lt;/xsl:for-each>
+				&lt;/ddue:relatedTopics>
+			&lt;/xsl:if>
+		&lt;/xsd:schemaDoc>
+	&lt;/xsl:template>
+
+	&lt;xsl:template match="@*|node()" mode="copy">
+		&lt;xsl:copy>
+			&lt;xsl:apply-templates select="@*|node()" mode="copy"/>
+		&lt;/xsl:copy>
+	&lt;/xsl:template>
+
+&lt;/xsl:stylesheet></code>
+				<para>
+					Applied to the <codeInline>root</codeInline> element this transform creates
+					the following
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					element:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xsd:schemaDoc xmlns:xsd="http://tempuri.org/XMLSchema.xsd"
+			   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+	&lt;ddue:summary>
+		&lt;ddue:para>
+			This is my standard summary.
+		&lt;/ddue:para>
+	&lt;/ddue:summary>
+	&lt;ddue:remarks>
+		&lt;ddue:content>
+			&lt;ddue:para>
+				These are my custom remarks.
+			&lt;/ddue:para>
+		&lt;/ddue:content>
+	&lt;/ddue:remarks>
+	&lt;ddue:relatedTopics>
+		&lt;xsd:xmlEntityReference xml:space="preserve">http://schemas.example.com/MySchema#E/otherRoot1&lt;/xsd:xmlEntityReference>
+		&lt;xsd:xmlEntityReference xml:space="preserve">http://schemas.example.com/MySchema#E/otherRoot2&lt;/xsd:xmlEntityReference>
+	&lt;/ddue:relatedTopics>
+&lt;/xsd:schemaDoc></code>
+				<para>
+					To use an XSLT transform you have to set the property <ui>AnnotationTransformFilePath</ui>
+					in the <link xlink:href="fa65321c-0a9a-4c6f-8ab4-0fe5fbf970f3" />.
+				</para>
+			</content>
+		</section>
+		<relatedTopics>
+			<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3" />
+			<link xlink:href="613da747-f812-4393-98b6-c764a105bdf1" />
+			<link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

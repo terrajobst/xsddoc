@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://tempuri.org/Exclusion"
+		   elementFormDefault="qualified"
+		   xmlns="http://tempuri.org/Exclusion"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="SchemaDependency.xsd" />
+	
+	<xs:element name="root">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ElementDependency" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

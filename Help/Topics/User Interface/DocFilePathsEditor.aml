@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="5f48da46-e525-48c8-8ec7-8cf497207b89" revisionNumber="1">
+	<developerUIReferenceDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+								  xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>
+				This dialog allows you to maintain the list of external documentation
+				files that are used to replace parts of the documentation directly
+				contained in the schema files.
+			</para>
+			<para>
+				<mediaLinkInline>
+					<image xlink:href="44dbb4b3-5b07-4741-9ba4-08bec8515856"/>
+				</mediaLinkInline>
+			</para>
+		</introduction>
+
+		<taskList>
+			<content>
+				<alert class="tip">
+					<para>
+						You can also use wildcards to include a whole set of external documentation files.
+						For example, if you want to include all <localUri>.xml</localUri> files in <localUri>C:\DocFiles</localUri>
+						you would add an entry whose file name is <localUri>*.xml</localUri>. To add this entry,
+						select any file in the folder <localUri>C:\DocFiles</localUri> and change
+						the <ui>Path</ui> property to <localUri>C:\DocFiles\*.xml</localUri>.
+					</para>
+				</alert>
+			</content>
+		</taskList>
+
+		<relatedTopics>		
+			<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3" />
+			<link xlink:href="fa65321c-0a9a-4c6f-8ab4-0fe5fbf970f3" />
+			<link xlink:href="fc1cae9c-fd54-4cb6-8f37-77530227132a" />
+			<link xlink:href="ee368f53-0c52-4f3e-a62a-9dd32dbf8fec" />
+		</relatedTopics>
+	</developerUIReferenceDocument>
+</topic>

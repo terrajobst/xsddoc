@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="fb47fb06-5700-4502-be2c-2975dd68cae3" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+								 xmlns:xlink="http://www.w3.org/1999/xlink"
+								 xmlns:xsd="http://tempuri.org/XMLSchema.xsd">
+		<introduction>
+			<para>
+				This topic explains how you can document your schema using an external XML file.
+			</para>
+		</introduction>
+		<section>
+			<title>External Documentation File</title>
+			<content>
+				<para>
+					For a schema set you can use any numbers of external documentation files. Although one
+					documentation file can only document members from one namespace you can use multiple
+					files for a single namespace.
+				</para>
+				<para>
+					The structure of an external documentation file is as follows:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;doc xmlns="http://tempuri.org/XMLSchema.xsd"
+	 xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+	&lt;namespace>
+		&lt;name>http://schema.example.com&lt;/name>
+	&lt;/namespace>
+	&lt;members>
+		&lt;member uri="E/rootElement/childElement1">
+			&lt;!-- Documentation for childElement1 -->
+		&lt;/member>
+		&lt;member uri="E/rootElement/childElement2">
+			&lt;!-- Documentation for childElement1 -->
+		&lt;/member>
+	&lt;/members>
+&lt;/doc></code>
+				<para>
+					As you can see, it contains one
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/namespace</xsd:xmlEntityReference>
+					element that declares the namespace this file is going to document and one or more
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+					elements documenting a specific member.
+				</para>
+			</content>
+		</section>
+		
+		<section>
+			<title>Documenting Members</title>
+			<content>
+				<para>
+					The following code sample shows how the documentation for the <codeInline>childElement1</codeInline>
+					might look like:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;member uri="E/rootElement/childElement1">
+	&lt;ddue:summary>
+		&lt;ddue:para>
+			This is the summary information for &lt;ddue:codeInline>childElement1&lt;/ddue:codeInline>.
+		&lt;/ddue:para>
+	&lt;/ddue:summary>
+	&lt;ddue:remarks>
+		&lt;ddue:content>
+			&lt;ddue:para>
+				This is a deeper discussion about &lt;ddue:codeInline>childElement1&lt;/ddue:codeInline>.
+			&lt;/ddue:para>
+			&lt;ddue:para>
+				You also might want to have a look at
+				&lt;xmlEntityReference>http://schema.example.com#E/rootElement/childElement2&lt;/xmlEntityReference>.
+			&lt;/ddue:para>
+		&lt;/ddue:content>
+	&lt;/ddue:remarks>
+&lt;/member></code>
+				<para>
+					The
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member/@uri</xsd:xmlEntityReference>
+					attribute of the
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+					element uses the special URI format explained in the next section.
+				</para>
+			</content>
+		</section>
+		
+		<section>
+			<title>Link URI</title>
+			<content>
+				<para>
+					The external documentation uses basially the same URI scheme as explained in
+					<link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" />. The only particularity is that
+					the URI must not be prefixed with the namespace. The namespace is always derived from
+					the value in the
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/namespace</xsd:xmlEntityReference>
+					element.
+				</para>
+				<para>
+					Additionally, it supports the following pseudo-URIs.
+				</para>
+				<table>
+					<tableHeader>
+						<row>
+							<entry>
+								<para>Pseudo-URI</para>
+							</entry>
+							<entry>
+								<para>Description</para>
+							</entry>
+						</row>
+					</tableHeader>
+					<row>
+						<entry>
+							<para>
+								<codeInline>##SchemaSet</codeInline>
+							</para>
+						</entry>
+						<entry>
+							<para>
+								Allows you to specify documentation for the schema set topic.
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>
+								<codeInline>##Namespace</codeInline>
+							</para>
+						</entry>
+						<entry>
+							<para>
+								Allows you to specify documentation for the namespace topic.
+							</para>
+						</entry>
+					</row>
+				</table>
+				<para>
+					The
+					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/namespace</xsd:xmlEntityReference>
+					element also supports the <codeInline>##SchemaSet</codeInline> pseudo-URI. This is
+					useful if you want to keep the documentation for the schema set topic in a separate
+					file. You could also use any other URI but using the value <codeInline>##SchemaSet</codeInline>
+					better communicates your intent.
+				</para>				
+			</content>
+		</section>
+		<relatedTopics>
+			<link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f" />
+			<link xlink:href="613da747-f812-4393-98b6-c764a105bdf1" />
+			<link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" />
+			<link xlink:href="5f48da46-e525-48c8-8ec7-8cf497207b89" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>
