@@ -5,6 +5,7 @@
 
 	<PropertyGroup>
 		<BuildDir>$(MSBuildProjectDirectory)\</BuildDir>
+		<CustomTasksDir>$(BuildDir)Custom Tasks\</CustomTasksDir>
 		<ProjectDir>$(BuildDir)..\</ProjectDir>
 		<SourceDir>$(ProjectDir)Source\</SourceDir>
 		<SetupDir>$(ProjectDir)Setup\</SetupDir>
@@ -24,6 +25,10 @@
 	<!-- External projects -->
 
 	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+	<!-- External Tasks -->
+
+	<UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.RemoveTfsBindings" />
 
 	<!-- Build -->
 
@@ -52,6 +57,16 @@
 		<RemoveDir Directories="$(OutputDir)" />
 	</Target>
 
+
+	<!-- Compile MSBuild tasks needed by the build process itself -->
+
+	<Target Name="CompileBuildTasks">
+		<ItemGroup>
+			<CustomBuildProjects Include="$(SourceDir)XsdDocumentation.Build\XsdDocumentation.Build.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(CustomBuildProjects)" Targets="Build" Properties="Configuration=$(Configuration);OutDir=$(CustomTasksDir)" />
+	</Target>
+
 	<!-- Compile -->
 
 	<Target Name="Compile">
@@ -72,14 +87,20 @@
 
 	<!-- Generate Source Code -->
 
-	<Target Name="GenerateSourceCode">
+	<Target Name="GenerateSourceCode" DependsOnTargets="CompileBuildTasks">
 		<ItemGroup>
 			<SourceCodeFiles Include="$(ProjectDir)**\*.*"
-							 Exclude="$(ProjectDir)**\.svn\**\*.*;$(OutputDir)**\*.*;$(LibDir)**\*.*;$(CustomTasksDir)**\*.*;$(ProjectDir)**\bin\**\*.*;$(ProjectDir)**\obj\**\*.*;$(ProjectDir)**\*.scc;$(ProjectDir)**\*.vssscc;$(ProjectDir)**\*.vspscc;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
+							 Exclude="$(OutputDir)**\*.*;$(LibDir)**\*.*;$(CustomTasksDir)**\*.*;$(ProjectDir)**\bin\**\*.*;$(ProjectDir)**\obj\**\*.*;$(ProjectDir)**\*.scc;$(ProjectDir)**\*.vssscc;$(ProjectDir)**\*.vspscc;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
 		</ItemGroup>
 
 		<Copy SourceFiles="@(SourceCodeFiles)" DestinationFolder="$(GeneratedSourceCode)%(RecursiveDir)" />
 		<Exec Command="attrib -r -h /s" WorkingDirectory="$(GeneratedSourceCode)" />
+
+		<ItemGroup>
+			<SolutionFiles Include="$(GeneratedSourceCode)Source\XsdDocumentation.sln" />
+			<SolutionFiles Include="$(GeneratedSourceCode)Setup\Setup.sln" />
+		</ItemGroup>
+		<RemoveTfsBindings SolutionFiles="@(SolutionFiles)" />
 	</Target>
 
 	<!-- Generate Samples -->

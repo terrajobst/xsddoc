@@ -12,24 +12,57 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XsdDocumentation.PlugIn", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XsdDocumentation.BuildComponents", "XsdDocumentation.BuildComponents\XsdDocumentation.BuildComponents.csproj", "{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XsdDocumentation.Build", "XsdDocumentation.Build\XsdDocumentation.Build.csproj", "{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}"
+EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs08.codeplex.com/
+		SccProjectUniqueName0 = XsdDocumentation.Build\\XsdDocumentation.Build.csproj
+		SccProjectName0 = XsdDocumentation.Build
+		SccLocalPath0 = XsdDocumentation.Build
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = XsdDocumentation\\XsdDocumentation.csproj
+		SccProjectName2 = XsdDocumentation
+		SccLocalPath2 = XsdDocumentation
+		SccProjectUniqueName3 = XsdDocumentation.PlugIn\\XsdDocumentation.PlugIn.csproj
+		SccProjectName3 = XsdDocumentation.PlugIn
+		SccLocalPath3 = XsdDocumentation.PlugIn
+		SccProjectUniqueName4 = XsdDocumentation.BuildComponents\\XsdDocumentation.BuildComponents.csproj
+		SccProjectName4 = XsdDocumentation.BuildComponents
+		SccLocalPath4 = XsdDocumentation.BuildComponents
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Code Analysis|Any CPU = Code Analysis|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31429526-548B-4F1F-9F68-E22EF9D92658}.Code Analysis|Any CPU.ActiveCfg = Release|Any CPU
+		{31429526-548B-4F1F-9F68-E22EF9D92658}.Code Analysis|Any CPU.Build.0 = Release|Any CPU
 		{31429526-548B-4F1F-9F68-E22EF9D92658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{31429526-548B-4F1F-9F68-E22EF9D92658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31429526-548B-4F1F-9F68-E22EF9D92658}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31429526-548B-4F1F-9F68-E22EF9D92658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Code Analysis|Any CPU.ActiveCfg = Release|Any CPU
+		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Code Analysis|Any CPU.Build.0 = Release|Any CPU
 		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Code Analysis|Any CPU.ActiveCfg = Release|Any CPU
+		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Code Analysis|Any CPU.Build.0 = Release|Any CPU
 		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Code Analysis|Any CPU.ActiveCfg = Code Analysis|Any CPU
+		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Code Analysis|Any CPU.Build.0 = Code Analysis|Any CPU
+		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
