@@ -2,7 +2,7 @@
 <topic id="fb47fb06-5700-4502-be2c-2975dd68cae3" revisionNumber="1">
 	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
 								 xmlns:xlink="http://www.w3.org/1999/xlink"
-								 xmlns:xsd="http://tempuri.org/XMLSchema.xsd">
+								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
 		<introduction>
 			<para>
 				This topic explains how you can document your schema using an external XML file.
@@ -19,7 +19,7 @@
 				<para>
 					The structure of an external documentation file is as follows:
 				</para>
-				<code language="xml" xml:space="preserve">&lt;doc xmlns="http://tempuri.org/XMLSchema.xsd"
+				<code language="xml" xml:space="preserve">&lt;doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 	 xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
 	&lt;namespace>
 		&lt;name>http://schema.example.com&lt;/name>
@@ -35,9 +35,9 @@
 &lt;/doc></code>
 				<para>
 					As you can see, it contains one
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/namespace</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/namespace</xsd:xmlEntityReference>
 					element that declares the namespace this file is going to document and one or more
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/members/member</xsd:xmlEntityReference>
 					elements documenting a specific member.
 				</para>
 			</content>
@@ -70,9 +70,9 @@
 &lt;/member></code>
 				<para>
 					The
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member/@uri</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/members/member/@uri</xsd:xmlEntityReference>
 					attribute of the
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/members/member</xsd:xmlEntityReference>
 					element uses the special URI format explained in the next section.
 				</para>
 			</content>
@@ -86,7 +86,7 @@
 					<link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" />. The only particularity is that
 					the URI must not be prefixed with the namespace. The namespace is always derived from
 					the value in the
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/namespace</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/namespace</xsd:xmlEntityReference>
 					element.
 				</para>
 				<para>
@@ -130,7 +130,7 @@
 				</table>
 				<para>
 					The
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/namespace</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/namespace</xsd:xmlEntityReference>
 					element also supports the <codeInline>##SchemaSet</codeInline> pseudo-URI. This is
 					useful if you want to keep the documentation for the schema set topic in a separate
 					file. You could also use any other URI but using the value <codeInline>##SchemaSet</codeInline>

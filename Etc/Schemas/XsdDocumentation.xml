@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<doc xmlns="http://tempuri.org/XMLSchema.xsd"
+<doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 	 xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
 	 xmlns:xlink="http://www.w3.org/1999/xlink">
 	<namespace>
-		<name>http://tempuri.org/XMLSchema.xsd</name>
+		<name>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3</name>
 	</namespace>
 	<members>
 		<member uri="##Namespace">
@@ -13,19 +13,6 @@
 					XML schema.
 				</ddue:para>
 			</ddue:summary>
-			<ddue:remarks>
-				<ddue:content>
-					<ddue:alert class="important">
-						<ddue:para>
-							This is an early release of <ddue:token>AppName</ddue:token>. The namespace
-							<ddue:codeInline>http://tempuri.org/XMLSchema.xsd</ddue:codeInline>
-							does reflect this. The final namespace will be something like
-							<ddue:codeInline>http://schemas.xyz.codeplex.com/schemaDoc</ddue:codeInline>,
-							<ddue:codeInline>xyz</ddue:codeInline> being the released project name.
-						</ddue:para>
-					</ddue:alert>
-				</ddue:content>
-			</ddue:remarks>
 		</member>
 		<member uri="XsdDocumentation.xsd">
 			<ddue:summary>

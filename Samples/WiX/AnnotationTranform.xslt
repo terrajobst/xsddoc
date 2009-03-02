@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:msxsl="urn:schemas-microsoft-com:xslt"
-				xmlns:xsd="http://tempuri.org/XMLSchema.xsd"
+				xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 				xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
 				xmlns:xlink="http://www.w3.org/1999/xlink"
 				xmlns:xs="http://www.w3.org/2001/XMLSchema"

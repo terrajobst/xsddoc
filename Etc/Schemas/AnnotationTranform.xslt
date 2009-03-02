@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-				xmlns:xsd="http://tempuri.org/XMLSchema.xsd"
+				xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 				xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
 				xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xsl:output method="xml" indent="yes"/>

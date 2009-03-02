@@ -2,7 +2,7 @@
 <xs:schema targetNamespace="http://conqat.cs.tum.edu/ns/clonereport"
 		   xmlns="http://conqat.cs.tum.edu/ns/clonereport"
 		   xmlns:cd="http://conqat.cs.tum.edu/ns/clonereport"
-		   xmlns:sd="http://tempuri.org/XMLSchema.xsd"
+		   xmlns:sd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
 		   elementFormDefault="qualified"
 		   xmlns:xs="http://www.w3.org/2001/XMLSchema">

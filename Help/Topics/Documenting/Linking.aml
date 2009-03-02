@@ -2,7 +2,7 @@
 <topic id="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" revisionNumber="1">
 	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
 								 xmlns:xlink="http://www.w3.org/1999/xlink"
-								 xmlns:xsd="http://tempuri.org/XMLSchema.xsd">
+								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
 		<introduction>
 			<para>
 				This topic explains how you can link to XML items.
@@ -18,7 +18,7 @@
 					<listItem>
 						<para>
 							From within MAML markup using the
-							<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+							<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
 							element.
 						</para>
 					</listItem>
@@ -27,30 +27,30 @@
 							From within an
 							<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3">external documentation</link>
 							file using the
-							<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member/@uri</xsd:xmlEntityReference>
+							<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/members/member/@uri</xsd:xmlEntityReference>
 							attribute of the
-							<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+							<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/members/member</xsd:xmlEntityReference>
 							element.
 						</para>
 					</listItem>
 				</list>
 				<para>
 					Both, the
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
 					element as well as the
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/members/member</xsd:xmlEntityReference>
 					element use a specially formatted URI to identify the XML item being linked to. The following sections
 					explain the format of this URI.
 				</para>
 				<para>
 					The following code sample shows how the
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
 					element can be used to link to an element:
 				</para>
 				<code language="xml" xml:space="preserve">&lt;xsd:xmlEntityReference>http://schema.example.com#E/myElement&lt;/xsd:xmlEntityReference></code>
 				<para>
 					You can use the
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
 					element everywhere in MAML where you could also use the <codeInline>link</codeInline> element. In
 					particular this includes paragraphs and the related topics section.
 				</para>
@@ -387,8 +387,8 @@
 			</content>
 		</section>
 		<relatedTopics>
-			<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
-			<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/doc/members/member</xsd:xmlEntityReference>
+			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
+			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/members/member</xsd:xmlEntityReference>
 			<link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f" />
 			<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3" />
 			<link xlink:href="613da747-f812-4393-98b6-c764a105bdf1" />

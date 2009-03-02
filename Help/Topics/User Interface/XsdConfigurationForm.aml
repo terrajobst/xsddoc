@@ -2,7 +2,7 @@
 <topic id="fa65321c-0a9a-4c6f-8ab4-0fe5fbf970f3" revisionNumber="1">
 	<developerUIReferenceDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
 								  xmlns:xlink="http://www.w3.org/1999/xlink"
-								  xmlns:xsd="http://tempuri.org/XMLSchema.xsd">
+								  xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
 		<introduction>
 			<para>
 				This dialog allows you to configure which XML schemas you want to document
@@ -45,8 +45,8 @@
 					<definition>
 						<para>
 							This is a a path to an XSLT transform that can be used to translate inline
-							XSD documentation into a							
-							<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+							XSD documentation into a
+							<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/schemaDoc</xsd:xmlEntityReference>
 							element. See
 							<link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f">inline documentation</link>
 							for details how to use such a transform.

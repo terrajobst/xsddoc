@@ -2,7 +2,7 @@
 <topic id="2d68098a-2601-4468-a0e0-7718f995414f" revisionNumber="1">
 	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
 								 xmlns:xlink="http://www.w3.org/1999/xlink"
-								 xmlns:xsd="http://tempuri.org/XMLSchema.xsd">
+								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
 		<introduction>
 			<para>
 				This topic explains how you can document an XML schema directly
@@ -62,7 +62,7 @@
 					<para>
 						Inside the <codeInline>documentation</codeInline> element you cannot use
 						markup such as
-						<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>.
+						<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>.
 						If you want to you will have to use the extended documentation feature or
 						customize the documentation using an XSLT tranformation. Both options are
 						discussed below.
@@ -80,16 +80,16 @@
 				</para>
 				<para>
 					<token>AppName</token> provides an element called
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/schemaDoc</xsd:xmlEntityReference>
 					that you can place under the <codeInline>appinfo</codeInline> element. The
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/schemaDoc</xsd:xmlEntityReference>
 					element allows you to document both a <codeInline>summary</codeInline> and a
 					<codeInline>remarks</codeInline> element from the Microsoft Assistance Markup Language (MAML).
 				</para>
 				<code language="xml" xml:space="preserve">&lt;xs:element name="myElement" type="xs:string">
 	&lt;xs:annotation>
 		&lt;xs:appinfo>
-			&lt;schemaDoc xmlns="http://tempuri.org/XMLSchema.xsd"
+			&lt;schemaDoc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 					   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
 				&lt;ddue:summary>
 					&lt;ddue:para>
@@ -115,10 +115,10 @@
 			<content>
 				<para>
 					If you have already documented your XML schema or you do not want to use the
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/schemaDoc</xsd:xmlEntityReference>
 					element with all the MAML markup you can also integrate your own schema documentation
 					format by provding an XSLT transform that converts your format into the
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/schemaDoc</xsd:xmlEntityReference>
 					element.
 				</para>
 				<para>
@@ -156,12 +156,12 @@
 				</para>
 				<para>
 					The following transform would create a
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/schemaDoc</xsd:xmlEntityReference>
 					element that can be used by <token>AppName</token>:
 				</para>
 				<code language="xml" xml:space="preserve">&lt;xsl:stylesheet version="1.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-				xmlns:xsd="http://tempuri.org/XMLSchema.xsd"
+				xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 				xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
 				xmlns:xs="http://www.w3.org/2001/XMLSchema"
 				xmlns:doc="http://schemas.example.com/MyDocSchema">
@@ -207,10 +207,10 @@
 				<para>
 					Applied to the <codeInline>root</codeInline> element this transform creates
 					the following
-					<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/schemaDoc</xsd:xmlEntityReference>
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/schemaDoc</xsd:xmlEntityReference>
 					element:
 				</para>
-				<code language="xml" xml:space="preserve">&lt;xsd:schemaDoc xmlns:xsd="http://tempuri.org/XMLSchema.xsd"
+				<code language="xml" xml:space="preserve">&lt;xsd:schemaDoc xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 			   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
 	&lt;ddue:summary>
 		&lt;ddue:para>

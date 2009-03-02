@@ -2,7 +2,7 @@
 <topic id="42bd9c99-dc34-45db-8893-987907c83684" revisionNumber="1">
 	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
 								 xmlns:xlink="http://www.w3.org/1999/xlink"
-								 xmlns:xsd="http://tempuri.org/XMLSchema.xsd">
+								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
 		<introduction>
 			<para>
 				This help file describes how you can use <token>AppName</token> to
@@ -55,7 +55,7 @@
 						<para>
 							You can effectively cross-link your XML schema with your MAML documentation
 							using the MAML <codeInline>link</codeInline> element and the new
-							<xsd:xmlEntityReference>http://tempuri.org/XMLSchema.xsd#E/xmlEntityReference</xsd:xmlEntityReference>
+							<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
 							element.
 						</para>
 					</listItem>

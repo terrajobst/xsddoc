@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema targetNamespace="http://tempuri.org/XMLSchema.xsd"
+<xs:schema targetNamespace="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 		   elementFormDefault="qualified"
-		   xmlns="http://tempuri.org/XMLSchema.xsd"
+		   xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
 	<xs:import namespace="http://ddue.schemas.microsoft.com/authoring/2003/5" />

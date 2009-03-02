@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<doc xmlns="http://tempuri.org/XMLSchema.xsd"
+<doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
 	 xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
 	<namespace>
 		<name>##SchemaSet</name>
