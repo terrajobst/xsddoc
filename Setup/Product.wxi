@@ -3,7 +3,7 @@
 
 	<?define Manufacturer        = "Immo Landwerth" ?>
 	<?define ProductName         = "XML Schema Documenter Plug-In" ?>
-	<?define ProductHomePage     = "TBD" ?>
+	<?define ProductHomePage     = "http://xsddoc.codeplex.com" ?>
 	<?define ProductShortName    = "XsdDoc" ?>
 	<?define UpgradeCode         = "A877E5E0-EF6F-4EAC-836A-272C26DC378B" ?>
 
