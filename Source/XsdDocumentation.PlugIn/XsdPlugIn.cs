@@ -157,6 +157,7 @@ namespace XsdDocumentation.PlugIn
 			                    	RootDocumentation = _configuration.RootDocumentation,
 			                    	SchemaSetContainer = _configuration.SchemaSetContainer,
 			                    	SchemaSetTitle = _configuration.SchemaSetTitle,
+			                    	IncludeLinkUriInKeywordK = _configuration.IncludeLinkUriInKeywordK,
 			                    	AnnotationTransformFileName = _configuration.AnnotationTransformFilePath.ExpandedPath,
 			                    	SchemaFileNames = ExpandFiles(_configuration.SchemaFilePaths),
 			                    	SchemaDependencyFileNames = ExpandFiles(_configuration.SchemaDependencyFilePaths),

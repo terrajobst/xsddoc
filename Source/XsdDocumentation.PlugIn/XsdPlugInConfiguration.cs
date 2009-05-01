@@ -19,6 +19,7 @@ namespace XsdDocumentation.PlugIn
 			SchemaSetContainer = other.SchemaSetContainer;
 			SchemaSetTitle = other.SchemaSetTitle;
 			SortOrder = other.SortOrder;
+			IncludeLinkUriInKeywordK = other.IncludeLinkUriInKeywordK;
 			AnnotationTransformFilePath = (FilePath) other.AnnotationTransformFilePath.Clone();
 			SchemaFilePaths = other.SchemaFilePaths.Clone();
 			SchemaDependencyFilePaths = other.SchemaDependencyFilePaths.Clone();
@@ -32,6 +33,7 @@ namespace XsdDocumentation.PlugIn
 			SchemaSetContainer = GetBoolean(navigator, "configuration/schemaSet/@container", false);
 			SchemaSetTitle = GetString(navigator, "configuration/schemaSet/@title", string.Empty);
 			SortOrder = GetInt32(navigator, "configuration/sortOrder", 1);
+			IncludeLinkUriInKeywordK = GetBoolean(navigator, "configuration/includeLinkUriInKeywordK", false);
 			AnnotationTransformFilePath = GetFilePath(basePathProvider, navigator, "configuration/annotationTransformFile/@path");
 			SchemaFilePaths = GetFilePaths(basePathProvider, navigator, "configuration/schemaFiles/schemaFile/@path");
 			SchemaDependencyFilePaths = GetFilePaths(basePathProvider, navigator, "configuration/dependencyFiles/schemaFile/@path");
@@ -60,6 +62,11 @@ namespace XsdDocumentation.PlugIn
 		[Description("This defines the sort order for merging the XML schema topics with the main help file.")]
 		[DefaultValue(1)]
 		public int SortOrder { get; set; }
+
+		[Category("Index")]
+		[Description("Specifies whether XML entity links such as \"http://schemas.example.org#E/myElement/@myAttribute\" are included in the K keyword index.")]
+		[DefaultValue(false)]
+		public bool IncludeLinkUriInKeywordK { get; set; }
 
 		[Editor(typeof(FilePathObjectEditor), typeof(UITypeEditor))]
 		[Category("Files")]

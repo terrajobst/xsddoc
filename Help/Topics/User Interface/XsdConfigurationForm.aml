@@ -56,6 +56,22 @@
 			</content>
 		</section>
 
+		<section address="index">
+			<title>Index</title>
+			<content>
+				<para>This section configures how the index of the resulting help file will look like.</para>
+				<definitionTable>
+					<definedTerm>IncludeLinkUriInKeywordK</definedTerm>
+					<definition>
+						<para>
+							Specifies whether XML entity links such as <fictitiousUri>http://schemas.example.org#E/myElement/@myAttribute</fictitiousUri>
+							are included in the K keyword index.
+						</para>
+					</definition>
+				</definitionTable>
+			</content>
+		</section>
+
 		<section address="appearance">
 			<title>Appearance</title>
 			<content>

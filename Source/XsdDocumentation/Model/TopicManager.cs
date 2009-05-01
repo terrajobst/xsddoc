@@ -240,12 +240,12 @@ namespace XsdDocumentation.Model
 			}
 		}
 
-		private static void SetKeywords(IEnumerable<Topic> topics)
+		private void SetKeywords(IEnumerable<Topic> topics)
 		{
 			foreach (var topic in topics)
 			{
 				switch (topic.TopicType)
-				{
+				{						
 					case TopicType.Namespace:
 						AddKeywordK(topic, topic.Title);
 						AddKeywordF(topic, topic.Namespace);
@@ -280,6 +280,9 @@ namespace XsdDocumentation.Model
 						AddKeywordK(topic, topic.Title);
 						break;
 				}
+
+				if (Context.Configuration.IncludeLinkUriInKeywordK)
+					AddKeywordK(topic, topic.LinkUri);
 
 				SetKeywords(topic.Children);
 			}
