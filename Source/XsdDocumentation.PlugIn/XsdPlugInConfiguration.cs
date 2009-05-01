@@ -189,6 +189,10 @@ namespace XsdDocumentation.PlugIn
 			sortOrderNode.InnerText = XmlConvert.ToString(configuration.SortOrder);
 			configurationNode.AppendChild(sortOrderNode);
 
+			var includeLinkUriInKeywordKNode = doc.CreateElement("includeLinkUriInKeywordK");
+			includeLinkUriInKeywordKNode.InnerText = XmlConvert.ToString(configuration.IncludeLinkUriInKeywordK);
+			configurationNode.AppendChild(includeLinkUriInKeywordKNode);
+
 			var annotationTransformFileNode = doc.CreateElement("annotationTransformFile");
 			annotationTransformFileNode.SetAttribute("path", configuration.AnnotationTransformFilePath.PersistablePath);
 			configurationNode.AppendChild(annotationTransformFileNode);
