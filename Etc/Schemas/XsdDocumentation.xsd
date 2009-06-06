@@ -96,7 +96,7 @@
 
 	<xs:complexType name="schemaDocType">
 		<xs:sequence>
-			<xs:element name="obsolete">
+			<xs:element name="obsolete" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						This is used to indicate that an XML entity is obsolete. It may contain a reference
