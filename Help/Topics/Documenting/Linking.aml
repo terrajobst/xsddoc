@@ -386,6 +386,129 @@
 				</table>
 			</content>
 		</section>
+		<section>
+			<title>Links to Overview Topics</title>
+			<content>
+				<para>
+					You can also link to structural topics, such as the elements overview topic or the schema set itself.
+				</para>
+				<para>
+					The following table shows some examples for overview link URIs:
+				</para>
+				<table>
+					<tableHeader>
+						<row>
+							<entry>
+								<para>Topic Type</para>
+							</entry>
+							<entry>
+								<para>Uri</para>
+							</entry>
+						</row>
+					</tableHeader>
+					<row>
+						<entry>
+							<para>Schema Set</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>##SchemaSet</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Root Schemas</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##RootSchemas</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Root Elements</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##RootElements</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Schemas</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##Schemas</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Elements</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##Elements</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Attributes</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##Attributes</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Attribute Groups</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##AttributeGroups</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Groups</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##Groups</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Simple Types</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##SimpleTypes</codeInline>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>Complex Types</para>
+						</entry>
+						<entry>
+							<para>
+								<codeInline>http://schema.example.com##ComplexTypes</codeInline>
+							</para>
+						</entry>
+					</row>
+				</table>
+			</content>
+		</section>
 		<relatedTopics>
 			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
 			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/doc/members/member</xsd:xmlEntityReference>

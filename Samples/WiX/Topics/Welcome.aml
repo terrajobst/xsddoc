@@ -50,6 +50,32 @@
 				</list>
 			</content>
 		</section>
+		<section>
+			<title>Links</title>
+			<content>
+				<para>
+					<xsd:xmlEntityReference>##SchemaSet</xsd:xmlEntityReference>
+				</para>
+				<para>
+					<xsd:xmlEntityReference>http://schemas.microsoft.com/wix/2006/wi##RootSchemas</xsd:xmlEntityReference>
+				</para>
+				<para>
+					<xsd:xmlEntityReference>http://schemas.microsoft.com/wix/2006/wi##RootElements</xsd:xmlEntityReference>
+				</para>
+				<para>
+					<xsd:xmlEntityReference>http://schemas.microsoft.com/wix/2006/wi##Schemas</xsd:xmlEntityReference>
+				</para>
+				<para>
+					<xsd:xmlEntityReference>http://schemas.microsoft.com/wix/2006/wi##Elements</xsd:xmlEntityReference>
+				</para>
+				<para>
+					<xsd:xmlEntityReference>http://schemas.microsoft.com/wix/2006/wi##SimpleTypes</xsd:xmlEntityReference>
+				</para>
+				<para>
+					<xsd:xmlEntityReference>http://schemas.microsoft.com/wix/2006/wi##ComplexTypes</xsd:xmlEntityReference>
+				</para>
+			</content>
+		</section>
 		<relatedTopics>
 		</relatedTopics>
 	</developerConceptualDocument>

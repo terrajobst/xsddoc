@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 
@@ -28,6 +31,7 @@ namespace XsdDocumentation.Model
 			InsertNamespaceOverviewTopics();
 			InsertNamespaceRootTopics();
 			InsertSchemaSetTopic();
+			SetTopicIds();
 			SetKeywords(_topics);
 			GenerateTopicUriIndex(_topics);
 		}
@@ -92,13 +96,13 @@ namespace XsdDocumentation.Model
 				foreach (var grouping in groupedChildren)
 				{
 					var overviewTopicType = GetOverviewTopicType(grouping.Key);
-
+					var overviewLinkUri = GetOverviewTopicLinkUri(namespaceTopic.Namespace, overviewTopicType);
 					var overviewTopicTitle = GetOverviewTopicTitle(overviewTopicType);
 					var overviewTopic = new Topic
 					                    {
 					                    	Title = overviewTopicTitle,
-											LinkTitle = overviewTopicTitle,
-					                    	Id = Guid.NewGuid().ToString(),
+					                    	LinkTitle = overviewTopicTitle,
+					                    	LinkUri = overviewLinkUri,
 					                    	TopicType = overviewTopicType,
 					                    	Namespace = namespaceTopic.Namespace
 					                    };
@@ -140,7 +144,7 @@ namespace XsdDocumentation.Model
 			                     {
 			                     	Title = title,
 			                     	LinkTitle = title,
-			                     	Id = Guid.NewGuid().ToString(),
+			                     	LinkUri = "##SchemaSet",
 			                     	TopicType = TopicType.SchemaSet,
 			                     };
 
@@ -159,7 +163,7 @@ namespace XsdDocumentation.Model
 				                        {
 				                        	Title = overviewTopicTitle,
 				                        	LinkTitle = overviewTopicTitle,
-				                        	Id = Guid.NewGuid().ToString(),
+				                        	LinkUri = GetOverviewTopicLinkUri(namespaceTopic.Namespace, topicType),
 				                        	TopicType = topicType,
 				                        	Namespace = namespaceTopic.Namespace
 				                        };
@@ -213,9 +217,36 @@ namespace XsdDocumentation.Model
 			}
 		}
 
-		private static string GetOverviewTopicTitle(TopicType key)
+		private static string GetOverviewTopicLinkUri(string namespaceUri, TopicType type)
 		{
-			switch (key)
+			switch (type)
+			{
+				case TopicType.RootSchemasSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##RootSchemas", namespaceUri);
+				case TopicType.RootElementsSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##RootElements", namespaceUri);
+				case TopicType.SchemasSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##Schemas", namespaceUri);
+				case TopicType.ElementsSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##Elements", namespaceUri);
+				case TopicType.AttributesSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##Attributes", namespaceUri);
+				case TopicType.AttributeGroupsSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##AttributeGroups", namespaceUri);
+				case TopicType.GroupsSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##Groups", namespaceUri);
+				case TopicType.SimpleTypesSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##SimpleTypes", namespaceUri);
+				case TopicType.ComplexTypesSection:
+					return string.Format(CultureInfo.InvariantCulture, "{0}##ComplexTypes", namespaceUri);
+				default:
+					throw new ArgumentOutOfRangeException("type");
+			}
+		}
+
+		private static string GetOverviewTopicTitle(TopicType topicType)
+		{
+			switch (topicType)
 			{
 				case TopicType.RootSchemasSection:
 					return "Root Schemas";
@@ -236,7 +267,26 @@ namespace XsdDocumentation.Model
 				case TopicType.ComplexTypesSection:
 					return "Complex Types";
 				default:
-					throw new ArgumentOutOfRangeException("key");
+					throw new ArgumentOutOfRangeException("topicType");
+			}
+		}
+
+		private void SetTopicIds()
+		{
+			using (var md5 = HashAlgorithm.Create("MD5"))
+				SetTopicIds(_topics, md5);
+		}
+
+		private static void SetTopicIds(IEnumerable<Topic> topics, HashAlgorithm algorithm)
+		{
+			foreach (var topic in topics)
+			{
+				var input = Encoding.UTF8.GetBytes(topic.LinkUri);
+				var output = algorithm.ComputeHash(input);
+				var guid = new Guid(output);
+				topic.Id = guid.ToString();
+
+				SetTopicIds(topic.Children, algorithm);
 			}
 		}
 

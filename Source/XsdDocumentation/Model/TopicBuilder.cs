@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml.Schema;
 
 namespace XsdDocumentation.Model
@@ -59,7 +58,6 @@ namespace XsdDocumentation.Model
 
 			var topic = new Topic
 			            {
-			            	Id = Guid.NewGuid().ToString(),
 			            	Title = GetTopicTitle(topicType, name),
 			            	LinkTitle = GetTopicLinkTitle(topicType, name),
 			            	LinkUri = GetTopicLinkUri(topicType, objNamespace, obj),
