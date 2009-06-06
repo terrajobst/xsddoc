@@ -28,6 +28,7 @@
 
 	<!-- External Tasks -->
 
+	<UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.GetFileVersion" />
 	<UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.RemoveTfsBindings" />
 
 	<!-- Build -->
@@ -74,8 +75,15 @@
 				 Properties="Configuration=$(Configuration);OutDir=$(GeneratedBinaries);PostBuildEvent=" />
 	</Target>
 
-	<Target Name="GenerateHelp">
-		<MSBuild Projects="$(HelpDir)Help.shfbproj" />
+	<!-- Generate Help -->
+
+	<Target Name="GenerateHelp" DependsOnTargets="CompileBuildTasks">
+		<GetFileVersion File="$(GeneratedBinaries)XsdDocumentation.dll">
+			<Output TaskParameter="Version"
+					PropertyName="XsdDocVersion" />
+		</GetFileVersion>
+		<MSBuild Projects="$(HelpDir)Help.shfbproj"
+				 Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion)" />
 	</Target>
 
 	<!-- Generate Setup -->
@@ -131,8 +139,8 @@
 
 		<RemoveDir Directories="$(GeneratedRelease)" />
 		<MakeDir Directories="$(GeneratedRelease)" />
-		<Zip WorkingDirectory="$(GeneratedSourceCode)" Files="@(GeneratedSourceCodeFiles)" ZipFileName="$(GeneratedRelease)Source.zip" />
-		<Zip WorkingDirectory="$(GeneratedSetup)" Files="@(GeneratedSetupFiles)" ZipFileName="$(GeneratedRelease)Setup.zip" />
-		<Zip WorkingDirectory="$(GeneratedSamples)" Files="@(GeneratedSampleFiles)" ZipFileName="$(GeneratedRelease)Samples.zip" />
+		<Zip WorkingDirectory="$(GeneratedSourceCode)" Files="@(GeneratedSourceCodeFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Source.zip" />
+		<Zip WorkingDirectory="$(GeneratedSetup)" Files="@(GeneratedSetupFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Setup.zip" />
+		<Zip WorkingDirectory="$(GeneratedSamples)" Files="@(GeneratedSampleFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Samples.zip" />
 	</Target>
 </Project>
