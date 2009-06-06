@@ -190,7 +190,7 @@ namespace XsdDocumentation.Model
 				case TopicType.ComplexType:
 					return 6;
 				default:
-					throw new ArgumentOutOfRangeException("topicType");
+					throw ExceptionBuilder.UnhandledCaseLabel(topicType);
 			}
 		}
 
@@ -213,7 +213,7 @@ namespace XsdDocumentation.Model
 				case TopicType.ComplexType:
 					return TopicType.ComplexTypesSection;
 				default:
-					throw new ArgumentOutOfRangeException("topicType");
+					throw ExceptionBuilder.UnhandledCaseLabel(topicType);
 			}
 		}
 
@@ -240,7 +240,7 @@ namespace XsdDocumentation.Model
 				case TopicType.ComplexTypesSection:
 					return string.Format(CultureInfo.InvariantCulture, "{0}##ComplexTypes", namespaceUri);
 				default:
-					throw new ArgumentOutOfRangeException("type");
+					throw ExceptionBuilder.UnhandledCaseLabel(type);
 			}
 		}
 
@@ -267,7 +267,7 @@ namespace XsdDocumentation.Model
 				case TopicType.ComplexTypesSection:
 					return "Complex Types";
 				default:
-					throw new ArgumentOutOfRangeException("topicType");
+					throw ExceptionBuilder.UnhandledCaseLabel("topicType");
 			}
 		}
 

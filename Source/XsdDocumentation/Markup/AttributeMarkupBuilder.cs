@@ -112,7 +112,7 @@ namespace XsdDocumentation.Markup
 				case XmlSchemaUse.Required:
 					return "Yes";
 				default:
-					throw new ArgumentOutOfRangeException("use");
+					throw ExceptionBuilder.UnhandledCaseLabel(use);
 			}
 		}
 

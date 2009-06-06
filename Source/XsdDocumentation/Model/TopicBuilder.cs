@@ -103,7 +103,7 @@ namespace XsdDocumentation.Model
 				case TopicType.ComplexType:
 					return parent + "#T/" + ((XmlSchemaType)obj).QualifiedName.Name;
 				default:
-					throw new ArgumentOutOfRangeException("type");
+					throw ExceptionBuilder.UnhandledCaseLabel(type);
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace XsdDocumentation.Model
 				case TopicType.ComplexType:
 					return String.Format("{0} Complex Type", name);
 				default:
-					throw new ArgumentOutOfRangeException("type");
+					throw ExceptionBuilder.UnhandledCaseLabel(type);
 			}
 		}
 
