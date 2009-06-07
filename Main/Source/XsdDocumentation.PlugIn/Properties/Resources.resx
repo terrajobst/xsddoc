@@ -135,6 +135,9 @@
   <data name="ConfigDescriptionIncludeLinkUriInKeywordK" xml:space="preserve">
     <value>Specifies whether XML entity links such as "http://schemas.example.org#E/myElement/@myAttribute" are included in the K keyword index. This allows programmatically navigating the help file to a topic describing a given XML entity.</value>
   </data>
+  <data name="ConfigDescriptionNamespaceContainer" xml:space="preserve">
+    <value>If true, the default, a namespace table of content entry will be created as the container of the namespace contents in the documented schema set. If false, the namespace contents are listed directly. Please note that this setting is ignored if the schema set contains more than one namespace. In that case, every namespace will always have a table of content entry.</value>
+  </data>
   <data name="ConfigDescriptionRootDocumentation" xml:space="preserve">
     <value>If true, the root schemas and root elements get their own entry in the table of contents.</value>
   </data>

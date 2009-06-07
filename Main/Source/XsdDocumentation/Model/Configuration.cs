@@ -16,6 +16,7 @@ namespace XsdDocumentation.Model
 		public bool RootDocumentation { get; set; }
 		public bool SchemaSetContainer { get; set; }
 		public string SchemaSetTitle { get; set; }
+		public bool NamespaceContainer { get; set; }
 		public bool IncludeLinkUriInKeywordK { get; set; }
 		public string AnnotationTransformFileName { get; set; }
 		public List<string> SchemaFileNames { get; set; }

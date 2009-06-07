@@ -115,6 +115,15 @@ namespace XsdDocumentation.PlugIn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If true, the default, a namespace table of content entry will be created as the container of the namespace contents in the documented schema set. If false, the namespace contents are listed directly. Please note that this setting is ignored if the schema set contains more than one namespace. In that case, every namespace will always have a table of content entry..
+        /// </summary>
+        internal static string ConfigDescriptionNamespaceContainer {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionNamespaceContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If true, the root schemas and root elements get their own entry in the table of contents..
         /// </summary>
         internal static string ConfigDescriptionRootDocumentation {

@@ -18,6 +18,7 @@ namespace XsdDocumentation.PlugIn
 			RootDocumentation = other.RootDocumentation;
 			SchemaSetContainer = other.SchemaSetContainer;
 			SchemaSetTitle = other.SchemaSetTitle;
+			NamespaceContainer = other.NamespaceContainer;
 			SortOrder = other.SortOrder;
 			IncludeLinkUriInKeywordK = other.IncludeLinkUriInKeywordK;
 			AnnotationTransformFilePath = (FilePath) other.AnnotationTransformFilePath.Clone();
@@ -32,6 +33,7 @@ namespace XsdDocumentation.PlugIn
 			RootDocumentation = GetBoolean(navigator, "configuration/roots/@document", true);
 			SchemaSetContainer = GetBoolean(navigator, "configuration/schemaSet/@container", false);
 			SchemaSetTitle = GetString(navigator, "configuration/schemaSet/@title", string.Empty);
+			NamespaceContainer = GetBoolean(navigator, "configuration/namespace/@container", true);
 			SortOrder = GetInt32(navigator, "configuration/sortOrder", 1);
 			IncludeLinkUriInKeywordK = GetBoolean(navigator, "configuration/includeLinkUriInKeywordK", false);
 			AnnotationTransformFilePath = GetFilePath(basePathProvider, navigator, "configuration/annotationTransformFile/@path");
@@ -57,6 +59,11 @@ namespace XsdDocumentation.PlugIn
 		[LocalizableDescription("ConfigDescriptionSchemaSetTitle")]
 		[DefaultValue("")]
 		public string SchemaSetTitle { get; set; }
+
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionNamespaceContainer")]
+		[DefaultValue(true)]
+		public bool NamespaceContainer { get; set; }
 
 		[LocalizableCategory("ConfigCategoryAppearance")]
 		[LocalizableDescription("ConfigDescriptionSortOrder")]
@@ -184,6 +191,10 @@ namespace XsdDocumentation.PlugIn
 			schemaSetNode.SetAttribute("container", XmlConvert.ToString(configuration.SchemaSetContainer));
 			schemaSetNode.SetAttribute("title", configuration.SchemaSetTitle);
 			configurationNode.AppendChild(schemaSetNode);
+
+			var namespaceNode = doc.CreateElement("namespace");
+			namespaceNode.SetAttribute("container", XmlConvert.ToString(configuration.NamespaceContainer));
+			configurationNode.AppendChild(namespaceNode);
 
 			var sortOrderNode = doc.CreateElement("sortOrder");
 			sortOrderNode.InnerText = XmlConvert.ToString(configuration.SortOrder);

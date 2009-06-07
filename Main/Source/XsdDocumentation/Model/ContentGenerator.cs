@@ -132,12 +132,37 @@ namespace XsdDocumentation.Model
 
 		private void GenerateSchemaSetTopic(Topic topic)
 		{
-			var content = Resources.SchemaSetTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForSchemaSet(_context));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForSchemaSet(_context));
-			content = content.Replace("${NamespaceSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaces(), "Namespaces"));
-			File.WriteAllText(topic.FileName, content);
+			if (_context.Configuration.NamespaceContainer)
+			{
+				var content = Resources.SchemaSetTopic;
+				content = content.Replace("${TopicId}", topic.Id);
+				content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForSchemaSet(_context));
+				content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForSchemaSet(_context));
+				content = content.Replace("${NamespaceSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaces(), "Namespaces"));
+
+				File.WriteAllText(topic.FileName, content);
+			}
+			else
+			{
+				var contentFinder = new NamespaceContentFinder(_context.SchemaSetManager, topic.Namespace);
+				contentFinder.Traverse(_context.SchemaSetManager.SchemaSet);
+
+				var content = Resources.SchemaSetNamespaceTopic;
+				content = content.Replace("${TopicId}", topic.Id);
+				content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForSchemaSet(_context));
+				content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForSchemaSet(_context));
+				content = content.Replace("${RootSchemaSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace), "Root Schemas"));
+				content = content.Replace("${RootElementSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace), "Root Elements"));
+				content = content.Replace("${SchemaSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Schemas, "Schemas"));
+				content = content.Replace("${ElementSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Elements, "Elements"));
+				content = content.Replace("${AttributeSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Attributes, "Attributes"));
+				content = content.Replace("${GroupSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Groups, "Groups"));
+				content = content.Replace("${AttributeGroupSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.AttributeGroups, "Attribute Groups"));
+				content = content.Replace("${SimpleTypesSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.SimpleTypes, "Simple Types"));
+				content = content.Replace("${ComplexTypesSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.ComplexTypes, "Complex Types"));
+
+				File.WriteAllText(topic.FileName, content);
+			}
 		}
 
 		private void GenerateNamespaceTopic(Topic topic)
@@ -452,7 +477,11 @@ namespace XsdDocumentation.Model
 
 		private string GetNamespaceTopicLink(string namespaceUri)
 		{
-			return MarkupHelper.GetHtmlTopicLink(_context.TopicManager.GetNamespaceTopic(namespaceUri));
+			var topic = _context.TopicManager.GetNamespaceTopic(namespaceUri);
+			if (topic == null)
+				return namespaceUri ?? "Empty";
+
+			return MarkupHelper.GetHtmlTopicLink(topic);
 		}
 
 		private string GetSchemaTopicLink(XmlSchemaObject obj)

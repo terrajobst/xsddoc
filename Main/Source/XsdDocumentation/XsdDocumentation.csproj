@@ -123,6 +123,7 @@
     <Content Include="Resources\ComplexTypeTopic.xml" />
     <Content Include="Resources\AttributeTopic.xml" />
     <Content Include="Resources\AttributeGroupTopic.xml" />
+    <Content Include="Resources\SchemaSetNamespaceTopic.xml" />
     <Content Include="Resources\SchemaSetTopic.xml" />
     <Content Include="Resources\SchemaTopic.xml" />
     <Content Include="Resources\OverviewTopic.xml" />

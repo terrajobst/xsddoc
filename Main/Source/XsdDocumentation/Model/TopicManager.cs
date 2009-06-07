@@ -27,6 +27,7 @@ namespace XsdDocumentation.Model
 			topicBuilder.Traverse(Context.SchemaSetManager.SchemaSet);
 			_topics = topicBuilder.GetRootTopics();
 
+			RemoveNamespaceContainerIfConfigured();
 			SortNamespaces();
 			InsertNamespaceOverviewTopics();
 			InsertNamespaceRootTopics();
@@ -76,59 +77,118 @@ namespace XsdDocumentation.Model
 			get { return _topics; }
 		}
 
+		private void RemoveNamespaceContainerIfConfigured()
+		{
+			var namespaceTopicCount = _topics.Count;
+			var shouldRemoveNamespaceTopic = !Context.Configuration.NamespaceContainer;
+			var canRemoveNamespaceTopic = (namespaceTopicCount == 1);
+			var removeNamespaceTopic = shouldRemoveNamespaceTopic && canRemoveNamespaceTopic;
+
+			if (removeNamespaceTopic)
+			{
+				var singleNamespaceTopic = _topics[0];
+				_topics.Clear();
+				_topics.AddRange(singleNamespaceTopic.Children);
+				_namespaceTopics.Remove(singleNamespaceTopic.Namespace ?? string.Empty);
+			}
+
+			Context.Configuration.NamespaceContainer = !removeNamespaceTopic;
+		}
+
 		private void SortNamespaces()
 		{
-			_topics.Sort((x, y) => x.LinkTitle.CompareTo(y.LinkTitle));
+			if (Context.Configuration.NamespaceContainer)
+				_topics.Sort((x, y) => x.LinkTitle.CompareTo(y.LinkTitle));
 		}
 
 		private void InsertNamespaceOverviewTopics()
 		{
-			foreach (var namespaceTopic in _topics)
+			if (Context.Configuration.NamespaceContainer)
 			{
-				var groupedChildren = from child in namespaceTopic.Children
-				                      group child by child.TopicType
-				                      into g
-				                      	orderby GetTopicTypeSortOrderKey(g.Key)
-				                      	select g;
-
-				var overviewTopics = new List<Topic>();
-
-				foreach (var grouping in groupedChildren)
-				{
-					var overviewTopicType = GetOverviewTopicType(grouping.Key);
-					var overviewLinkUri = GetOverviewTopicLinkUri(namespaceTopic.Namespace, overviewTopicType);
-					var overviewTopicTitle = GetOverviewTopicTitle(overviewTopicType);
-					var overviewTopic = new Topic
-					                    {
-					                    	Title = overviewTopicTitle,
-					                    	LinkTitle = overviewTopicTitle,
-					                    	LinkUri = overviewLinkUri,
-					                    	TopicType = overviewTopicType,
-					                    	Namespace = namespaceTopic.Namespace
-					                    };
-
-					var sortedSubTopics = from subTopic in grouping
-					                      orderby subTopic.Title
-					                      select subTopic;
-					overviewTopic.Children.AddRange(sortedSubTopics);
-					overviewTopics.Add(overviewTopic);
-				}
-
-				namespaceTopic.Children.Clear();
-				namespaceTopic.Children.AddRange(overviewTopics);
+				foreach (var namespaceTopic in _topics)
+					CreateNamespaceOverviewTopics(namespaceTopic.Namespace, namespaceTopic.Children);
 			}
+			else if (_topics.Count > 0)
+			{
+				var firstEntry = _topics[0];
+				CreateNamespaceOverviewTopics(firstEntry.Namespace, _topics);
+			}
+		}
+
+		private static void CreateNamespaceOverviewTopics(string namespaceUri, List<Topic> namespaceChildTopics)
+		{
+			var groupedChildren = from child in namespaceChildTopics
+			                      group child by child.TopicType
+			                      into g
+			                      	orderby GetTopicTypeSortOrderKey(g.Key)
+			                      	select g;
+
+			var overviewTopics = new List<Topic>();
+
+			foreach (var grouping in groupedChildren)
+			{
+				var overviewTopicType = GetOverviewTopicType(grouping.Key);
+				var overviewLinkUri = GetOverviewTopicLinkUri(namespaceUri, overviewTopicType);
+				var overviewTopicTitle = GetOverviewTopicTitle(overviewTopicType);
+				var overviewTopic = new Topic
+				                    {
+				                    	Title = overviewTopicTitle,
+				                    	LinkTitle = overviewTopicTitle,
+				                    	LinkUri = overviewLinkUri,
+				                    	TopicType = overviewTopicType,
+				                    	Namespace = namespaceUri
+				                    };
+
+				var sortedSubTopics = from subTopic in grouping
+				                      orderby subTopic.Title
+				                      select subTopic;
+				overviewTopic.Children.AddRange(sortedSubTopics);
+				overviewTopics.Add(overviewTopic);
+			}
+
+			namespaceChildTopics.Clear();
+			namespaceChildTopics.AddRange(overviewTopics);
 		}
 
 		private void InsertNamespaceRootTopics()
 		{
-			foreach (var namespaceTopic in _topics)
+			if (Context.Configuration.NamespaceContainer)
 			{
-				var rootElements = Context.SchemaSetManager.GetNamespaceRootElements(namespaceTopic.Namespace);
-				var rootSchemas = Context.SchemaSetManager.GetNamespaceRootSchemas(namespaceTopic.Namespace);
-
-				InsertNamespaceRootTopic(namespaceTopic, rootElements, TopicType.RootElementsSection);
-				InsertNamespaceRootTopic(namespaceTopic, rootSchemas, TopicType.RootSchemasSection);
+				foreach (var namespaceTopic in _topics)
+					InsertNamespaceRootTopics(namespaceTopic.Namespace, namespaceTopic.Children);
 			}
+			else if (_topics.Count > 0)
+			{
+				var firstEntry = _topics[0];
+				InsertNamespaceRootTopics(firstEntry.Namespace, _topics);
+			}
+		}
+
+		private void InsertNamespaceRootTopics(string namespaceUri, IList<Topic> namespaceChildren)
+		{
+			var rootElements = Context.SchemaSetManager.GetNamespaceRootElements(namespaceUri);
+			var rootSchemas = Context.SchemaSetManager.GetNamespaceRootSchemas(namespaceUri);
+
+			InsertNamespaceRootTopic(namespaceUri, namespaceChildren, rootElements, TopicType.RootElementsSection);
+			InsertNamespaceRootTopic(namespaceUri, namespaceChildren, rootSchemas, TopicType.RootSchemasSection);
+		}
+
+		private static void InsertNamespaceRootTopic(string namespaceUri, IList<Topic> namespaceChildren, IEnumerable<XmlSchemaObject> rootItems, TopicType topicType)
+		{
+			var rootElements = rootItems.ToList();
+			if (rootElements.Count == 0)
+				return;
+
+			var overviewTopicTitle = GetOverviewTopicTitle(topicType);
+			var rootElementsTopic = new Topic
+			                        {
+			                        	Title = overviewTopicTitle,
+			                        	LinkTitle = overviewTopicTitle,
+			                        	LinkUri = GetOverviewTopicLinkUri(namespaceUri, topicType),
+			                        	TopicType = topicType,
+			                        	Namespace = namespaceUri
+			                        };
+			namespaceChildren.Insert(0, rootElementsTopic);
 		}
 
 		private void InsertSchemaSetTopic()
@@ -151,24 +211,6 @@ namespace XsdDocumentation.Model
 			schemaSetTopic.Children.AddRange(_topics);
 			_topics.Clear();
 			_topics.Add(schemaSetTopic);
-		}
-
-		private static void InsertNamespaceRootTopic(Topic namespaceTopic, IEnumerable<XmlSchemaObject> rootItems, TopicType topicType)
-		{
-			List<XmlSchemaObject> rootElements = rootItems.ToList();
-			if (rootElements.Count > 0)
-			{
-				var overviewTopicTitle = GetOverviewTopicTitle(topicType);
-				var rootElementsTopic = new Topic
-				                        {
-				                        	Title = overviewTopicTitle,
-				                        	LinkTitle = overviewTopicTitle,
-				                        	LinkUri = GetOverviewTopicLinkUri(namespaceTopic.Namespace, topicType),
-				                        	TopicType = topicType,
-				                        	Namespace = namespaceTopic.Namespace
-				                        };
-				namespaceTopic.Children.Insert(0, rootElementsTopic);
-			}
 		}
 
 		private static int GetTopicTypeSortOrderKey(TopicType topicType)

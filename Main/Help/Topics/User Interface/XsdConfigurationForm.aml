@@ -93,6 +93,20 @@
 							the title of the schema set container topic. If not set, the title will be "Schema Set".
 						</para>
 					</definition>
+					<definedTerm>NamespaceContainer</definedTerm>
+					<definition>
+						<para>
+							If <codeInline>true</codeInline>, the default, a namespace table of content entry will be created as
+							the container of the namespace contents in the documented schema set. If <codeInline>false</codeInline>,
+							the namespace contents are listed directly.
+						</para>
+						<alert class="note">
+							<para>
+								Please note that this setting is ignored if the schema set contains more than one namespace. In that
+								case, every namespace will always have a table of content entry.
+							</para>
+						</alert>
+					</definition>
 					<definedTerm>RootDocumentation</definedTerm>
 					<definition>
 						<para>
