@@ -19,36 +19,36 @@ namespace XsdDocumentation.Build
 		public static void Remove(string solutionFileName)
 		{
 			CleanSolution(solutionFileName);
-			string[] projectFileNames = GetProjectsFromSolution(solutionFileName);
-			foreach (string projectFileName in projectFileNames)
+			var projectFileNames = GetProjectsFromSolution(solutionFileName);
+			foreach (var projectFileName in projectFileNames)
 				CleanProject(projectFileName);
 		}
 
 		private static string[] GetProjectsFromSolution(string solutionFilename)
 		{
-			List<string> projectList = new List<string>();
-			string solutionDirectory = Path.GetDirectoryName(solutionFilename);
+			var projectList = new List<string>();
+			var solutionDirectory = Path.GetDirectoryName(solutionFilename);
 
-			Regex regex = new Regex(@"Project\(\""\{[A-Z|\d|\-|a-z]*\}\""\)\s*=\s*\""\S*\""\s*,\s*\""(?<FileName>[^\""]*)\""\s*,\s*",
-									RegexOptions.IgnoreCase |
-									RegexOptions.Multiline |
-									RegexOptions.IgnorePatternWhitespace |
-									RegexOptions.Compiled);
+			var regex = new Regex(@"Project\(\""\{[A-Z|\d|\-|a-z]*\}\""\)\s*=\s*\""\S*\""\s*,\s*\""(?<FileName>[^\""]*)\""\s*,\s*",
+			                      RegexOptions.IgnoreCase |
+			                      RegexOptions.Multiline |
+			                      RegexOptions.IgnorePatternWhitespace |
+			                      RegexOptions.Compiled);
 
-			using (StreamReader sr = new StreamReader(solutionFilename))
+			using (var sr = new StreamReader(solutionFilename))
 			{
-				string line = sr.ReadLine();
+				var line = sr.ReadLine();
 
 				while (line != null)
 				{
 					if (line == "Global") //Projects definition were before this point
 						break;
 
-					Match match = regex.Match(line);
+					var match = regex.Match(line);
 					if (match.Success)
 					{
-						string fileName = match.Groups["FileName"].Value;
-						string fullFileName = Path.Combine(solutionDirectory, fileName);
+						var fileName = match.Groups["FileName"].Value;
+						var fullFileName = Path.Combine(solutionDirectory, fileName);
 
 						// Solution folder appear as projects. So we need to check whether
 						// the file name is an directory. In this case it is a solution
@@ -67,84 +67,71 @@ namespace XsdDocumentation.Build
 
 		private static void RemoveReadOnlyFlag(string path)
 		{
-			FileAttributes attributes = File.GetAttributes(path);
+			var attributes = File.GetAttributes(path);
 			if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
 				File.SetAttributes(path, attributes & (~FileAttributes.ReadOnly));
 		}
 
+		private static void RemoveNodeWhenExists(string xpath, XmlNode node, XmlNamespaceManager namespaceManager)
+		{
+			var nodeToDelete = node.SelectSingleNode(xpath, namespaceManager);
+			if (nodeToDelete != null)
+				node.RemoveChild(nodeToDelete);
+		}
+
 		private static void CleanSolution(string solutionFileName)
 		{
-			string suoFileName = Path.ChangeExtension(solutionFileName, ".suo");
-
 			// Delete solution user options if they exists.
+			var suoFileName = Path.ChangeExtension(solutionFileName, ".suo");
 			if (File.Exists(suoFileName))
 			{
 				RemoveReadOnlyFlag(suoFileName);
 				File.Delete(suoFileName);
 			}
 
-			List<string> solutionFileContents = new List<string>();
-
-			using (StreamReader sr = new StreamReader(solutionFileName, Encoding.Default))
+			var oldSolutionFileLines = File.ReadAllLines(solutionFileName, Encoding.UTF8);
+			var newSolutionFileLines = new List<string>();
+			var inSourceCodeSection = false;
+			foreach (var line in oldSolutionFileLines)
 			{
-				string line = sr.ReadLine();
-				while (line != null)
+				var trimmedLine = line.Trim();
+
+				if (trimmedLine == "GlobalSection(TeamFoundationVersionControl) = preSolution")
 				{
-					solutionFileContents.Add(line);
-					line = sr.ReadLine();
+					inSourceCodeSection = true;
+				}
+				else if (trimmedLine == "EndGlobalSection" && inSourceCodeSection)
+				{
+					inSourceCodeSection = false;
+				}
+				else if (!inSourceCodeSection)
+				{
+					newSolutionFileLines.Add(line);
 				}
 			}
 
 			RemoveReadOnlyFlag(solutionFileName);
-			using (StreamWriter sw = new StreamWriter(solutionFileName, false, Encoding.Default))
-			{
-				if (solutionFileContents.Count > 0 && solutionFileContents[0].Length == 0)
-					solutionFileContents.RemoveAt(0);
-
-				bool inSourceCodeSection = false;
-				foreach (string line in solutionFileContents)
-				{
-					string trimmedLine = line.Trim();
-
-					if (trimmedLine == "GlobalSection(TeamFoundationVersionControl) = preSolution")
-					{
-						inSourceCodeSection = true;
-					}
-					else if (trimmedLine == "EndGlobalSection" && inSourceCodeSection)
-					{
-						inSourceCodeSection = false;
-					}
-					else if (!inSourceCodeSection)
-					{
-						sw.WriteLine(line);
-					}
-				}
-			}
+			File.WriteAllLines(solutionFileName, newSolutionFileLines.ToArray(), Encoding.UTF8);
 		}
 
 		private static void CleanProject(string projectFileName)
 		{
-			XmlDocument xmlDocument = new XmlDocument();
+			var xmlDocument = new XmlDocument();
 			xmlDocument.Load(projectFileName);
 
-			XmlNamespaceManager namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
+			var namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
 			namespaceManager.AddNamespace("msbuild", "http://schemas.microsoft.com/developer/msbuild/2003");
 
-			XmlNodeList propertyGroups = xmlDocument.SelectNodes("/msbuild:Project/msbuild:PropertyGroup", namespaceManager);
-			foreach (XmlNode propertyGroup in propertyGroups)
+			var propertyGroups = xmlDocument.SelectNodes("/msbuild:Project/msbuild:PropertyGroup", namespaceManager);
+			if (propertyGroups != null)
 			{
-				XmlNode sccProjectNameNode = propertyGroup.SelectSingleNode("msbuild:SccProjectName", namespaceManager);
-				XmlNode sccLocalPathNode = propertyGroup.SelectSingleNode("msbuild:SccLocalPath", namespaceManager);
-				XmlNode sccProviderNode = propertyGroup.SelectSingleNode("msbuild:SccProvider", namespaceManager);
-
-				if (sccProjectNameNode != null)
-					propertyGroup.RemoveChild(sccProjectNameNode);
-
-				if (sccLocalPathNode != null)
-					propertyGroup.RemoveChild(sccLocalPathNode);
-
-				if (sccProviderNode != null)
-					propertyGroup.RemoveChild(sccProviderNode);
+				foreach (XmlNode propertyGroup in propertyGroups)
+				{
+					RemoveNodeWhenExists("msbuild:SccProjectName", propertyGroup, namespaceManager);
+					RemoveNodeWhenExists("msbuild:SccAuxPath", propertyGroup, namespaceManager);
+					RemoveNodeWhenExists("msbuild:SccLocalPath", propertyGroup, namespaceManager);
+					RemoveNodeWhenExists("msbuild:SccProvider", propertyGroup, namespaceManager);
+				}
 			}
 
 			RemoveReadOnlyFlag(projectFileName);
@@ -155,7 +142,7 @@ namespace XsdDocumentation.Build
 
 		public override bool Execute()
 		{
-			foreach (ITaskItem solutionFile in _solutionFiles)
+			foreach (var solutionFile in _solutionFiles)
 			{
 				try
 				{
