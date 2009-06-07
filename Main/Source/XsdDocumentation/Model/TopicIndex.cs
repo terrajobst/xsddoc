@@ -26,9 +26,9 @@ namespace XsdDocumentation.Model
 		{
 			foreach (var topic in topics)
 			{
-				if (!string.IsNullOrEmpty(topic.LinkUri))
+				if (topic.LinkUri != null)
 					AddEntry(topic.Id, topic.LinkTitle, topic.LinkUri);
-				if (!string.IsNullOrEmpty(topic.LinkIdUri))
+				if (topic.LinkIdUri != null)
 					AddEntry(topic.Id, topic.LinkTitle, topic.LinkIdUri);
 
 				AddEntries(topic.Children);

@@ -78,7 +78,7 @@ namespace XsdDocumentation.Model
 		private string GetTopicLinkUri(TopicType type, string objNamespace, XmlSchemaObject obj)
 		{
 			if (type == TopicType.Namespace)
-				return objNamespace;
+				return objNamespace ?? string.Empty;
 
 			bool isGlobal = obj.Parent is XmlSchema;
 			string parent = _topicUriStack.Peek();
