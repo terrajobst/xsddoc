@@ -43,49 +43,49 @@ namespace XsdDocumentation.PlugIn
 		[Browsable(false)]
 		public IBasePathProvider BasePathProvider { get; private set; }
 
-		[Category("Appearance")]
-		[Description("If true, the root schemas and root elements get their own entry in the table of contents.")]
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionRootDocumentation")]
 		[DefaultValue(true)]
 		public bool RootDocumentation { get; set; }
 
-		[Category("Appearance")]
-		[Description("If true, a root \"Schema Set\" table of content entry will be created as the container of the namespaces in the documented schema set. If false, the default, the namespaces are listed in the table of content as root entries.")]
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionSchemaSetContainer")]
 		[DefaultValue(false)]
 		public bool SchemaSetContainer { get; set; }
 
-		[Category("Appearance")]
-		[Description("An alternate title for the \"Schema Set\" page and the root table of content container.")]
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionSchemaSetTitle")]
 		[DefaultValue("")]
 		public string SchemaSetTitle { get; set; }
 
-		[Category("Appearance")]
-		[Description("This defines the sort order for merging the XML schema topics with the main help file.")]
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionSortOrder")]
 		[DefaultValue(1)]
 		public int SortOrder { get; set; }
 
-		[Category("Index")]
-		[Description("Specifies whether XML entity links such as \"http://schemas.example.org#E/myElement/@myAttribute\" are included in the K keyword index.")]
+		[LocalizableCategory("ConfigCategoryIndex")]
+		[LocalizableDescription("ConfigDescriptionIncludeLinkUriInKeywordK")]
 		[DefaultValue(false)]
 		public bool IncludeLinkUriInKeywordK { get; set; }
 
 		[Editor(typeof(FilePathObjectEditor), typeof(UITypeEditor))]
-		[Category("Files")]
-		[Description("Specifies an XSLT transformation file that is used to translate inline schema documentation into the schemaDoc element.")]
+		[LocalizableCategory("ConfigCategoryFiles")]
+		[LocalizableDescription("ConfigDescriptionAnnotationTransformFilePath")]
 		public FilePath AnnotationTransformFilePath { get; set; }
 
 		[Editor(typeof(SchemaFilePathsEditor), typeof(UITypeEditor))]
-		[Category("Files")]
-		[Description("Specifies the schema files that are part of the schema set.")]
+		[LocalizableCategory("ConfigCategoryFiles")]
+		[LocalizableDescription("ConfigDescriptionSchemaFilePaths")]
 		public FilePathCollection SchemaFilePaths { get; private set; }
 
 		[Editor(typeof(SchemaDependencyFilePathsEditor), typeof(UITypeEditor))]
-		[Category("Files")]
-		[Description("Specifies the schema files the schema set will depend on. They will be added to the internal schema set in order to be able to process it but the schemas fill not being documented.")]
+		[LocalizableCategory("ConfigCategoryFiles")]
+		[LocalizableDescription("ConfigDescriptionSchemaDependencyFilePaths")]
 		public FilePathCollection SchemaDependencyFilePaths { get; private set; }
 
 		[Editor(typeof(DocFilePathsEditor), typeof(UITypeEditor))]
-		[Category("Files")]
-		[Description("Specifies additional documentation files to be used.")]
+		[LocalizableCategory("ConfigCategoryFiles")]
+		[LocalizableDescription("ConfigDescriptionDocFilePaths")]
 		public FilePathCollection DocFilePaths { get; private set; }
 
 		[Browsable(false)]

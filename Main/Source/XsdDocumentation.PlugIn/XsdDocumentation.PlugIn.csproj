@@ -65,6 +65,8 @@
     <Compile Include="Configuration\DocFilePathsEditor.cs" />
     <Compile Include="Configuration\FilePathCollection.cs" />
     <Compile Include="Configuration\FilePathCollectionConverter.cs" />
+    <Compile Include="Configuration\LocalizableCategoryAttribute.cs" />
+    <Compile Include="Configuration\LocalizableDescriptionAttribute.cs" />
     <Compile Include="Dialogs\FilePathListEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +87,11 @@
     <Compile Include="Dialogs\XsdConfigurationForm.Designer.cs">
       <DependentUpon>XsdConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="XsdPlugIn.cs" />
     <Compile Include="Configuration\XsdPlugInConfiguration.cs" />
   </ItemGroup>
@@ -94,6 +101,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\XsdConfigurationForm.resx">
       <DependentUpon>XsdConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

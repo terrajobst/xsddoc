@@ -14,6 +14,7 @@ using SandcastleBuilder.Utils.BuildEngine;
 using SandcastleBuilder.Utils.PlugIn;
 
 using XsdDocumentation.Model;
+using XsdDocumentation.PlugIn.Properties;
 
 namespace XsdDocumentation.PlugIn
 {
@@ -23,16 +24,19 @@ namespace XsdDocumentation.PlugIn
 		private BuildProcess _buildProcess;
 		private XsdPlugInConfiguration _configuration;
 
-		public string Name
-		{
-			get { return "XML Schema Documenter"; }
-		}
-
 		public static string GetHelpFilePath()
 		{
 			var asm = Assembly.GetExecutingAssembly();
 			Debug.Assert(asm.Location != null);
 			return Path.Combine(Path.GetDirectoryName(asm.Location), "Help.chm");
+		}
+
+		/// <summary>
+		/// This read-only property returns a friendly name for the plug-in
+		/// </summary>
+		public string Name
+		{
+			get { return Resources.PlugInName; }
 		}
 
 		/// <summary>
@@ -71,10 +75,7 @@ namespace XsdDocumentation.PlugIn
 		/// </summary>
 		public string Description
 		{
-			get
-			{
-				return "This plug-in creates reference documentation for an XML schema set.";
-			}
+			get { return Resources.PlugInDescription; }
 		}
 
 		/// <summary>
@@ -140,7 +141,7 @@ namespace XsdDocumentation.PlugIn
 		{
 			_configuration = XsdPlugInConfiguration.FromXml(buildProcess.CurrentProject, configuration);
 			_buildProcess = buildProcess;
-			_buildProcess.ReportProgress("{0} Version {1}\r\n{2}\r\n", Name, Version, Copyright);
+			_buildProcess.ReportProgress(Resources.PlugInVersionFormatted, Name, Version, Copyright);
 		}
 
 		/// <summary>
@@ -149,7 +150,7 @@ namespace XsdDocumentation.PlugIn
 		/// <param name="executionContext">The current execution context</param>
 		public void Execute(ExecutionContext executionContext)
 		{
-			_buildProcess.ReportProgress("Creating XML documentation...");
+			_buildProcess.ReportProgress(Resources.PlugInBuildProgress);
 
 			var configuration = new Configuration
 			                    {
