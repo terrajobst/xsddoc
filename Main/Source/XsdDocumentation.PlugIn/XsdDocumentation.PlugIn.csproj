@@ -62,37 +62,37 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DocFilePathsEditor.cs" />
-    <Compile Include="FilePathCollection.cs" />
-    <Compile Include="FilePathCollectionConverter.cs" />
-    <Compile Include="FilePathListEditorForm.cs">
+    <Compile Include="Configuration\DocFilePathsEditor.cs" />
+    <Compile Include="Configuration\FilePathCollection.cs" />
+    <Compile Include="Configuration\FilePathCollectionConverter.cs" />
+    <Compile Include="Dialogs\FilePathListEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FilePathListEditorForm.Designer.cs">
+    <Compile Include="Dialogs\FilePathListEditorForm.Designer.cs">
       <DependentUpon>FilePathListEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FilePathsEditor.cs" />
-    <Compile Include="HelpAwareForm.cs">
+    <Compile Include="Configuration\FilePathsEditor.cs" />
+    <Compile Include="Dialogs\HelpAwareForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HelpTopics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchemaDependencyFilePathsEditor.cs" />
-    <Compile Include="SchemaFilePathsEditor.cs" />
-    <Compile Include="XsdConfigurationForm.cs">
+    <Compile Include="Configuration\SchemaDependencyFilePathsEditor.cs" />
+    <Compile Include="Configuration\SchemaFilePathsEditor.cs" />
+    <Compile Include="Dialogs\XsdConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="XsdConfigurationForm.Designer.cs">
+    <Compile Include="Dialogs\XsdConfigurationForm.Designer.cs">
       <DependentUpon>XsdConfigurationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="XsdPlugIn.cs" />
-    <Compile Include="XsdPlugInConfiguration.cs" />
+    <Compile Include="Configuration\XsdPlugInConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FilePathListEditorForm.resx">
+    <EmbeddedResource Include="Dialogs\FilePathListEditorForm.resx">
       <DependentUpon>FilePathListEditorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="XsdConfigurationForm.resx">
+    <EmbeddedResource Include="Dialogs\XsdConfigurationForm.resx">
       <DependentUpon>XsdConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -103,14 +103,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Etc\Schemas\XsdDocumentation.xsd">
-      <Link>XsdDocumentation.xsd</Link>
+    <Content Include="..\..\Etc\Schemas\XsdDocumentation.xsd">
+      <Link>Resources\XsdDocumentation.xsd</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\Etc\Schemas\AnnotationTranform.xslt">
-      <Link>AnnotationTranform.xslt</Link>
+      <Link>Resources\AnnotationTranform.xslt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
