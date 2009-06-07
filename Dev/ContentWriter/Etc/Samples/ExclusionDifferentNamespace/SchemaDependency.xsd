@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://tempuri.org/SchemaDependency.xsd"
+		   elementFormDefault="qualified"
+		   xmlns="http://tempuri.org/SchemaDependency.xsd"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="ElementDependency">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ElementDependency" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

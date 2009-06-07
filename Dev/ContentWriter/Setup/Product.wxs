@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<?include Product.wxi ?>
+
+	<Product Id="*" UpgradeCode="$(var.UpgradeCode)"
+			 Name="$(var.ProductName)" Version="!(bind.fileVersion.XsdDocumentation.PlugIn.dll)"
+			 Language="1033" Manufacturer="$(var.Manufacturer)">
+
+		<!-- Package Definition -->
+
+		<Package Id="*" Compressed="yes" Description="$(var.ProductShortName) !(bind.fileVersion.XsdDocumentation.PlugIn.dll)" InstallerVersion="200"
+				 ShortNames="no" Manufacturer="$(var.Manufacturer)" Languages="1033" SummaryCodepage="1252" />
+
+		<!-- Major Upgrade Support -->
+
+		<Upgrade Id="$(var.UpgradeCode)">
+			<UpgradeVersion Minimum="!(bind.fileVersion.XsdDocumentation.PlugIn.dll)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
+			<UpgradeVersion Minimum="0.0.0.0" IncludeMinimum="yes" Maximum="!(bind.fileVersion.XsdDocumentation.PlugIn.dll)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
+		</Upgrade>
+
+		<!-- Properties -->
+
+		<Property Id="ARPPRODUCTICON"   Value="Product.ico" />
+		<Property Id="ARPHELPLINK"      Value="$(var.ProductHomePage)" />
+		<Property Id="ARPURLINFOABOUT"  Value="$(var.ProductHomePage)" />
+		<Property Id="ARPURLUPDATEINFO" Value="$(var.ProductHomePage)" />
+		<Property Id="ARPCOMMENTS"      Value="XML schema documentation plug-in for Sandcastle Help File Builder." />
+
+		<!-- Launch Condition Searches -->
+
+		<Property Id="SHFB_EXISTS" Secure="yes">
+			<DirectorySearch Id="ShfbRootSearch" Path="[%SHFBROOT]">
+				<!-- We must set the version number one lower than the actual file we are looking for. -->
+				<FileSearch Name="SandcastleBuilderGUI.exe" MinVersion="1.7.9.9"/>
+			</DirectorySearch>
+		</Property>
+
+		<!-- Launch Conditions -->
+
+		<Condition Message="An administrator must approve or install [ProductName].">
+			Privileged
+		</Condition>
+
+		<Condition Message="[ProductName] is already installed in a newer version on your computer.">
+			NOT NEWERVERSIONDETECTED
+		</Condition>
+
+		<Condition Message="[ProductName] requires Sandcastle Help File Builder 1.8 or higher.&#13;&#10;&#13;&#10;Visit http://shfb.codeplex.com/ to download the latest stable release.">
+			Installed OR SHFB_EXISTS
+		</Condition>
+
+		<!-- Icons -->
+
+		<Icon Id="Product.ico" SourceFile="$(var.EtcFolder)Icon\Product.ico" />
+
+		<!-- Media -->
+
+		<Media Id="1" Cabinet="$(var.ProductShortName).cab" CompressionLevel="high" EmbedCab="yes" />
+
+		<!-- Files and Directories -->
+
+		<PropertyRef Id="VS90_SCHEMAS_DIR" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="CommonAppDataFolder">
+				<Directory Id="EWSoftware" Name="EWSoftware">
+					<Directory Id="SHFB" Name="Sandcastle Help File Builder">
+						<Directory Id="BuildComponents" Name="Build Components">
+							<Directory Id="XsdDocBuildComponents" Name="XML Schema Documenter" />
+						</Directory>
+						<Directory Id="PlugIns" Name="Plug-Ins">
+							<Directory Id="XsdDocPlugIns" Name="XML Schema Documenter">
+								<Directory Id="XsdDocMedia" Name="Media" />
+							</Directory>
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="VS90_SCHEMAS_DIR" />
+		</Directory>
+
+		<!-- Features -->
+
+		<FeatureRef Id="Binaries" />
+		<FeatureRef Id="Schemas" />
+
+		<!-- Install Sequences -->
+
+		<InstallExecuteSequence>
+			<FindRelatedProducts Before="LaunchConditions" />
+			<RemoveExistingProducts After="InstallValidate" />
+		</InstallExecuteSequence>
+
+		<InstallUISequence>
+			<FindRelatedProducts Before="LaunchConditions" />
+		</InstallUISequence>
+
+		<!-- WixUI scaffolding -->
+
+		<Property Id="ALLUSERS" Value="1" />
+		<WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
+		<WixVariable Id="WixUIBannerBmp"  Value="Resources\Banner.jpg" />
+		<WixVariable Id="WixUIDialogBmp"  Value="Resources\Dialog.jpg" />
+		<UIRef Id="WixUI_FeatureTree" />
+	</Product>
+</Wix>

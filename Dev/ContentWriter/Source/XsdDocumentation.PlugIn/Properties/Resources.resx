@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ConfigCategoryAppearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="ConfigCategoryFiles" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="ConfigCategoryIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="ConfigDescriptionAnnotationTransformFilePath" xml:space="preserve">
+    <value>Specifies an XSLT transformation file that is used to translate inline schema documentation into the schemaDoc element.</value>
+  </data>
+  <data name="ConfigDescriptionDocFilePaths" xml:space="preserve">
+    <value>Specifies additional documentation files to be used.</value>
+  </data>
+  <data name="ConfigDescriptionIncludeLinkUriInKeywordK" xml:space="preserve">
+    <value>Specifies whether XML entity links such as "http://schemas.example.org#E/myElement/@myAttribute" are included in the K keyword index. This allows programmatically navigating the help file to a topic describing a given XML entity.</value>
+  </data>
+  <data name="ConfigDescriptionNamespaceContainer" xml:space="preserve">
+    <value>If true, the default, a namespace table of content entry will be created as the container of the namespace contents in the documented schema set. If false, the namespace contents are listed directly. Please note that this setting is ignored if the schema set contains more than one namespace. In that case, every namespace will always have a table of content entry.</value>
+  </data>
+  <data name="ConfigDescriptionRootDocumentation" xml:space="preserve">
+    <value>If true, the root schemas and root elements get their own entry in the table of contents.</value>
+  </data>
+  <data name="ConfigDescriptionSchemaDependencyFilePaths" xml:space="preserve">
+    <value>Specifies the schema files the schema set will depend on. They will be added to the internal schema set in order to be able to process it but these schemas will not being documented.</value>
+  </data>
+  <data name="ConfigDescriptionSchemaFilePaths" xml:space="preserve">
+    <value>Specifies the schema files that are part of the schema set.</value>
+  </data>
+  <data name="ConfigDescriptionSchemaSetContainer" xml:space="preserve">
+    <value>If true, a root "Schema Set" table of content entry will be created as the container of the namespaces in the documented schema set. If false, the default, the namespaces are listed in the table of content as root entries.</value>
+  </data>
+  <data name="ConfigDescriptionSchemaSetTitle" xml:space="preserve">
+    <value>An alternate title for the "Schema Set" page and the root table of content container.</value>
+  </data>
+  <data name="ConfigDescriptionSortOrder" xml:space="preserve">
+    <value>This defines the sort order for merging the XML schema topics with the main help file.</value>
+  </data>
+  <data name="DocFilePathsEditorFilter" xml:space="preserve">
+    <value>Documentation Files (*.xml)|*.xml|All Files (*.*)|*.*</value>
+  </data>
+  <data name="DocFilePathsEditorTitle" xml:space="preserve">
+    <value>Edit Documentation Files</value>
+  </data>
+  <data name="FilePathCollectionConverterFileCountFormatted" xml:space="preserve">
+    <value>{0} file(s)</value>
+  </data>
+  <data name="FilePathCollectionConverterNoFiles" xml:space="preserve">
+    <value>(None)</value>
+  </data>
+  <data name="PlugInBuildProgress" xml:space="preserve">
+    <value>Creating XML documentation...</value>
+  </data>
+  <data name="PlugInDescription" xml:space="preserve">
+    <value>This plug-in creates reference documentation for an XML schema set.</value>
+  </data>
+  <data name="PlugInName" xml:space="preserve">
+    <value>XML Schema Documenter</value>
+  </data>
+  <data name="PlugInVersionFormatted" xml:space="preserve">
+    <value>{0} Version {1}\r\n{2}\r\n</value>
+  </data>
+  <data name="SchemaDependencyFilePathsEditorFilter" xml:space="preserve">
+    <value>XML Schema Files (*.xsd)|*.xsd|All Files (*.*)|*.*</value>
+  </data>
+  <data name="SchemaDependencyFilePathsEditorTitle" xml:space="preserve">
+    <value>Edit Schema Dependency Files</value>
+  </data>
+  <data name="SchemaFilePathsEditorFilter" xml:space="preserve">
+    <value>XML Schema Files (*.xsd)|*.xsd|All Files (*.*)|*.*</value>
+  </data>
+  <data name="SchemaFilePathsEditorTitle" xml:space="preserve">
+    <value>Edit Schema Files</value>
+  </data>
+</root>

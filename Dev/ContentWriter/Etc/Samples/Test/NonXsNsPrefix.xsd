@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema id="NonXsNsPrefix"
+    targetNamespace="http://tempuri.org/NonXsNsPrefix.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/NonXsNsPrefix.xsd"
+    xmlns:mstns="http://tempuri.org/NonXsNsPrefix.xsd"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+	<xsd:element name="root" />
+</xsd:schema>

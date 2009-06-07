@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="User1"
+    targetNamespace="http://tempuri.org/User1.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/User1.xsd"
+    xmlns:mstns="http://tempuri.org/User1.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:include schemaLocation="Chameleon.xsd" />
+	
+	<xs:element name="user1">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="chameleonElement" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="EmptyNamespace"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:element name="root" type="enum" />
+
+	<xs:simpleType name="enum">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Auto" />
+			<xs:enumeration value="Value1" />
+			<xs:enumeration value="Value2" />
+			<xs:enumeration value="Value3" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

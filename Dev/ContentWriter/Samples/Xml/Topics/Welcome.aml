@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="e30e87fa-d0a1-46fd-b445-a0ac489c11f3" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+								 xmlns:xlink="http://www.w3.org/1999/xlink"
+								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
+		<introduction>
+			<para>Welcome to the XML Sample.</para>
+		</introduction>
+		<section>
+			<title>What this Sample Shows</title>
+			<content>
+				<para>
+					This samples mainly shows how the well-known XML
+					schemas look when documented with XML Schema Documenter.
+				</para>
+			</content>
+		</section>
+		<relatedTopics>
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

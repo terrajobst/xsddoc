@@ -1,0 +1,103 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <!--
+			The configuration and platform will be used to determine which
+			assemblies to include from solution and project documentation
+			sources
+		-->
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>6136e592-5d7b-47df-af9b-b123a3d52d0a</ProjectGuid>
+    <SHFBSchemaVersion>1.8.0.0</SHFBSchemaVersion>
+    <!--
+			AssemblyName, Name, and RootNamespace are not used by SHFB but Visual Studio
+			adds them anyway
+		-->
+    <AssemblyName>Documentation</AssemblyName>
+    <RootNamespace>Documentation</RootNamespace>
+    <Name>Documentation</Name>
+    <!-- SHFB properties -->
+    <OutputPath>..\..\Output\Samples\WiX\</OutputPath>
+    <HtmlHelpName>WiX</HtmlHelpName>
+    <HelpTitle>Windows Installer XML Schema Sample</HelpTitle>
+    <CopyrightHref>
+    </CopyrightHref>
+    <RootNamespaceTitle>
+    </RootNamespaceTitle>
+    <PlugInConfigurations>
+      <PlugInConfig id="XML Schema Documenter" enabled="True">
+        <configuration>
+          <roots document="true" />
+          <schemaSet container="true" title="WiX Schema References" />
+          <sortOrder>1</sortOrder>
+          <annotationTransformFile path="AnnotationTranform.xslt" />
+          <schemaFiles>
+            <schemaFile path="Schemas\complus.xsd" />
+            <schemaFile path="Schemas\difxapp.xsd" />
+            <schemaFile path="Schemas\firewall.xsd" />
+            <schemaFile path="Schemas\gaming.xsd" />
+            <schemaFile path="Schemas\iis.xsd" />
+            <schemaFile path="Schemas\msmq.xsd" />
+            <schemaFile path="Schemas\netfx.xsd" />
+            <schemaFile path="Schemas\ps.xsd" />
+            <schemaFile path="Schemas\sql.xsd" />
+            <schemaFile path="Schemas\util.xsd" />
+            <schemaFile path="Schemas\vs.xsd" />
+            <schemaFile path="Schemas\wix.xsd" />
+            <schemaFile path="Schemas\wixloc.xsd" />
+          </schemaFiles>
+          <dependencyFiles />
+          <docFiles>
+            <docFile path="SchemaSetDoc.xml" />
+          </docFiles>
+        </configuration>
+      </PlugInConfig>
+      <PlugInConfig id="Additional Content Only" enabled="True">
+        <configuration />
+      </PlugInConfig>
+    </PlugInConfigurations>
+    <DocumentationSources>
+    </DocumentationSources>
+    <BuildLogFile>
+    </BuildLogFile>
+    <HtmlHelp1xCompilerPath>
+    </HtmlHelp1xCompilerPath>
+    <HtmlHelp2xCompilerPath>
+    </HtmlHelp2xCompilerPath>
+    <SandcastlePath>
+    </SandcastlePath>
+    <WorkingPath>
+    </WorkingPath>
+    <CopyrightText>
+    </CopyrightText>
+    <FeedbackEMailAddress>
+    </FeedbackEMailAddress>
+    <FeedbackEMailLinkText>
+    </FeedbackEMailLinkText>
+    <ComponentConfigurations>
+    </ComponentConfigurations>
+    <CleanIntermediates>False</CleanIntermediates>
+  </PropertyGroup>
+  <!--
+		There are no properties for these two groups but they need to appear in order for
+		Visual Studio to perform the build.
+	-->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Topics\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ContentLayout Include="Help.content">
+      <SortOrder>1</SortOrder>
+    </ContentLayout>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Topics\Welcome.aml" />
+  </ItemGroup>
+  <!-- Import the SHFB build targets -->
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
+</Project>

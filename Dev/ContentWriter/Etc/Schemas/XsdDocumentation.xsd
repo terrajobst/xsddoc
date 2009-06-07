@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+		   elementFormDefault="qualified"
+		   xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+	<xs:import namespace="http://ddue.schemas.microsoft.com/authoring/2003/5" />
+
+	<xs:annotation>
+		<xs:documentation>
+			This schema contains all elements and types that are used to document an
+			XML schema.
+		</xs:documentation>
+	</xs:annotation>
+	
+	<xs:element name="schemaDoc" type="schemaDocType">
+		<xs:annotation>
+			<xs:documentation>
+				This element can be used within the appinfo element of a schema to add MAML content
+				to a schema item.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="xmlEntityReference" type="xmlEntityUri">
+		<xs:annotation>
+			<xs:documentation>
+				This element can be used to create links to XML entities, such as
+				elements, attributes, groups or types.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="doc" >
+		<xs:annotation>
+			<xs:documentation>
+				This element is the root element of an external doc file.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="namespace">
+					<xs:annotation>
+						<xs:documentation>
+							This element declares the namespace all the doc members in this
+							file are associated with.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="name" type="namespaceDocUri">
+								<xs:annotation>
+									<xs:documentation>
+										This element contains the name of the namespace all the doc
+										members in this file are associated with.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="members">
+					<xs:annotation>
+						<xs:documentation>
+							This element contains the items to be documented.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="member" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										This element contains the documentation of an XML schema item.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="schemaDocType">
+											<xs:attribute name="uri" type="memberDocUri">
+												<xs:annotation>
+													<xs:documentation>
+														This attribute contains the URI of the XML schema item being documented.
+													</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="schemaDocType">
+		<xs:sequence>
+			<xs:element name="obsolete" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						This is used to indicate that an XML entity is obsolete. It may contain a reference
+						to another XML entity that users are encouraged to use instead of the current XML
+						entity.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="uri" type="xmlEntityUri" use="optional">
+						<xs:annotation>
+							<xs:documentation>
+								This URI refers to another XML entity that users are encouraged to use instead
+								of the current XML entity.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="parent" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						This is used to indicate that an XML entity extends another XML entity. The other 
+						XML enity must accept other elements or attributes.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="uri" type="xmlEntityUri" use="required">
+						<xs:annotation>
+							<xs:documentation>
+								This URI refers to the parent this item extends.
+								It must refer to an element, an any element or an
+								anyAttribute element.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="ddue:summary">
+				<xs:annotation>
+					<xs:documentation>
+						This element contains a summary, introduction, or short description of the current item.
+						This text typically appears in a topic and may also be used as the description of the topic
+						that appears in a jump table when the topic is being linked to.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="ddue:remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						This element contains a detailed discussion of the current item.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="ddue:relatedTopics" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The relatedTopicsLink is used to link to other topics that might be interesting to the reader.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="xmlEntityUri">
+		<xs:annotation>
+			<xs:documentation>
+				This type describes the valid values of an XML schema item URI.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:anyURI" />
+	</xs:simpleType>
+	
+	<xs:simpleType name="namespaceDocUri">
+		<xs:annotation>
+			<xs:documentation>
+				This type describes the valid values of a namespace in the external schema documentation
+				file.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="xmlEntityUri">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="##SchemaSet">
+						<xs:annotation>
+							<xs:documentation>
+								This value indicates that the external doc file only contains the schema set
+								documentation.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+
+	<xs:simpleType name="memberDocUri">
+		<xs:annotation>
+			<xs:documentation>
+				This type describes the valid values of a member URI used in the external schema
+				documentation file.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="xmlEntityUri">
+			<xs:simpleType>
+				<xs:restriction base="xs:token">
+					<xs:enumeration value="##SchemaSet">
+						<xs:annotation>
+							<xs:documentation>
+								This value indicates that the schema set itself is being documented.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="##Namespace">
+						<xs:annotation>
+							<xs:documentation>
+								This value indicates that the namespace itself is being documented.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+</xs:schema>

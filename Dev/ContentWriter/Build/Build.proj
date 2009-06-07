@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+
+	<!-- Build Settings -->
+
+	<PropertyGroup>
+		<BuildDir>$(MSBuildProjectDirectory)\</BuildDir>
+		<CustomTasksDir>$(BuildDir)Custom Tasks\</CustomTasksDir>
+		<ProjectDir>$(BuildDir)..\</ProjectDir>
+		<SourceDir>$(ProjectDir)Source\</SourceDir>
+		<SetupDir>$(ProjectDir)Setup\</SetupDir>
+		<LibDir>$(ProjectDir)Lib\</LibDir>
+		<HelpDir>$(ProjectDir)Help\</HelpDir>
+		<SamplesDir>$(ProjectDir)Samples\</SamplesDir>
+		<OutputDir>$(ProjectDir)Output\</OutputDir>
+		<GeneratedBinaries>$(OutputDir)Bin\</GeneratedBinaries>
+		<GeneratedHelp>$(OutputDir)Help\</GeneratedHelp>
+		<GeneratedSetup>$(OutputDir)Setup\</GeneratedSetup>
+		<GeneratedSourceCode>$(OutputDir)Source\</GeneratedSourceCode>
+		<GeneratedSamples>$(OutputDir)Samples\</GeneratedSamples>
+		<GeneratedRelease>$(OutputDir)Release\</GeneratedRelease>
+		<Configuration>Release</Configuration>
+	</PropertyGroup>
+
+	<!-- External projects -->
+
+	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+	<!-- External Tasks -->
+
+	<UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.GetFileVersion" />
+	<UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.RemoveTfsBindings" />
+
+	<!-- Build -->
+
+	<Target Name="Build">
+		<CallTarget Targets="Clean" />
+		<CallTarget Targets="Compile" />
+		<CallTarget Targets="GenerateHelp" />
+		<CallTarget Targets="GenerateSetup" />
+		<CallTarget Targets="GenerateSourceCode" />
+		<CallTarget Targets="GenerateSamples" />
+		<CallTarget Targets="GenerateRelease" />
+	</Target>
+
+	<!-- Clean -->
+
+	<Target Name="Clean">
+		<ItemGroup>
+			<AllSolutionFiles Include="$(SourceDir)**\*.sln" />
+			<AllSolutionFiles Include="$(SetupDir)**\*.sln" />
+			<CompilationFiles Include="$(ProjectDir)**\bin\**\*.*" />
+			<CompilationFiles Include="$(ProjectDir)**\obj\**\*.*" />
+		</ItemGroup>
+		<MSBuild Projects="@(AllSolutionFiles)" Targets="Clean" />
+		<Delete Files="@(CompilationFiles)" />
+		<RemoveDir Directories="$(CustomTasksDir)" />
+		<RemoveDir Directories="$(OutputDir)" />
+	</Target>
+
+
+	<!-- Compile MSBuild tasks needed by the build process itself -->
+
+	<Target Name="CompileBuildTasks">
+		<ItemGroup>
+			<CustomBuildProjects Include="$(SourceDir)XsdDocumentation.Build\XsdDocumentation.Build.csproj" />
+		</ItemGroup>
+		<MSBuild Projects="@(CustomBuildProjects)" Targets="Build" Properties="Configuration=$(Configuration);OutDir=$(CustomTasksDir)" />
+	</Target>
+
+	<!-- Compile -->
+
+	<Target Name="Compile">
+		<MSBuild Projects="$(SourceDir)XsdDocumentation.sln"
+				 Properties="Configuration=$(Configuration);OutDir=$(GeneratedBinaries);PostBuildEvent=" />
+	</Target>
+
+	<!-- Generate Help -->
+
+	<Target Name="GenerateHelp" DependsOnTargets="CompileBuildTasks">
+		<GetFileVersion File="$(GeneratedBinaries)XsdDocumentation.dll">
+			<Output TaskParameter="Version"
+					PropertyName="XsdDocVersion" />
+		</GetFileVersion>
+		<MSBuild Projects="$(HelpDir)Help.shfbproj"
+				 Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion)" />
+	</Target>
+
+	<!-- Generate Setup -->
+
+	<Target Name="GenerateSetup">
+		<MSBuild Projects="$(SetupDir)Setup.sln" Targets="Rebuild"
+				 Properties="Configuration=$(Configuration);OutDir=$(GeneratedSetup);" />
+	</Target>
+
+	<!-- Generate Source Code -->
+
+	<Target Name="GenerateSourceCode" DependsOnTargets="CompileBuildTasks">
+		<ItemGroup>
+			<SourceCodeFiles Include="$(ProjectDir)**\*.*"
+							 Exclude="$(OutputDir)**\*.*;$(LibDir)**\*.*;$(CustomTasksDir)**\*.*;$(ProjectDir)**\bin\**\*.*;$(ProjectDir)**\obj\**\*.*;$(ProjectDir)**\*.scc;$(ProjectDir)**\*.vssscc;$(ProjectDir)**\*.vspscc;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(SourceCodeFiles)" DestinationFolder="$(GeneratedSourceCode)%(RecursiveDir)" />
+		<Exec Command="attrib -r -h /s" WorkingDirectory="$(GeneratedSourceCode)" />
+
+		<ItemGroup>
+			<SolutionFiles Include="$(GeneratedSourceCode)Source\XsdDocumentation.sln" />
+			<SolutionFiles Include="$(GeneratedSourceCode)Setup\Setup.sln" />
+		</ItemGroup>
+		<RemoveTfsBindings SolutionFiles="@(SolutionFiles)" />
+	</Target>
+
+	<!-- Generate Samples -->
+
+	<Target Name="GenerateSamples">
+		<ItemGroup>
+			<Sample Include="$(SamplesDir)**\*.shfbproj" />
+		</ItemGroup>
+
+		<MSBuild Projects="@(Sample)" />
+
+		<ItemGroup>
+			<GeneratedSample Include="$(GeneratedSamples)**\*.chm" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(GeneratedSample)" DestinationFolder="$(GeneratedSamples)" />
+		<RemoveDir Directories="%(GeneratedSample.RootDir)%(GeneratedSample.Directory)" />
+	</Target>
+	
+	<!-- Generate Release -->
+
+	<Target Name="GenerateRelease">
+		<ItemGroup>
+			<GeneratedSourceCodeFiles Include="$(GeneratedSourceCode)\**\*.*" />
+			<GeneratedSetupFiles Include="$(GeneratedSetup)\**\*.*" />
+			<GeneratedSampleFiles Include="$(GeneratedSamples)\**\*.*" />
+		</ItemGroup>
+
+		<RemoveDir Directories="$(GeneratedRelease)" />
+		<MakeDir Directories="$(GeneratedRelease)" />
+		<Zip WorkingDirectory="$(GeneratedSourceCode)" Files="@(GeneratedSourceCodeFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Source.zip" />
+		<Zip WorkingDirectory="$(GeneratedSetup)" Files="@(GeneratedSetupFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Setup.zip" />
+		<Zip WorkingDirectory="$(GeneratedSamples)" Files="@(GeneratedSampleFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Samples.zip" />
+	</Target>
+</Project>

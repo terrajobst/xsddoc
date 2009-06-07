@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="42bd9c99-dc34-45db-8893-987907c83684" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+								 xmlns:xlink="http://www.w3.org/1999/xlink"
+								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
+		<introduction>
+			<para>
+				This help file describes how you can use <token>AppName</token> to
+				document XML schema files.
+			</para>
+		</introduction>
+		<section>
+			<title>Features</title>
+			<content>
+				<list class="bullet">
+					<listItem>
+						<para>
+							<token>AppName</token> allows you to easily create XML
+							schema documentation by extending <token>SHFB</token>.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<token>AppName</token> automatically utilizes the standard
+							<externalLink>
+								<linkText>annotation Element</linkText>
+								<linkUri>http://www.w3.org/TR/xmlschema-0/#CommVers</linkUri>
+							</externalLink>
+							for summary documentation.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							You can leverage the power of Microsoft Assistance Markup Language (MAML)
+							for documenting your XML schema items.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							You can document your XML schemas either
+							<link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f">inline</link>
+							or in an
+							<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3">external documentation</link>
+							file.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							Using a custom XSLT transform you can easily create or reuse your own 
+							<link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f">inline</link>
+							documentation format.
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							You can effectively cross-link your XML schema with your MAML documentation
+							using the MAML <codeInline>link</codeInline> element and the new
+							<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
+							element.
+						</para>
+					</listItem>
+				</list>
+			</content>
+		</section>
+		<relatedTopics>
+			<link xlink:href="b624c91b-e17c-4c4e-958c-f764dc5eafb9" />
+			<link xlink:href="729458f6-ef03-4247-a0c4-73dd59a93a0e" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

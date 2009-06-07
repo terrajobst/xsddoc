@@ -1,0 +1,99 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <!-- The configuration and platform will be used to determine which
+         assemblies to include from solution and project documentation
+         sources -->
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8898f4a1-1a6c-49a4-b1ff-eab18aee2c46}</ProjectGuid>
+    <SHFBSchemaVersion>1.8.0.0</SHFBSchemaVersion>
+    <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual
+         Studio adds them anyway -->
+    <AssemblyName>Documentation</AssemblyName>
+    <RootNamespace>Documentation</RootNamespace>
+    <Name>Documentation</Name>
+    <!-- SHFB properties -->
+    <OutputPath>.\Help\</OutputPath>
+    <HtmlHelpName>Help</HtmlHelpName>
+    <PlugInConfigurations>
+      <PlugInConfig id="Additional Content Only" enabled="True">
+        <configuration />
+      </PlugInConfig>
+      <PlugInConfig id="XML Schema Documenter" enabled="True">
+        <configuration>
+          <roots document="false" />
+          <schemaSet container="false" title="" />
+          <sortOrder>1</sortOrder>
+          <annotationTransformFile path="" />
+          <schemaFiles>
+            <schemaFile path="..\Etc\Schemas\XsdDocumentation.xsd" />
+          </schemaFiles>
+          <dependencyFiles>
+            <schemaFile path="..\Etc\Schemas\XsdDocumentation.MamlPlaceholder.xsd" />
+          </dependencyFiles>
+          <docFiles>
+            <docFile path="..\Etc\Schemas\XsdDocumentation.xml" />
+          </docFiles>
+        </configuration>
+      </PlugInConfig>
+    </PlugInConfigurations>
+    <HelpTitle>XML Schema Documenter</HelpTitle>
+    <CleanIntermediates>True</CleanIntermediates>
+    <Preliminary>True</Preliminary>
+    <CopyrightText>[v{%40HelpFileVersion}] Copyright \xA9 2009 Immo Landwerth</CopyrightText>
+    <CopyrightHref>http://xsddoc.codeplex.com</CopyrightHref>
+    <FeedbackEMailAddress>terrajobst%40web.de</FeedbackEMailAddress>
+    <FeedbackEMailLinkText>Immo Landwerth</FeedbackEMailLinkText>
+    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+  </PropertyGroup>
+  <!-- There are no properties for these two groups but they need to appear in
+       order for Visual Studio to perform the build. -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <ContentLayout Include="Help.content" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Topics\Documenting\Elements.aml" />
+    <None Include="Topics\User Interface\SchemaDependencyFilePathsEditor.aml" />
+    <None Include="Topics\Documenting\Linking.aml" />
+    <None Include="Topics\Documenting\ExternalDoc.aml" />
+    <None Include="Topics\Documenting\InlineDoc.aml" />
+    <None Include="Topics\Documenting\Documenting.aml" />
+    <None Include="Topics\User Interface\SchemaFilePathsEditor.aml" />
+    <None Include="Topics\User Interface\DocFilePathsEditor.aml" />
+    <None Include="Topics\User Interface\XsdConfigurationForm.aml" />
+    <None Include="Topics\User Interface\User Interface.aml" />
+    <None Include="Topics\Welcome.aml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Media\" />
+    <Folder Include="Topics\Documenting\" />
+    <Folder Include="Topics\User Interface\" />
+    <Folder Include="Topics\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Media\DocFilePathsEditor.png">
+      <ImageId>44dbb4b3-5b07-4741-9ba4-08bec8515856</ImageId>
+    </Image>
+    <Image Include="Media\SchemaFilePathsEditor.png">
+      <ImageId>9e7f769d-2611-45b3-8e64-adbbad35f9a7</ImageId>
+    </Image>
+    <Image Include="Media\XsdConfigurationForm.png">
+      <ImageId>0811fd61-a701-4987-8d31-1873ac8215b6</ImageId>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Tokens Include="Help.tokens" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Media\SchemaDependencyFilePathsEditor.png">
+      <ImageId>f4e01bc7-a30c-48c2-a6d6-26b95b0205e0</ImageId>
+    </Image>
+  </ItemGroup>
+  <!-- Import the SHFB build targets -->
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
+</Project>

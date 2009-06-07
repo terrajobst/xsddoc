@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="b624c91b-e17c-4c4e-958c-f764dc5eafb9" revisionNumber="1">
+	<developerOrientationDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>
+				This section explains how XML schema files can be documented using <token>AppName</token>.
+			</para>
+		</introduction>
+		<inThisSection>
+			<content>
+				<para>
+					Please choose one of the following topics:
+				</para>
+				<list class="bullet">
+					<listItem>
+						<para>
+							<link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f" />
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3" />
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<link xlink:href="613da747-f812-4393-98b6-c764a105bdf1" />
+						</para>
+					</listItem>
+					<listItem>
+						<para>
+							<link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" />
+						</para>
+					</listItem>
+				</list>
+			</content>
+		</inThisSection>
+		<relatedTopics>
+			<link xlink:href="729458f6-ef03-4247-a0c4-73dd59a93a0e" />
+		</relatedTopics>
+	</developerOrientationDocument>
+</topic>
