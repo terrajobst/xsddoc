@@ -1,6 +1,13 @@
 Todos
 -----
 
+- Update documentation regarding the new options (document root elements,
+  document root schemas, document schemas, document syntax).
+- Externalize strings in exception builder
+- Check if we can change the generation of the tables so that all values
+  in entry tags are containted in paragraphs.
+- Introduce method that makes writing table entries with a simple value
+  easier.
 - Package the sample source together with their resulting CHM file
   into a common ZIP file.
 - Document the XSLT parameters.
