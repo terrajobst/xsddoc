@@ -58,10 +58,13 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Markup\ObsoleteMarkupBuilder.cs" />
-    <Compile Include="Markup\RelatedTopicsMarkupBuilder.cs" />
-    <Compile Include="Markup\RemarksMarkupBuilder.cs" />
-    <Compile Include="Markup\SummaryMarkupBuilder.cs" />
+    <Compile Include="Markup\AlertClass.cs" />
+    <Compile Include="Markup\ListClass.cs" />
+    <Compile Include="Markup\MamlWriter.cs" />
+    <Compile Include="Markup\ObsoleteMamlWriterExtensions.cs" />
+    <Compile Include="Markup\RelatedSectionMamlWriterExtensions.cs" />
+    <Compile Include="Markup\RemarksMamlWriterExtensions.cs" />
+    <Compile Include="Markup\SummaryMamlWriterExtensions.cs" />
     <Compile Include="Model\ArtItem.cs" />
     <Compile Include="Model\AttributeEntries.cs" />
     <Compile Include="Model\Configuration.cs" />
@@ -74,10 +77,10 @@
     <Compile Include="Model\ContentGenerator.cs" />
     <Compile Include="Helpers\Casting.cs" />
     <Compile Include="Helpers\ExceptionBuilder.cs" />
-    <Compile Include="Markup\ConstrainedMarkupBuilder.cs" />
+    <Compile Include="Markup\ConstraintsMamlWriterExtensions.cs" />
     <Compile Include="Markup\ListItem.cs" />
     <Compile Include="Markup\ListItemBuilder.cs" />
-    <Compile Include="Markup\MarkupHelper.cs" />
+    <Compile Include="Markup\MarkupMamlWriterExtensions.cs" />
     <Compile Include="Model\NamespaceContentFinder.cs" />
     <Compile Include="Model\NamespaceRootElementFinder.cs" />
     <Compile Include="Model\Namespaces.cs" />
@@ -88,13 +91,13 @@
     <Compile Include="Model\XmlSchemaObjectExtensions.cs" />
     <Compile Include="Model\XmlSchemaSetExtensions.cs" />
     <Compile Include="Model\XmlSchemaSetVisitor.cs" />
-    <Compile Include="Markup\AttributeMarkupBuilder.cs" />
-    <Compile Include="Markup\ChildrenMarkupBuilder.cs" />
-    <Compile Include="Markup\ListMarkupBuilder.cs" />
-    <Compile Include="Markup\SimpleTypeNameMarkupBuilder.cs" />
-    <Compile Include="Markup\SimpleTypeStructureMarkupBuilder.cs" />
-    <Compile Include="Markup\TableMarkupBuilder.cs" />
-    <Compile Include="Markup\TypeNameMarkupBuilder.cs" />
+    <Compile Include="Markup\AttributeMamlWriterExtensions.cs" />
+    <Compile Include="Markup\ChildrenMamlWriterExtensions.cs" />
+    <Compile Include="Markup\ListMamlWriterExtensions.cs" />
+    <Compile Include="Markup\SimpleTypeNameMamlWriter.cs" />
+    <Compile Include="Markup\SimpleTypeStructureMamlWriterExtensions.cs" />
+    <Compile Include="Markup\TableMamlWriterExtensions.cs" />
+    <Compile Include="Markup\TypeNameMamlWriterExtensions.cs" />
     <Compile Include="Model\AttributeFinder.cs" />
     <Compile Include="Model\ChildEntry.cs" />
     <Compile Include="Model\ChildrenFinder.cs" />
@@ -116,21 +119,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Model\SourceCodeManager.cs" />
-    <Compile Include="Markup\SyntaxMarkupBuilder.cs" />
+    <Compile Include="Markup\SyntaxMamlWriterExtensions.cs" />
     <Compile Include="Model\XmlSchemaSetBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\ComplexTypeTopic.xml" />
-    <Content Include="Resources\AttributeTopic.xml" />
-    <Content Include="Resources\AttributeGroupTopic.xml" />
-    <Content Include="Resources\SchemaSetNamespaceTopic.xml" />
-    <Content Include="Resources\SchemaSetTopic.xml" />
-    <Content Include="Resources\SchemaTopic.xml" />
-    <Content Include="Resources\OverviewTopic.xml" />
-    <Content Include="Resources\GroupTopic.xml" />
-    <Content Include="Resources\SimpleTypeTopic.xml" />
-    <Content Include="Resources\ElementTopic.xml" />
-    <Content Include="Resources\NamespaceTopic.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
