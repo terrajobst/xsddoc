@@ -5,7 +5,6 @@ using System.Xml;
 using System.Xml.Schema;
 
 using XsdDocumentation.Markup;
-using XsdDocumentation.Properties;
 
 namespace XsdDocumentation.Model
 {
@@ -123,7 +122,7 @@ namespace XsdDocumentation.Model
 						GenerateOverviewTopic(topic);
 						break;
 					default:
-						throw new ArgumentOutOfRangeException();
+						throw ExceptionBuilder.UnhandledCaseLabel(topic.TopicType);
 				}
 
 				GenerateTopicFiles(topic.Children);
@@ -134,34 +133,38 @@ namespace XsdDocumentation.Model
 		{
 			if (_context.Configuration.NamespaceContainer)
 			{
-				var content = Resources.SchemaSetTopic;
-				content = content.Replace("${TopicId}", topic.Id);
-				content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForSchemaSet(_context));
-				content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForSchemaSet(_context));
-				content = content.Replace("${NamespaceSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaces(), "Namespaces"));
-
-				File.WriteAllText(topic.FileName, content);
+				using (var stream = File.Create(topic.FileName))
+				using (var writer = new MamlWriter(stream))
+				{
+					writer.StartTopic(topic.Id);
+					writer.WriteIntroductionForSchemaSet(_context);
+					writer.WriteRemarksSectionForSchemaSet(_context);
+					writer.WriteNamespacesSection(_context, _context.SchemaSetManager.GetNamespaces());
+					writer.EndTopic();
+				}
 			}
 			else
 			{
 				var contentFinder = new NamespaceContentFinder(_context.SchemaSetManager, topic.Namespace);
 				contentFinder.Traverse(_context.SchemaSetManager.SchemaSet);
 
-				var content = Resources.SchemaSetNamespaceTopic;
-				content = content.Replace("${TopicId}", topic.Id);
-				content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForSchemaSet(_context));
-				content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForSchemaSet(_context));
-				content = content.Replace("${RootSchemaSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace), "Root Schemas"));
-				content = content.Replace("${RootElementSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace), "Root Elements"));
-				content = content.Replace("${SchemaSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Schemas, "Schemas"));
-				content = content.Replace("${ElementSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Elements, "Elements"));
-				content = content.Replace("${AttributeSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Attributes, "Attributes"));
-				content = content.Replace("${GroupSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Groups, "Groups"));
-				content = content.Replace("${AttributeGroupSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.AttributeGroups, "Attribute Groups"));
-				content = content.Replace("${SimpleTypesSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.SimpleTypes, "Simple Types"));
-				content = content.Replace("${ComplexTypesSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.ComplexTypes, "Complex Types"));
-
-				File.WriteAllText(topic.FileName, content);
+				using (var stream = File.Create(topic.FileName))
+				using (var writer = new MamlWriter(stream))
+				{
+					writer.StartTopic(topic.Id);
+					writer.WriteIntroductionForSchemaSet(_context);
+					writer.WriteRemarksSectionForSchemaSet(_context);
+					writer.WriteRootSchemasSection(_context, _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace));
+					writer.WriteRootElementsSection(_context, _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace));
+					writer.WriteSchemasSection(_context, contentFinder.Schemas);
+					writer.WriteElementsSection(_context, contentFinder.Elements);
+					writer.WriteAttributesSection(_context, contentFinder.Attributes);
+					writer.WriteGroupsSection(_context, contentFinder.Groups);
+					writer.WriteAttributeGroupsSection(_context, contentFinder.AttributeGroups);
+					writer.WriteSimpleTypesSection(_context, contentFinder.SimpleTypes);
+					writer.WriteComplexTypesSection(_context, contentFinder.ComplexTypes);
+					writer.EndTopic();
+				}
 			}
 		}
 
@@ -170,22 +173,23 @@ namespace XsdDocumentation.Model
 			var contentFinder = new NamespaceContentFinder(_context.SchemaSetManager, topic.Namespace);
 			contentFinder.Traverse(_context.SchemaSetManager.SchemaSet);
 
-			var content = Resources.NamespaceTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForNamespace(_context, topic.Namespace));
-			content = content.Replace("${Obsolete}", ObsoleteMarkupBuilder.BuildForNamespace(_context, topic.Namespace));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForNamespace(_context, topic.Namespace));
-			content = content.Replace("${RootSchemaSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace), "Root Schemas"));
-			content = content.Replace("${RootElementSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace), "Root Elements"));
-			content = content.Replace("${SchemaSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Schemas, "Schemas"));
-			content = content.Replace("${ElementSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Elements, "Elements"));
-			content = content.Replace("${AttributeSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Attributes, "Attributes"));
-			content = content.Replace("${GroupSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Groups, "Groups"));
-			content = content.Replace("${AttributeGroupSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.AttributeGroups, "Attribute Groups"));
-			content = content.Replace("${SimpleTypesSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.SimpleTypes, "Simple Types"));
-			content = content.Replace("${ComplexTypesSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.ComplexTypes, "Complex Types"));
-
-			File.WriteAllText(topic.FileName, content);
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
+			{
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForNamespace(_context, topic.Namespace);
+				writer.WriteRemarksSectionForNamespace(_context, topic.Namespace);
+				writer.WriteRootSchemasSection(_context, _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace));
+				writer.WriteRootElementsSection(_context, _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace));
+				writer.WriteSchemasSection(_context, contentFinder.Schemas);
+				writer.WriteElementsSection(_context, contentFinder.Elements);
+				writer.WriteAttributesSection(_context, contentFinder.Attributes);
+				writer.WriteGroupsSection(_context, contentFinder.Groups);
+				writer.WriteAttributeGroupsSection(_context, contentFinder.AttributeGroups);
+				writer.WriteSimpleTypesSection(_context, contentFinder.SimpleTypes);
+				writer.WriteComplexTypesSection(_context, contentFinder.ComplexTypes);
+				writer.EndTopic();
+			}
 		}
 
 		private void GenerateSchemaTopic(Topic topic)
@@ -195,78 +199,68 @@ namespace XsdDocumentation.Model
 			var contentFinder = new SchemaContentFinder(schema);
 			contentFinder.Traverse(schema);
 
-			var content = Resources.SchemaTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForObject(_context, schema));
-			content = content.Replace("${Obsolete}", ObsoleteMarkupBuilder.BuildForObject(_context, schema));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForObject(_context, schema));
-			content = content.Replace("${Namespace}", GetNamespaceTopicLink(topic.Namespace));
-			content = content.Replace("${ElementSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Elements, "Elements"));
-			content = content.Replace("${AttributeSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Attributes, "Attributes"));
-			content = content.Replace("${GroupSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.Groups, "Groups"));
-			content = content.Replace("${AttributeGroupSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.AttributeGroups, "Attribute Groups"));
-			content = content.Replace("${SimpleTypesSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.SimpleTypes, "Simple Types"));
-			content = content.Replace("${ComplexTypesSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, contentFinder.ComplexTypes, "Complex Types"));
-
-			File.WriteAllText(topic.FileName, content);
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
+			{
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForSchema(_context, schema);
+				writer.WriteRemarksSectionForObject(_context, schema);
+				writer.WriteElementsSection(_context, contentFinder.Elements);
+				writer.WriteAttributesSection(_context, contentFinder.Attributes);
+				writer.WriteGroupsSection(_context, contentFinder.Groups);
+				writer.WriteAttributeGroupsSection(_context, contentFinder.AttributeGroups);
+				writer.WriteSimpleTypesSection(_context, contentFinder.SimpleTypes);
+				writer.WriteComplexTypesSection(_context, contentFinder.ComplexTypes);
+				writer.EndTopic();
+			}
 		}
 
 		private void GenerateOverviewTopic(Topic topic)
 		{
-			var schemaContentFinder = new NamespaceContentFinder(_context.SchemaSetManager, topic.Namespace);
-			schemaContentFinder.Traverse(_context.SchemaSetManager.SchemaSet);
+			var contentFinder = new NamespaceContentFinder(_context.SchemaSetManager, topic.Namespace);
+			contentFinder.Traverse(_context.SchemaSetManager.SchemaSet);
 
-			string topicTitle;
-			IEnumerable<XmlSchemaObject> schemaObjects;
-
-			switch (topic.TopicType)
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
 			{
-				case TopicType.RootSchemasSection:
-					topicTitle = "Root Schemas";
-					schemaObjects = _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace);
-					break;
-				case TopicType.RootElementsSection:
-					topicTitle = "Root Elements";
-					schemaObjects = _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace);
-					break;
-				case TopicType.SchemasSection:
-					topicTitle = "Schemas";
-					schemaObjects = schemaContentFinder.Schemas;
-					break;
-				case TopicType.ElementsSection:
-					topicTitle = "Elements";
-					schemaObjects = schemaContentFinder.Elements;
-					break;
-				case TopicType.AttributesSection:
-					topicTitle = "Attributes";
-					schemaObjects = schemaContentFinder.Attributes;
-					break;
-				case TopicType.AttributeGroupsSection:
-					topicTitle = "Attribute Groups";
-					schemaObjects = schemaContentFinder.AttributeGroups;
-					break;
-				case TopicType.GroupsSection:
-					topicTitle = "Groups";
-					schemaObjects = schemaContentFinder.Groups;
-					break;
-				case TopicType.SimpleTypesSection:
-					topicTitle = "Simple Types";
-					schemaObjects = schemaContentFinder.SimpleTypes;
-					break;
-				case TopicType.ComplexTypesSection:
-					topicTitle = "Complex Types";
-					schemaObjects = schemaContentFinder.ComplexTypes;
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForOverview(_context, topic.Namespace);
+
+				switch (topic.TopicType)
+				{
+					case TopicType.RootSchemasSection:
+						writer.WriteRootSchemasSection(_context, _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace));
+						break;
+					case TopicType.RootElementsSection:
+						writer.WriteRootElementsSection(_context, _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace));
+						break;
+					case TopicType.SchemasSection:
+						writer.WriteSchemasSection(_context, contentFinder.Schemas);
+						break;
+					case TopicType.ElementsSection:
+						writer.WriteElementsSection(_context, contentFinder.Elements);
+						break;
+					case TopicType.AttributesSection:
+						writer.WriteAttributesSection(_context, contentFinder.Attributes);
+						break;
+					case TopicType.AttributeGroupsSection:
+						writer.WriteAttributeGroupsSection(_context, contentFinder.AttributeGroups);
+						break;
+					case TopicType.GroupsSection:
+						writer.WriteGroupsSection(_context, contentFinder.Groups);
+						break;
+					case TopicType.SimpleTypesSection:
+						writer.WriteSimpleTypesSection(_context, contentFinder.SimpleTypes);
+						break;
+					case TopicType.ComplexTypesSection:
+						writer.WriteComplexTypesSection(_context, contentFinder.ComplexTypes);
+						break;
+					default:
+						throw ExceptionBuilder.UnhandledCaseLabel(topic.TopicType);
+				}
+
+				writer.EndTopic();
 			}
-
-			var content = Resources.OverviewTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Namespace}", GetNamespaceTopicLink(topic.Namespace));
-			content = content.Replace("${ItemSection}", TableMarkupBuilder.GetTableSectionMarkup(_context, schemaObjects, topicTitle));
-
-			File.WriteAllText(topic.FileName, content);
 		}
 
 		private void GenerateElementTopic(Topic topic)
@@ -276,24 +270,24 @@ namespace XsdDocumentation.Model
 			var simpleTypeStructureRoots = _context.SchemaSetManager.GetSimpleTypeStructure(element.ElementSchemaType);
 			var children = _context.SchemaSetManager.GetChildren(element);
 			var attributeEntries = _context.SchemaSetManager.GetAttributeEntries(element);
+			var constraints = element.Constraints;
 
-			var content = Resources.ElementTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForObject(_context, element));
-			content = content.Replace("${Obsolete}", ObsoleteMarkupBuilder.BuildForObject(_context, element));
-			content = content.Replace("${Namespace}", GetNamespaceTopicLink(element));
-			content = content.Replace("${Schema}", GetSchemaTopicLink(element));
-			content = content.Replace("${Type}", GetElementType(element));
-			content = content.Replace("${Parents}", ListMarkupBuilder.Build(_context, parents));
-			content = content.Replace("${Children}", ChildrenMarkupBuilder.Build(_context, children));
-			content = content.Replace("${ContentType}", SimpleTypeStructureMarkupBuilder.Build(_context, simpleTypeStructureRoots));
-			content = content.Replace("${Attributes}", AttributeMarkupBuilder.Build(_context, attributeEntries));
-			content = content.Replace("${Constraints}", ConstrainedMarkupBuilder.Build(_context, element));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForObject(_context, element));
-			content = content.Replace("${Syntax}", SyntaxMarkupBuilder.Build(_context, element));
-			content = content.Replace("${RelatedTopics}", RelatedTopicsMarkupBuilder.Build(_context, element));
-
-			File.WriteAllText(topic.FileName, content);
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
+			{
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForObject(_context, element);
+				writer.WriteTypeSection(_context, element);
+				writer.WriteParentsSection(_context, parents);
+				writer.WriteChildrenSection(_context, children);
+				writer.WriteContentTypeSection(_context, simpleTypeStructureRoots);
+				writer.WriteAttributesSection(_context, attributeEntries);
+				writer.WriteConstraintsSection(_context, constraints);
+				writer.WriteRemarksSectionForObject(_context, element);
+				writer.WriteSyntaxSection(_context, element);
+				writer.WriteRelatedTopics(_context, element);
+				writer.EndTopic();
+			}
 		}
 
 		private void GenerateAttributeTopic(Topic topic)
@@ -302,19 +296,18 @@ namespace XsdDocumentation.Model
 			var usages = _context.SchemaSetManager.GetObjectParents(attribute);
 			var simpleTypeStructureRoots = _context.SchemaSetManager.GetSimpleTypeStructure(attribute.AttributeSchemaType);
 
-			var content = Resources.AttributeTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForObject(_context, attribute));
-			content = content.Replace("${Obsolete}", ObsoleteMarkupBuilder.BuildForObject(_context, attribute));
-			content = content.Replace("${Namespace}", GetNamespaceTopicLink(attribute));
-			content = content.Replace("${Schema}", GetSchemaTopicLink(attribute));
-			content = content.Replace("${Usages}", ListMarkupBuilder.Build(_context, usages));
-			content = content.Replace("${Type}", SimpleTypeStructureMarkupBuilder.Build(_context, simpleTypeStructureRoots));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForObject(_context, attribute));
-			content = content.Replace("${Syntax}", SyntaxMarkupBuilder.Build(_context, attribute));
-			content = content.Replace("${RelatedTopics}", RelatedTopicsMarkupBuilder.Build(_context, attribute));
-
-			File.WriteAllText(topic.FileName, content);
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
+			{
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForObject(_context, attribute);
+				writer.WriteUsagesSection(_context, usages);
+				writer.WriteContentTypeSection(_context, simpleTypeStructureRoots);
+				writer.WriteRemarksSectionForObject(_context, attribute);
+				writer.WriteSyntaxSection(_context, attribute);
+				writer.WriteRelatedTopics(_context, attribute);
+				writer.EndTopic();
+			}
 		}
 
 		private void GenerateGroupTopic(Topic topic)
@@ -323,19 +316,18 @@ namespace XsdDocumentation.Model
 			var parents = _context.SchemaSetManager.GetObjectParents(group);
 			var children = _context.SchemaSetManager.GetChildren(group);
 
-			var content = Resources.GroupTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForObject(_context, group));
-			content = content.Replace("${Obsolete}", ObsoleteMarkupBuilder.BuildForObject(_context, group));
-			content = content.Replace("${Namespace}", GetNamespaceTopicLink(group));
-			content = content.Replace("${Schema}", GetSchemaTopicLink(group));
-			content = content.Replace("${Usages}", ListMarkupBuilder.Build(_context, parents));
-			content = content.Replace("${Children}", ChildrenMarkupBuilder.Build(_context, children));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForObject(_context, group));
-			content = content.Replace("${Syntax}", SyntaxMarkupBuilder.Build(_context, group));
-			content = content.Replace("${RelatedTopics}", RelatedTopicsMarkupBuilder.Build(_context, group));
-
-			File.WriteAllText(topic.FileName, content);
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
+			{
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForObject(_context, group);
+				writer.WriteUsagesSection(_context, parents);
+				writer.WriteChildrenSection(_context, children);
+				writer.WriteRemarksSectionForObject(_context, group);
+				writer.WriteSyntaxSection(_context, group);
+				writer.WriteRelatedTopics(_context, group);
+				writer.EndTopic();
+			}
 		}
 
 		private void GenerateAttributeGroup(Topic topic)
@@ -344,19 +336,18 @@ namespace XsdDocumentation.Model
 			var parents = _context.SchemaSetManager.GetObjectParents(attributeGroup);
 			var attributeEntries = _context.SchemaSetManager.GetAttributeEntries(attributeGroup);
 
-			var content = Resources.AttributeGroupTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForObject(_context, attributeGroup));
-			content = content.Replace("${Obsolete}", ObsoleteMarkupBuilder.BuildForObject(_context, attributeGroup));
-			content = content.Replace("${Namespace}", GetNamespaceTopicLink(attributeGroup));
-			content = content.Replace("${Schema}", GetSchemaTopicLink(attributeGroup));
-			content = content.Replace("${Usages}", ListMarkupBuilder.Build(_context, parents));
-			content = content.Replace("${Attributes}", AttributeMarkupBuilder.Build(_context, attributeEntries));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForObject(_context, attributeGroup));
-			content = content.Replace("${Syntax}", SyntaxMarkupBuilder.Build(_context, attributeGroup));
-			content = content.Replace("${RelatedTopics}", RelatedTopicsMarkupBuilder.Build(_context, attributeGroup));
-
-			File.WriteAllText(topic.FileName, content);
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
+			{
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForObject(_context, attributeGroup);
+				writer.WriteUsagesSection(_context, parents);
+				writer.WriteAttributesSection(_context, attributeEntries);
+				writer.WriteRemarksSectionForObject(_context, attributeGroup);
+				writer.WriteSyntaxSection(_context, attributeGroup);
+				writer.WriteRelatedTopics(_context, attributeGroup);
+				writer.EndTopic();
+			}
 		}
 
 		private void GenerateSimpleTypeTopic(Topic topic)
@@ -365,19 +356,18 @@ namespace XsdDocumentation.Model
 			var usages = _context.SchemaSetManager.GetTypeUsages(simpleType);
 			var simpleTypeStructureRoots = _context.SchemaSetManager.GetSimpleTypeStructure(simpleType.Content);
 
-			var content = Resources.SimpleTypeTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForObject(_context, simpleType));
-			content = content.Replace("${Obsolete}", ObsoleteMarkupBuilder.BuildForObject(_context, simpleType));
-			content = content.Replace("${Namespace}", GetNamespaceTopicLink(simpleType));
-			content = content.Replace("${Schema}", GetSchemaTopicLink(simpleType));
-			content = content.Replace("${Usages}", ListMarkupBuilder.Build(_context, usages));
-			content = content.Replace("${ContentType}", SimpleTypeStructureMarkupBuilder.Build(_context, simpleTypeStructureRoots));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForObject(_context, simpleType));
-			content = content.Replace("${Syntax}", SyntaxMarkupBuilder.Build(_context, simpleType));
-			content = content.Replace("${RelatedTopics}", RelatedTopicsMarkupBuilder.Build(_context, simpleType));
-
-			File.WriteAllText(topic.FileName, content);
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
+			{
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForObject(_context, simpleType);
+				writer.WriteUsagesSection(_context, usages);
+				writer.WriteContentTypeSection(_context, simpleTypeStructureRoots);
+				writer.WriteRemarksSectionForObject(_context, simpleType);
+				writer.WriteSyntaxSection(_context, simpleType);
+				writer.WriteRelatedTopics(_context, simpleType);
+				writer.EndTopic();
+			}
 		}
 
 		private void GenerateComplexTypeTopic(Topic topic)
@@ -388,22 +378,21 @@ namespace XsdDocumentation.Model
 			var children = _context.SchemaSetManager.GetChildren(complexType);
 			var attributeEntries = _context.SchemaSetManager.GetAttributeEntries(complexType);
 
-			var content = Resources.ComplexTypeTopic;
-			content = content.Replace("${TopicId}", topic.Id);
-			content = content.Replace("${Summary}", SummaryMarkupBuilder.BuildForObject(_context, complexType));
-			content = content.Replace("${Obsolete}", ObsoleteMarkupBuilder.BuildForObject(_context, complexType));
-			content = content.Replace("${Namespace}", GetNamespaceTopicLink(complexType));
-			content = content.Replace("${Schema}", GetSchemaTopicLink(complexType));
-			content = content.Replace("${BaseType}", GetTypeMarkup(complexType.BaseXmlSchemaType));
-			content = content.Replace("${Usages}", ListMarkupBuilder.Build(_context, usages));
-			content = content.Replace("${Children}", ChildrenMarkupBuilder.Build(_context, children));
-			content = content.Replace("${ContentType}", SimpleTypeStructureMarkupBuilder.Build(_context, simpleTypeStructureRoots));
-			content = content.Replace("${Attributes}", AttributeMarkupBuilder.Build(_context, attributeEntries));
-			content = content.Replace("${Remarks}", RemarksMarkupBuilder.BuildForObject(_context, complexType));
-			content = content.Replace("${Syntax}", SyntaxMarkupBuilder.Build(_context, complexType));
-			content = content.Replace("${RelatedTopics}", RelatedTopicsMarkupBuilder.Build(_context, complexType));
-
-			File.WriteAllText(topic.FileName, content);
+			using (var stream = File.Create(topic.FileName))
+			using (var writer = new MamlWriter(stream))
+			{
+				writer.StartTopic(topic.Id);
+				writer.WriteIntroductionForObject(_context, complexType);
+				writer.WriteBaseTypeSection(_context, complexType);
+				writer.WriteUsagesSection(_context, usages);
+				writer.WriteChildrenSection(_context, children);
+				writer.WriteContentTypeSection(_context, simpleTypeStructureRoots);
+				writer.WriteAttributesSection(_context, attributeEntries);
+				writer.WriteRemarksSectionForObject(_context, complexType);
+				writer.WriteSyntaxSection(_context, complexType);
+				writer.WriteRelatedTopics(_context, complexType);
+				writer.EndTopic();
+			}
 		}
 
 		private void GenerateMediaFiles()
@@ -469,44 +458,9 @@ namespace XsdDocumentation.Model
 			}
 		}
 
-		private string GetNamespaceTopicLink(XmlSchemaObject schemaObject)
-		{
-			var targetNamespace = schemaObject.GetSchema().TargetNamespace;
-			return GetNamespaceTopicLink(targetNamespace);
-		}
-
-		private string GetNamespaceTopicLink(string namespaceUri)
-		{
-			var topic = _context.TopicManager.GetNamespaceTopic(namespaceUri);
-			if (topic == null)
-				return namespaceUri ?? "Empty";
-
-			return MarkupHelper.GetHtmlTopicLink(topic);
-		}
-
-		private string GetSchemaTopicLink(XmlSchemaObject obj)
-		{
-			return MarkupHelper.GetHtmlTopicLink(_context.TopicManager.GetTopic(obj.GetSchema()));
-		}
-
 		private static string GetAbsoluteFileName(string topicsFolder, Topic topic)
 		{
 			return Path.Combine(topicsFolder, Path.ChangeExtension(topic.Id, ".aml"));
-		}
-
-		private string GetElementType(XmlSchemaElement element)
-		{
-			return element.ElementSchemaType is XmlSchemaSimpleType
-			       	? String.Empty
-			       	: GetTypeMarkup(element.ElementSchemaType);
-		}
-
-		private string GetTypeMarkup(XmlSchemaType type)
-		{
-			if (type == null || type == XmlSchemaType.GetBuiltInComplexType(XmlTypeCode.Item))
-				return String.Empty;
-
-			return TypeNameMarkupBuilder.Build(_context.TopicManager, type);
 		}
 	}
 }

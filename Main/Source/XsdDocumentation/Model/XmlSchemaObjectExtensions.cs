@@ -21,6 +21,24 @@ namespace XsdDocumentation.Model
 			return null;
 		}
 
+		public  static XmlSchemaObject GetRoot(this XmlSchemaObject obj)
+		{
+			var lastObject = obj;
+			var parent = lastObject.Parent;
+			while (parent != null)
+			{
+				var parentAsSchema = parent as XmlSchema;
+				if (parentAsSchema != null)
+					return lastObject;
+
+				lastObject = parent;
+				parent = parent.Parent;
+			}
+
+			return null;
+		}
+
+
 		public static string GetBaseUri(this XmlSchemaObject obj)
 		{
 			if (obj.SourceUri != null)

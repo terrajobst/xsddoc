@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml.Schema;
 
 using XsdDocumentation.Model;
@@ -22,7 +23,7 @@ namespace XsdDocumentation.Markup
 				XmlSchemaComplexType complexType;
 
 				var topic = context.TopicManager.GetTopic(schemaObject);
-				var summaryMarkup = SummaryMarkupBuilder.BuildForObject(context, schemaObject);
+				var summaryMarkup = GetSummaryMarkup(context, schemaObject);
 
 				if (Casting.TryCast(schemaObject, out schema))
 					AddItem(listItems, ArtItem.Schema, topic, summaryMarkup);
@@ -46,14 +47,14 @@ namespace XsdDocumentation.Markup
 			return listItems;
 		}
 
-		public static List<ListItem> Build(Context context, IEnumerable<string> namespaces)
+		public static List<ListItem> Build(Context context, IEnumerable<string> namespaceUris)
 		{
 			var listItems = new List<ListItem>();
 
-			foreach (var ns in namespaces)
+			foreach (var namspaceUri in namespaceUris)
 			{
-				var topic = context.TopicManager.GetNamespaceTopic(ns);
-				var summaryMarkup = SummaryMarkupBuilder.BuildForNamespace(context, ns);
+				var topic = context.TopicManager.GetNamespaceTopic(namspaceUri);
+				var summaryMarkup = GetSummaryMarkup(context, namspaceUri);
 
 				AddItem(listItems, ArtItem.Namespace, topic, summaryMarkup);
 			}
@@ -62,13 +63,38 @@ namespace XsdDocumentation.Markup
 			return listItems;
 		}
 
+		private static string GetSummaryMarkup(Context context, XmlSchemaObject schemaObject)
+		{
+			using (var stringWriter = new StringWriter())
+			{
+				using (var mamlWriter = new MamlWriter(stringWriter))
+					mamlWriter.WriteSummaryForObject(context, schemaObject);
+
+				return stringWriter.ToString();
+			}
+		}
+
+		private static string GetSummaryMarkup(Context context, string namspaceUri)
+		{
+			using (var stringWriter = new StringWriter())
+			{
+				using (var mamlWriter = new MamlWriter(stringWriter))
+				{
+					var doc = context.DocumentationManager.GetNamespaceDocumentationInfo(namspaceUri);
+					mamlWriter.WriteSummary(doc);
+				}
+
+				return stringWriter.ToString();
+			}
+		}
+
 		private static void AddItem(ICollection<ListItem> items, ArtItem artItem, Topic topic, string summaryMarkup)
 		{
 			var listItem = new ListItem
 			               {
 			               	ArtItem = artItem,
 			               	Topic = topic,
-							SummaryMarkup = summaryMarkup
+			               	SummaryMarkup = summaryMarkup
 			               };
 			items.Add(listItem);
 		}

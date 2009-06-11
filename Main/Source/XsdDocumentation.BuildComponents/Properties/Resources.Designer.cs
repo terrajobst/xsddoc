@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XsdDocumentation.Properties {
+namespace XsdDocumentation.BuildComponents.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace XsdDocumentation.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XsdDocumentation.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XsdDocumentation.BuildComponents.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,27 @@ namespace XsdDocumentation.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///    [{0}, version {1}]
+        ///    XSD Resolve Links Component. {2}
+        ///    http://xsddoc.codeplex.com.
+        /// </summary>
+        internal static string ComponentLogoFormatted {
+            get {
+                return ResourceManager.GetString("ComponentLogoFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not resolve XML entity link &apos;{0}&apos;..
+        /// </summary>
+        internal static string CouldNotResolveXmlEntity {
+            get {
+                return ResourceManager.GetString("CouldNotResolveXmlEntity", resourceCulture);
             }
         }
     }

@@ -17,10 +17,10 @@ namespace XsdDocumentation.Model
 			Visit(obj);
 		}
 
-		protected void Traverse(XmlSchemaObjectCollection fields)
+		public void Traverse(XmlSchemaObjectCollection objects)
 		{
-			foreach (var field in fields)
-				Traverse(field);
+			foreach (var obj in objects)
+				Traverse(obj);
 		}
 
 		#endregion

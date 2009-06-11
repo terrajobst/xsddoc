@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ComponentLogoFormatted" xml:space="preserve">
+    <value>
+    [{0}, version {1}]
+    XSD Resolve Links Component. {2}
+    http://xsddoc.codeplex.com</value>
+  </data>
+  <data name="CouldNotResolveXmlEntity" xml:space="preserve">
+    <value>Could not resolve XML entity link '{0}'.</value>
+  </data>
 </root>

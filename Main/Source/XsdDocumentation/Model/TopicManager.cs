@@ -309,7 +309,7 @@ namespace XsdDocumentation.Model
 				case TopicType.ComplexTypesSection:
 					return "Complex Types";
 				default:
-					throw ExceptionBuilder.UnhandledCaseLabel("topicType");
+					throw ExceptionBuilder.UnhandledCaseLabel(topicType);
 			}
 		}
 
