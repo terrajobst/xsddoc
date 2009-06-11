@@ -19,8 +19,10 @@ namespace XsdDocumentation.BuildComponents
 			: base(assembler, configuration)
 		{
 			var versionInfo = GetVersionInfo();
-			WriteMessage(MessageLevel.Info, string.Format(CultureInfo.CurrentCulture, "\r\n    [{0}, version {1}]\r\n    XSD Resolve Links Component. {2}\r\n    http://xsddoc.codeplex.com", new object[] { versionInfo.ProductName, versionInfo.ProductVersion, versionInfo.LegalCopyright }));
+			var message = string.Format(CultureInfo.CurrentCulture, Resources.ComponentLogoFormatted, versionInfo.ProductName, versionInfo.ProductVersion, versionInfo.LegalCopyright);
 			var fileName = configuration.SelectSingleNode("indexFile/@location").Value;
+
+			WriteMessage(MessageLevel.Info, message);
 			_topicIndex = new TopicIndex();
 			_topicIndex.Load(fileName);
 		}
@@ -48,7 +50,8 @@ namespace XsdDocumentation.BuildComponents
 					var entry = _topicIndex.FindEntry(uri);
 					if (entry == null)
 					{
-						BuildAssembler.MessageHandler(GetType(), MessageLevel.Warn, string.Format(CultureInfo.CurrentCulture, "Could not resolve XML entity link '{0}'.", uri));
+						var message = string.Format(CultureInfo.CurrentCulture, Resources.CouldNotResolveXmlEntity, uri);
+						BuildAssembler.MessageHandler(GetType(), MessageLevel.Warn, message);
 					}
 					else
 					{
