@@ -62,9 +62,7 @@
     <Compile Include="Markup\ListClass.cs" />
     <Compile Include="Markup\MamlWriter.cs" />
     <Compile Include="Markup\ObsoleteMamlWriterExtensions.cs" />
-    <Compile Include="Markup\RelatedSectionMamlWriterExtensions.cs" />
-    <Compile Include="Markup\RemarksMamlWriterExtensions.cs" />
-    <Compile Include="Markup\SummaryMamlWriterExtensions.cs" />
+    <Compile Include="Markup\SectionMamlWriterExtensions.cs" />
     <Compile Include="Model\ArtItem.cs" />
     <Compile Include="Model\AttributeEntries.cs" />
     <Compile Include="Model\Configuration.cs" />
@@ -80,7 +78,7 @@
     <Compile Include="Markup\ConstraintsMamlWriterExtensions.cs" />
     <Compile Include="Markup\ListItem.cs" />
     <Compile Include="Markup\ListItemBuilder.cs" />
-    <Compile Include="Markup\MarkupMamlWriterExtensions.cs" />
+    <Compile Include="Markup\MamlWriterExtensions.cs" />
     <Compile Include="Model\NamespaceContentFinder.cs" />
     <Compile Include="Model\NamespaceRootElementFinder.cs" />
     <Compile Include="Model\Namespaces.cs" />
@@ -93,10 +91,7 @@
     <Compile Include="Model\XmlSchemaSetVisitor.cs" />
     <Compile Include="Markup\AttributeMamlWriterExtensions.cs" />
     <Compile Include="Markup\ChildrenMamlWriterExtensions.cs" />
-    <Compile Include="Markup\ListMamlWriterExtensions.cs" />
-    <Compile Include="Markup\SimpleTypeNameMamlWriter.cs" />
     <Compile Include="Markup\SimpleTypeStructureMamlWriterExtensions.cs" />
-    <Compile Include="Markup\TableMamlWriterExtensions.cs" />
     <Compile Include="Markup\TypeNameMamlWriterExtensions.cs" />
     <Compile Include="Model\AttributeFinder.cs" />
     <Compile Include="Model\ChildEntry.cs" />
@@ -119,7 +114,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Model\SourceCodeManager.cs" />
-    <Compile Include="Markup\SyntaxMamlWriterExtensions.cs" />
     <Compile Include="Model\XmlSchemaSetBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

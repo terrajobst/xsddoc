@@ -34,9 +34,9 @@ namespace XsdDocumentation.Markup
 			}
 		}
 
-		public static void WriteConstraints(this MamlWriter writer, Context context, XmlSchemaElement element)
+		public static void WriteConstraintTable(this MamlWriter writer, Context context, XmlSchemaObjectCollection constraints)
 		{
-			if (element.Constraints.Count == 0)
+			if (constraints.Count == 0)
 				return;
 
 			writer.StartTable();
@@ -65,15 +65,10 @@ namespace XsdDocumentation.Markup
 			writer.EndTableRow();
 			writer.EndTableHeader();
 
-			writer.WriteConstraintRows(context, element);
+			var rowBuilder = new ConstraintRowWriter(writer, context);
+			rowBuilder.Traverse(constraints);
 
 			writer.EndTable();
-		}
-
-		private static void WriteConstraintRows(this MamlWriter writer, Context context, XmlSchemaElement element)
-		{
-			var rowBuilder = new ConstraintRowWriter(writer, context);
-			rowBuilder.Traverse(element);
 		}
 
 		private static void WriteConstraintRow(this MamlWriter writer, Context context, ArtItem artItem, string constrainedType, XmlSchemaIdentityConstraint constraint)
@@ -81,7 +76,7 @@ namespace XsdDocumentation.Markup
 			writer.StartTableRow();
 
 			writer.StartTableRowEntry();
-			writer.WriteMediaInline(artItem.Id);
+			writer.WriteArtItemInline(artItem);
 			writer.EndTableRowEntry();
 
 			writer.StartTableRowEntry();

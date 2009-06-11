@@ -79,7 +79,10 @@ namespace XsdDocumentation.Markup
 			using (var stringWriter = new StringWriter())
 			{
 				using (var mamlWriter = new MamlWriter(stringWriter))
-					mamlWriter.WriteSummaryForNamespace(context, namspaceUri);
+				{
+					var doc = context.DocumentationManager.GetNamespaceDocumentationInfo(namspaceUri);
+					mamlWriter.WriteSummary(doc);
+				}
 
 				return stringWriter.ToString();
 			}

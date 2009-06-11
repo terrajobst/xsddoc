@@ -8,7 +8,125 @@ namespace XsdDocumentation.Markup
 {
 	internal static class AttributeMamlWriterExtensions
 	{
-		public static void WriteAttributes(this MamlWriter writer, Context context, AttributeEntries attributeEntries)
+		#region AttributeTypeNameWriter
+
+		private sealed class AttributeTypeNameWriter : XmlSchemaSetVisitor
+		{
+			private Context _context;
+			private MamlWriter _writer;
+
+			public AttributeTypeNameWriter(MamlWriter writer, Context context)
+			{
+				_writer = writer;
+				_context = context;
+			}
+
+			protected override void Visit(XmlSchemaSimpleType type)
+			{
+				if (type.QualifiedName.IsEmpty)
+					Traverse(type.Content);
+				else
+				{
+					var topic = _context.TopicManager.GetTopic(type);
+					if (topic != null)
+					{
+						_writer.WriteHtmlArtItemWithTopicLink(ArtItem.SimpleType, topic);
+					}
+					else
+					{
+						_writer.WriteHtmlArtItemWithText(ArtItem.SimpleType, type.QualifiedName.Name);
+					}
+				}
+			}
+
+			protected override void Visit(XmlSchemaSimpleTypeList list)
+			{
+				if (list.BaseItemType.QualifiedName.IsEmpty)
+				{
+					_writer.WriteHtmlArtItemWithText(ArtItem.List, "List");
+				}
+				else
+				{
+					var topic = _context.TopicManager.GetTopic(list.BaseItemType);
+					if (topic != null)
+					{
+						_writer.WriteHtmlArtItemWithTopicLink(ArtItem.List, topic);
+					}
+					else
+					{
+						_writer.WriteHtmlArtItemWithText(ArtItem.List, list.BaseItemType.QualifiedName.Name);
+					}
+				}
+			}
+
+			protected override void Visit(XmlSchemaSimpleTypeRestriction restriction)
+			{
+				var typeArtItem = ArtItem.Restriction;
+
+				var baseType = _context.SchemaSetManager.SchemaSet.ResolveType(restriction.BaseType, restriction.BaseTypeName);
+
+				if (baseType != null && baseType.QualifiedName.IsEmpty)
+				{
+					_writer.WriteHtmlArtItemWithText(typeArtItem, "Restriction");
+				}
+				else if (baseType == null)
+				{
+					_writer.WriteHtmlArtItemWithText(typeArtItem, restriction.BaseTypeName.Name);
+				}
+				else
+				{
+					var topic = _context.TopicManager.GetTopic(baseType);
+					if (topic != null)
+					{
+						_writer.WriteHtmlArtItemWithTopicLink(typeArtItem, topic);
+					}
+					else
+					{
+						_writer.WriteHtmlArtItemWithText(typeArtItem, baseType.QualifiedName.Name);
+					}
+				}
+			}
+
+			protected override void Visit(XmlSchemaSimpleTypeUnion union)
+			{
+				foreach (var baseMemberType in union.BaseMemberTypes)
+				{
+					if (baseMemberType.QualifiedName.IsEmpty)
+					{
+						_writer.WriteHtmlArtItemWithText(ArtItem.Union, "Union");
+						return;
+					}
+				}
+
+				_writer.StartHtmlArtItem(ArtItem.Union);
+
+				var isFirst = true;
+				foreach (var baseMemberType in union.BaseMemberTypes)
+				{
+					if (isFirst)
+					{
+						_writer.WriteString(", ");
+						isFirst = false;
+					}
+
+					var topic = _context.TopicManager.GetTopic(baseMemberType);
+					if (topic != null)
+					{
+						_writer.WriteHtmlTopicLink(topic);
+					}
+					else
+					{
+						_writer.WriteString(baseMemberType.QualifiedName.Name);
+					}
+				}
+
+				_writer.EndHtmlArtItem();
+			}
+		}
+
+		#endregion
+
+		public static void WriteAttributeTable(this MamlWriter writer, Context context, AttributeEntries attributeEntries)
 		{
 			if (attributeEntries.Attributes.Count == 0 && attributeEntries.AnyAttribute == null)
 				return;
@@ -68,7 +186,7 @@ namespace XsdDocumentation.Markup
 				writer.StartTableRow();
 
 				writer.StartTableRowEntry();
-				writer.WriteHtmlImageWithText(ArtItem.AnyAttribute.Id, "Any");
+				writer.WriteHtmlArtItemWithText(ArtItem.AnyAttribute, "Any");
 				writer.EndTableRowEntry();
 
 				writer.StartTableRowEntry();
@@ -122,9 +240,9 @@ namespace XsdDocumentation.Markup
 
 			var topic = topicManager.GetTopic(attribute);
 			if (topic != null)
-				writer.WriteHtmlImageWithLink(artItem.Id, topic.Id, topic.LinkTitle);
+				writer.WriteHtmlArtItemWithTopicLink(artItem, topic);
 			else
-				writer.WriteHtmlImageWithText(artItem.Id, attribute.QualifiedName.Name);
+				writer.WriteHtmlArtItemWithText(artItem, attribute.QualifiedName.Name);
 		}
 
 		private static void WriteRequiredText(this MamlWriter writer, XmlSchemaUse use)
@@ -144,7 +262,7 @@ namespace XsdDocumentation.Markup
 
 		private static void WriteType(this MamlWriter writer, Context context, XmlSchemaSimpleType type)
 		{
-			var typeNameWriter = new SimpleTypeNameMamlWriter(writer, context);
+			var typeNameWriter = new AttributeTypeNameWriter(writer, context);
 			typeNameWriter.Traverse(type);
 		}
 	}

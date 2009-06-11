@@ -60,7 +60,7 @@ namespace XsdDocumentation.Markup
 			writer.StartAlert(AlertClass.Note);
 			writer.StartParagraph();
 			writer.WriteString("This XML entity is now obsolete. The non-obsolete alternative is ");
-			writer.WriteLink(topic.LinkIdUri, topic.LinkTitle);
+			writer.WriteTopicLink(topic);
 			writer.EndParagraph();
 			writer.EndAlert();
 		}

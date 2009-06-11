@@ -8,7 +8,7 @@ namespace XsdDocumentation.Markup
 {
 	internal static class ChildrenMamlWriterExtensions
 	{
-		public static void WriteChildren(this MamlWriter writer, Context context, List<ChildEntry> childEntries)
+		public static void WriteChildrenTable(this MamlWriter writer, Context context, List<ChildEntry> childEntries)
 		{
 			if (childEntries == null || childEntries.Count == 0)
 				return;
@@ -34,7 +34,7 @@ namespace XsdDocumentation.Markup
 			writer.EndTableRow();
 			writer.EndTableHeader();
 
-			writer.WriteChildren(context, childEntries, 0);
+			writer.WriteChildrenRows(context, childEntries, 0);
 
 			writer.EndTable();
 		}
@@ -84,7 +84,7 @@ namespace XsdDocumentation.Markup
 			return 0;
 		}
 
-		private static void WriteChildren(this MamlWriter writer, Context context, IEnumerable<ChildEntry> childEntries, int level)
+		private static void WriteChildrenRows(this MamlWriter writer, Context context, IEnumerable<ChildEntry> childEntries, int level)
 		{
 			foreach (var childEntry in childEntries)
 			{
@@ -105,7 +105,7 @@ namespace XsdDocumentation.Markup
 
 				writer.EndTableRow();
 
-				writer.WriteChildren(context, childEntry.Children, level + 1);
+				writer.WriteChildrenRows(context, childEntry.Children, level + 1);
 			}
 		}
 
@@ -120,16 +120,16 @@ namespace XsdDocumentation.Markup
 					writer.WriteElementLink(topicManager, element, isExtension);
 					break;
 				case ChildType.Any:
-					writer.WriteHtmlImageWithText(ArtItem.AnyElement.Id, "Any");
+					writer.WriteHtmlArtItemWithText(ArtItem.AnyElement, "Any");
 					break;
 				case ChildType.All:
-					writer.WriteHtmlImageWithText(ArtItem.All.Id, "All");
+					writer.WriteHtmlArtItemWithText(ArtItem.All, "All");
 					break;
 				case ChildType.Choice:
-					writer.WriteHtmlImageWithText(ArtItem.Choice.Id, "Choice");
+					writer.WriteHtmlArtItemWithText(ArtItem.Choice, "Choice");
 					break;
 				case ChildType.Sequence:
-					writer.WriteHtmlImageWithText(ArtItem.Sequence.Id, "Sequence");
+					writer.WriteHtmlArtItemWithText(ArtItem.Sequence, "Sequence");
 					break;
 				default:
 					throw ExceptionBuilder.UnhandledCaseLabel(entry.ChildType);
@@ -143,9 +143,9 @@ namespace XsdDocumentation.Markup
 							: ArtItem.ElementRef;
 			var topic = topicManager.GetTopic(element);
 			if (topic != null)
-				writer.WriteHtmlImageWithLink(artItem.Id, topic.Id, topic.LinkTitle);
+				writer.WriteHtmlArtItemWithTopicLink(artItem, topic);
 			else
-				writer.WriteHtmlImageWithText(artItem.Id, element.QualifiedName.Name);
+				writer.WriteHtmlArtItemWithText(artItem, element.QualifiedName.Name);
 		}
 
 		private static void WriteOccurrence(this MamlWriter writer, ChildEntry entry)

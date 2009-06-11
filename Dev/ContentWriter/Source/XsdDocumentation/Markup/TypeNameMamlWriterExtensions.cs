@@ -9,6 +9,9 @@ namespace XsdDocumentation.Markup
 	{
 		public static void WriteTypeName(this MamlWriter writer, TopicManager topicManager, XmlSchemaType schemaType)
 		{
+			if (schemaType == null || schemaType == XmlSchemaType.GetBuiltInComplexType(XmlTypeCode.Item))
+				return;
+
 			XmlSchemaSimpleType simpleType;
 			XmlSchemaComplexType complexType;
 
@@ -51,11 +54,11 @@ namespace XsdDocumentation.Markup
 			var topic = topicManager.GetTopic(type);
 			if (topic != null)
 			{
-				writer.WriteHtmlImageWithLink(artItem.Id, topic.Id, topic.LinkTitle);
+				writer.WriteHtmlArtItemWithTopicLink(artItem, topic);
 			}
 			else
 			{
-				writer.WriteHtmlImageWithText(artItem.Id, type.QualifiedName.Name);
+				writer.WriteHtmlArtItemWithText(artItem, type.QualifiedName.Name);
 			}
 		}
 	}

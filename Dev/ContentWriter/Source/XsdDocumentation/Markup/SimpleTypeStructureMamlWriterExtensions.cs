@@ -112,14 +112,14 @@ namespace XsdDocumentation.Markup
 					writer.WriteTypeName(topicManager, (XmlSchemaType)node.Node);
 					break;
 				case SimpleTypeStructureNodeType.List:
-					writer.StartHtmlImage(ArtItem.List.Id);
+					writer.StartHtmlArtItem(ArtItem.List);
 					writer.WriteTypeNamesMarkup(topicManager, node.Children);
-					writer.EndHtmlImage();
+					writer.EndHtmlArtItem();
 					break;
 				case SimpleTypeStructureNodeType.Union:
-					writer.StartHtmlImage(ArtItem.Union.Id);
+					writer.StartHtmlArtItem(ArtItem.Union);
 					writer.WriteTypeNamesMarkup(topicManager, node.Children);
-					writer.EndHtmlImage();
+					writer.EndHtmlArtItem();
 					break;
 				default:
 					return; // TODO: Handle the case for extension and restrictions.
@@ -155,7 +155,7 @@ namespace XsdDocumentation.Markup
 				var topic = topicManager.GetTopic(simpleType);
 					
 				if (topic != null)
-					writer.WriteHtmlLink(topic.Id, topic.LinkTitle);
+					writer.WriteHtmlTopicLink(topic);
 				else
 					writer.WriteString(simpleType.QualifiedName.Name);
 			}
@@ -219,12 +219,12 @@ namespace XsdDocumentation.Markup
 		{
 			writer.StartTableRow();
 			writer.WriteHtmlIndent(level);
-			writer.StartHtmlImage(constructionArtItem.Id);
+			writer.StartHtmlArtItem(constructionArtItem);
 			if (ContainsNamedTypes(node.Children))
 				writer.WriteTypeNamesMarkup(topicManager, node.Children);
 			else
 				writer.WriteString(constructName);
-			writer.EndHtmlImage();
+			writer.EndHtmlArtItem();
 			writer.StartTableRowEntry();
 			writer.EndTableRowEntry();
 		}
@@ -246,7 +246,7 @@ namespace XsdDocumentation.Markup
 
 			writer.StartTableRow();
 			writer.WriteHtmlIndent(level);
-			writer.WriteHtmlImageWithText(ArtItem.Facet.Id, facetType);
+			writer.WriteHtmlArtItemWithText(ArtItem.Facet, facetType);
 			writer.EndTableRowEntry();
 
 			writer.StartTableRowEntry();

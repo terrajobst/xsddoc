@@ -10,7 +10,6 @@ namespace XsdDocumentation.Markup
 {
 	internal sealed class MamlWriter : IDisposable
 	{
-		private const string NonBlockingSpaceEntityName = "&#160;";
 		private XmlWriter _xmlWriter;
 
 		public MamlWriter(TextWriter textWriter)
@@ -239,7 +238,7 @@ namespace XsdDocumentation.Markup
 			_xmlWriter.WriteEndElement();
 		}
 
-		public void WriteMediaInline(string mediaLink)
+		public void WriteMediaLinkInline(string mediaLink)
 		{
 			_xmlWriter.WriteStartElement("mediaLinkInline", Namespaces.Maml);
 			_xmlWriter.WriteStartElement("image", Namespaces.Maml);
@@ -293,53 +292,41 @@ namespace XsdDocumentation.Markup
 
 		#endregion
 
-		#region HTML Legacy
+		#region XML
 
-		public void StartHtmlImage(string mediaLink)
+		public void WriteStartElement(string localName, string ns)
 		{
-			_xmlWriter.WriteStartElement("markup", Namespaces.Maml);
-			_xmlWriter.WriteStartElement("nobr", string.Empty);
-			_xmlWriter.WriteStartElement("artLink");
-			_xmlWriter.WriteAttributeString("target", mediaLink);
-			_xmlWriter.WriteEndElement();
-			_xmlWriter.WriteRaw(NonBlockingSpaceEntityName);
+			_xmlWriter.WriteStartElement(localName, ns);
 		}
 
-		public void EndHtmlImage()
+		public void WriteStartElement(string prefix, string localName, string ns)
 		{
-			_xmlWriter.WriteEndElement(); // nobr
-			_xmlWriter.WriteEndElement(); // markup
+			_xmlWriter.WriteStartElement(prefix, localName, ns);
 		}
 
-		public void WriteHtmlLink(string link, string linkText)
+		public void WriteStartElement(string localName)
 		{
-			var url = string.Format(CultureInfo.InvariantCulture, "/html/{0}.htm", link);
-			_xmlWriter.WriteStartElement("a", Namespaces.Maml);
-			_xmlWriter.WriteAttributeString("href", url);
-			_xmlWriter.WriteString(linkText);
+			_xmlWriter.WriteStartElement(localName);
+		}
+
+		public void WriteEndElement()
+		{
 			_xmlWriter.WriteEndElement();
 		}
 
-		public void WriteHtmlImageWithText(string mediaLink, string text)
+		public void WriteAttributeString(string localName, string ns, string value)
 		{
-			StartHtmlImage(mediaLink);
-			WriteString(text);
-			EndHtmlImage();
+			_xmlWriter.WriteAttributeString(localName, ns, value);
 		}
 
-		public void WriteHtmlImageWithLink(string mediaLink, string link, string linkText)
+		public void WriteAttributeString(string localName, string value)
 		{
-			StartHtmlImage(mediaLink);
-			WriteHtmlLink(link, linkText);
-			EndHtmlImage();
+			_xmlWriter.WriteAttributeString(localName, value);
 		}
 
-		public void WriteHtmlIndent(int level)
+		public void WriteAttributeString(string prefix, string localName, string ns, string value)
 		{
-			_xmlWriter.WriteStartElement("markup", Namespaces.Maml);
-			for (var i = 0; i < level * 6; i++)
-				_xmlWriter.WriteRaw(NonBlockingSpaceEntityName);
-			_xmlWriter.WriteEndElement();
+			_xmlWriter.WriteAttributeString(prefix, localName, ns, value);
 		}
 
 		#endregion
