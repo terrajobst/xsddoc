@@ -15,7 +15,10 @@ namespace XsdDocumentation.PlugIn
 		private XsdPlugInConfiguration(XsdPlugInConfiguration other)
 		{
 			BasePathProvider = other.BasePathProvider;
-			RootDocumentation = other.RootDocumentation;
+			DocumentRootSchemas = other.DocumentRootSchemas;
+			DocumentRootElements = other.DocumentRootElements;
+			DocumentSchemas = other.DocumentSchemas;
+			DocumentSyntax = other.DocumentSyntax;
 			SchemaSetContainer = other.SchemaSetContainer;
 			SchemaSetTitle = other.SchemaSetTitle;
 			NamespaceContainer = other.NamespaceContainer;
@@ -30,7 +33,10 @@ namespace XsdDocumentation.PlugIn
 		private XsdPlugInConfiguration(IBasePathProvider basePathProvider, XPathNavigator navigator)
 		{
 			BasePathProvider = basePathProvider;
-			RootDocumentation = GetBoolean(navigator, "configuration/roots/@document", true);
+			DocumentRootSchemas = GetBoolean(navigator, "configuration/document/@rootSchemas", true);
+			DocumentRootElements = GetBoolean(navigator, "configuration/document/@rootElements", true);
+			DocumentSchemas = GetBoolean(navigator, "configuration/document/@schemas", true);
+			DocumentSyntax = GetBoolean(navigator, "configuration/document/@syntax", true);
 			SchemaSetContainer = GetBoolean(navigator, "configuration/schemaSet/@container", false);
 			SchemaSetTitle = GetString(navigator, "configuration/schemaSet/@title", string.Empty);
 			NamespaceContainer = GetBoolean(navigator, "configuration/namespace/@container", true);
@@ -46,9 +52,24 @@ namespace XsdDocumentation.PlugIn
 		public IBasePathProvider BasePathProvider { get; private set; }
 
 		[LocalizableCategory("ConfigCategoryAppearance")]
-		[LocalizableDescription("ConfigDescriptionRootDocumentation")]
+		[LocalizableDescription("ConfigDescriptionDocumentRootSchemas")]
 		[DefaultValue(true)]
-		public bool RootDocumentation { get; set; }
+		public bool DocumentRootSchemas { get; set; }
+
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionDocumentRootElements")]
+		[DefaultValue(true)]
+		public bool DocumentRootElements { get; set; }
+
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionDocumentSchemas")]
+		[DefaultValue(true)]
+		public bool DocumentSchemas { get; set; }
+
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionDocumentSyntax")]
+		[DefaultValue(true)]
+		public bool DocumentSyntax { get; set; }
 
 		[LocalizableCategory("ConfigCategoryAppearance")]
 		[LocalizableDescription("ConfigDescriptionSchemaSetContainer")]
@@ -183,9 +204,12 @@ namespace XsdDocumentation.PlugIn
 			var configurationNode = doc.CreateElement("configuration");
 			doc.AppendChild(configurationNode);
 
-			var rootsNode = doc.CreateElement("roots");
-			rootsNode.SetAttribute("document", XmlConvert.ToString(configuration.RootDocumentation));
-			configurationNode.AppendChild(rootsNode);
+			var documentNode = doc.CreateElement("document");
+			documentNode.SetAttribute("rootSchemas", XmlConvert.ToString(configuration.DocumentRootSchemas));
+			documentNode.SetAttribute("rootElements", XmlConvert.ToString(configuration.DocumentRootElements));
+			documentNode.SetAttribute("schemas", XmlConvert.ToString(configuration.DocumentSchemas));
+			documentNode.SetAttribute("syntax", XmlConvert.ToString(configuration.DocumentSyntax));
+			configurationNode.AppendChild(documentNode);
 
 			var schemaSetNode = doc.CreateElement("schemaSet");
 			schemaSetNode.SetAttribute("container", XmlConvert.ToString(configuration.SchemaSetContainer));

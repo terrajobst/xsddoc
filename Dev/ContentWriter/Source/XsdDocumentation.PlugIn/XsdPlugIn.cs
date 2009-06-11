@@ -155,7 +155,10 @@ namespace XsdDocumentation.PlugIn
 			var configuration = new Configuration
 			                    {
 			                    	OutputFolderPath = _buildProcess.WorkingFolder,
-			                    	RootDocumentation = _configuration.RootDocumentation,
+			                    	DocumentRootSchemas = _configuration.DocumentRootSchemas,
+			                    	DocumentRootElements = _configuration.DocumentRootElements,
+			                    	DocumentSchemas = _configuration.DocumentSchemas,
+			                    	DocumentSyntax = _configuration.DocumentSyntax,
 			                    	SchemaSetContainer = _configuration.SchemaSetContainer,
 			                    	SchemaSetTitle = _configuration.SchemaSetTitle,
 			                    	NamespaceContainer = _configuration.NamespaceContainer,

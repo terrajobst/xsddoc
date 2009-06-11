@@ -101,9 +101,6 @@ namespace XsdDocumentation.Model
 
 		public IEnumerable<XmlSchemaObject> GetNamespaceRootSchemas(string targetNamespace)
 		{
-			if (!Context.Configuration.RootDocumentation)
-				return _emptyObjectList;
-
 			List<XmlSchemaObject> rootSchemas;
 			if (!_namespaceRootSchemas.TryGetValue(targetNamespace ?? String.Empty, out rootSchemas))
 				return _emptyObjectList;
@@ -113,9 +110,6 @@ namespace XsdDocumentation.Model
 
 		public IEnumerable<XmlSchemaObject> GetNamespaceRootElements(string targetNamespace)
 		{
-			if (!Context.Configuration.RootDocumentation)
-				return _emptyObjectList;
-
 			List<XmlSchemaObject> rootElements;
 			if (!_namespaceRootElements.TryGetValue(targetNamespace ?? String.Empty, out rootElements))
 				return _emptyObjectList;

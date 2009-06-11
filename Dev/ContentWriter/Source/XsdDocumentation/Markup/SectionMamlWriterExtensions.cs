@@ -192,6 +192,9 @@ namespace XsdDocumentation.Markup
 
 		public static void WriteSyntaxSection(this MamlWriter writer, Context context, XmlSchemaObject obj)
 		{
+			if (!context.Configuration.DocumentSyntax)
+				return;
+
 			var sourceCodeAbridged = context.SourceCodeManager.GetSourceCodeAbridged(obj);
 
 			writer.StartSection("Syntax", "syntax");
@@ -221,17 +224,20 @@ namespace XsdDocumentation.Markup
 
 		public static void WriteRootSchemasSection(this MamlWriter writer, Context context, IEnumerable<XmlSchemaObject> rootSchemas)
 		{
-			writer.WriteJumpTableSection(context, rootSchemas, "Root Schemas", "rootSchemas");
+			if (context.Configuration.DocumentRootSchemas && context.Configuration.DocumentSchemas)
+				writer.WriteJumpTableSection(context, rootSchemas, "Root Schemas", "rootSchemas");
 		}
 
 		public static void WriteRootElementsSection(this MamlWriter writer, Context context, IEnumerable<XmlSchemaObject> rootElements)
 		{
-			writer.WriteJumpTableSection(context, rootElements, "Root Elements", "rootElements");
+			if (context.Configuration.DocumentRootElements)
+				writer.WriteJumpTableSection(context, rootElements, "Root Elements", "rootElements");
 		}
 
 		public static void WriteSchemasSection(this MamlWriter writer, Context context, IEnumerable<XmlSchemaObject> schemas)
 		{
-			writer.WriteJumpTableSection(context, schemas, "Schemas", "schemas");
+			if (context.Configuration.DocumentSchemas)
+				writer.WriteJumpTableSection(context, schemas, "Schemas", "schemas");
 		}
 
 		public static void WriteElementsSection(this MamlWriter writer, Context context, IEnumerable<XmlSchemaObject> elements)
