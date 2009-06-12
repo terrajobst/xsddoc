@@ -2,8 +2,6 @@ Todos
 -----
 
 - Disable genration of type usage generation as it blows up the documentation.
-- Update documentation regarding the new options (document root elements,
-  document root schemas, document schemas, document syntax, document constraints).
 - Package the sample source together with their resulting CHM file
   into a common ZIP file.
 - Document the XSLT parameters.

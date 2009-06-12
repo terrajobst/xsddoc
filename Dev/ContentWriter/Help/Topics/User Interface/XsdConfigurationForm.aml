@@ -29,7 +29,7 @@
 					<definedTerm>SchemaDependencyFilePaths</definedTerm>
 					<definition>
 						<para>
-							This is a list of XML schema files that are needed by the 
+							This is a list of XML schema files that are needed by the
 							XML schema set but should not be documented.
 						</para>
 					</definition>
@@ -107,14 +107,47 @@
 							</para>
 						</alert>
 					</definition>
-					<definedTerm>RootDocumentation</definedTerm>
+					<definedTerm>DocumentConstraints</definedTerm>
 					<definition>
 						<para>
-							This property specifies whether you want the root schemas and root elements to be documented.
-							A <newTerm>root schema</newTerm> is a schema that is not referenced by any other schema.
-							A <newTerm>root element</newTerm> is an element that is not referenced by an other element
-							except itself. Documenting roots can be useful if you have a large schema set because it
-							documents which schema files should be referenced and what are the possible document elements.
+							If <codeInline>true</codeInline>, the element constraints <codeInline>xs:unique</codeInline>,
+							<codeInline>xs:key</codeInline>, and <codeInline>xs:keyref</codeInline> are documented.</para>
+					</definition>
+					<definedTerm>DocumentRootElements</definedTerm>
+					<definition>
+						<para>
+							If <codeInline>true</codeInline>, the root elements get their own entry in the table of contents. A
+							<newTerm>root element</newTerm> is an element that is not referenced by an other element except itself.
+							Documenting roots elements can be useful if you have a large schema set because it documents what are
+							the possible document elements.
+						</para>
+					</definition>
+					<definedTerm>DocumentRootSchemas</definedTerm>
+					<definition>
+						<para>
+							If <codeInline>true</codeInline>, the root schemas get their own entry in the table of contents. A
+							<newTerm>root schema</newTerm> is a schema that is not referenced by any other schema. Documenting
+							schemas can be useful if you have a large schema set because it documents which schema files should
+							be referenced.
+						</para>
+						<alert class="note">
+							<para>
+								Please note that <ui>DocumentSchemas</ui> must be set to <codeInline>true</codeInline> for this setting to
+								be effective.
+							</para>
+						</alert>
+					</definition>
+					<definedTerm>DocumentSchemas</definedTerm>
+					<definition>
+						<para>
+							If <codeInline>true</codeInline>, the schemas get their own entry in the table of contents.
+						</para>
+					</definition>
+					<definedTerm>DocumentSyntax</definedTerm>
+					<definition>
+						<para>
+							If <codeInline>true</codeInline>, every element, attribute, group, attribute group, complex type, and simple
+							type topic contains a section showing their XSD declaration.
 						</para>
 					</definition>
 					<definedTerm>SortOrder</definedTerm>
