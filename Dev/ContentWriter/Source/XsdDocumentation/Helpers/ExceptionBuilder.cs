@@ -1,5 +1,8 @@
 using System;
+using System.Globalization;
 using System.Xml.Schema;
+
+using XsdDocumentation.Properties;
 
 namespace XsdDocumentation
 {
@@ -7,12 +10,14 @@ namespace XsdDocumentation
 	{
 		public static Exception UnhandledCaseLabel(object value)
 		{
-			return new NotImplementedException(string.Format("Unhandled case label '{0}'", value));
+			var message = string.Format(CultureInfo.CurrentCulture, Resources.ExceptionBuilderUnhandledCaseLabel, value);
+			return new NotImplementedException(message);
 		}
 
 		public static Exception UnexpectedSchemaObjectType(XmlSchemaObject schemaObject)
 		{
-			return new Exception(string.Format("Unexpected schema object type '{0}'.", schemaObject.GetType()));
+			var message = string.Format(CultureInfo.CurrentCulture, Resources.ExceptionBuilderUnexpectedSchemaObjectType, schemaObject.GetType());
+			return new NotImplementedException(message);
 		}
 	}
 }

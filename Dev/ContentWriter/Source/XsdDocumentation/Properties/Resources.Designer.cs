@@ -59,5 +59,23 @@ namespace XsdDocumentation.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected schema object type &apos;{0}&apos;..
+        /// </summary>
+        internal static string ExceptionBuilderUnexpectedSchemaObjectType {
+            get {
+                return ResourceManager.GetString("ExceptionBuilderUnexpectedSchemaObjectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unhandled case label &apos;{0}&apos;.
+        /// </summary>
+        internal static string ExceptionBuilderUnhandledCaseLabel {
+            get {
+                return ResourceManager.GetString("ExceptionBuilderUnhandledCaseLabel", resourceCulture);
+            }
+        }
     }
 }
