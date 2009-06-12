@@ -132,6 +132,9 @@
   <data name="ConfigDescriptionDocFilePaths" xml:space="preserve">
     <value>Specifies additional documentation files to be used.</value>
   </data>
+  <data name="ConfigDescriptionDocumentConstraints" xml:space="preserve">
+    <value>If true, the element constraints xs:unique, xs:key, and xs:keyref are documented.</value>
+  </data>
   <data name="ConfigDescriptionDocumentRootElements" xml:space="preserve">
     <value>If true, the root elements get their own entry in the table of contents.</value>
   </data>

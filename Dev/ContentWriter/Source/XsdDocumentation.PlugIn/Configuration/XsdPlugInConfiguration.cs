@@ -17,6 +17,7 @@ namespace XsdDocumentation.PlugIn
 			BasePathProvider = other.BasePathProvider;
 			DocumentRootSchemas = other.DocumentRootSchemas;
 			DocumentRootElements = other.DocumentRootElements;
+			DocumentConstraints = other.DocumentConstraints;
 			DocumentSchemas = other.DocumentSchemas;
 			DocumentSyntax = other.DocumentSyntax;
 			SchemaSetContainer = other.SchemaSetContainer;
@@ -35,6 +36,7 @@ namespace XsdDocumentation.PlugIn
 			BasePathProvider = basePathProvider;
 			DocumentRootSchemas = GetBoolean(navigator, "configuration/document/@rootSchemas", true);
 			DocumentRootElements = GetBoolean(navigator, "configuration/document/@rootElements", true);
+			DocumentConstraints = GetBoolean(navigator, "configuration/document/@constraints", true);
 			DocumentSchemas = GetBoolean(navigator, "configuration/document/@schemas", true);
 			DocumentSyntax = GetBoolean(navigator, "configuration/document/@syntax", true);
 			SchemaSetContainer = GetBoolean(navigator, "configuration/schemaSet/@container", false);
@@ -60,6 +62,11 @@ namespace XsdDocumentation.PlugIn
 		[LocalizableDescription("ConfigDescriptionDocumentRootElements")]
 		[DefaultValue(true)]
 		public bool DocumentRootElements { get; set; }
+
+		[LocalizableCategory("ConfigCategoryAppearance")]
+		[LocalizableDescription("ConfigDescriptionDocumentConstraints")]
+		[DefaultValue(true)]
+		public bool DocumentConstraints { get; set; }
 
 		[LocalizableCategory("ConfigCategoryAppearance")]
 		[LocalizableDescription("ConfigDescriptionDocumentSchemas")]
@@ -207,6 +214,7 @@ namespace XsdDocumentation.PlugIn
 			var documentNode = doc.CreateElement("document");
 			documentNode.SetAttribute("rootSchemas", XmlConvert.ToString(configuration.DocumentRootSchemas));
 			documentNode.SetAttribute("rootElements", XmlConvert.ToString(configuration.DocumentRootElements));
+			documentNode.SetAttribute("constraints", XmlConvert.ToString(configuration.DocumentConstraints));
 			documentNode.SetAttribute("schemas", XmlConvert.ToString(configuration.DocumentSchemas));
 			documentNode.SetAttribute("syntax", XmlConvert.ToString(configuration.DocumentSyntax));
 			configurationNode.AppendChild(documentNode);

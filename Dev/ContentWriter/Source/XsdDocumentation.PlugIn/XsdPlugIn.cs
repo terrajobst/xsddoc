@@ -157,6 +157,7 @@ namespace XsdDocumentation.PlugIn
 			                    	OutputFolderPath = _buildProcess.WorkingFolder,
 			                    	DocumentRootSchemas = _configuration.DocumentRootSchemas,
 			                    	DocumentRootElements = _configuration.DocumentRootElements,
+			                    	DocumentConstraints = _configuration.DocumentConstraints,
 			                    	DocumentSchemas = _configuration.DocumentSchemas,
 			                    	DocumentSyntax = _configuration.DocumentSyntax,
 			                    	SchemaSetContainer = _configuration.SchemaSetContainer,

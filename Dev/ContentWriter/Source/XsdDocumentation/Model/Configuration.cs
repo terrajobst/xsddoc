@@ -15,6 +15,7 @@ namespace XsdDocumentation.Model
 		public string OutputFolderPath { get; set; }
 		public bool DocumentRootSchemas { get; set; }
 		public bool DocumentRootElements { get; set; }
+		public bool DocumentConstraints { get; set; }
 		public bool DocumentSchemas { get; set; }
 		public bool DocumentSyntax { get; set; }
 		public bool SchemaSetContainer { get; set; }

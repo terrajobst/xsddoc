@@ -137,6 +137,9 @@ namespace XsdDocumentation.Markup
 
 		public static void WriteConstraintsSection(this MamlWriter writer, Context context, XmlSchemaObjectCollection constraints)
 		{
+			if (!context.Configuration.DocumentConstraints)
+				return;
+
 			writer.StartSection("Constraints", "constraints");
 			writer.WriteConstraintTable(context, constraints);
 			writer.EndSection();

@@ -2,7 +2,7 @@ Todos
 -----
 
 - Update documentation regarding the new options (document root elements,
-  document root schemas, document schemas, document syntax).
+  document root schemas, document schemas, document syntax, document constraints).
 - Externalize strings in exception builder
 - Check if we can change the generation of the tables so that all values
   in entry tags are containted in paragraphs.

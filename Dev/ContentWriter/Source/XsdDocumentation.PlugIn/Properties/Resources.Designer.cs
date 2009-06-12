@@ -106,6 +106,15 @@ namespace XsdDocumentation.PlugIn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If true, the element constraints xs:unique, xs:key, and xs:keyref are documented..
+        /// </summary>
+        internal static string ConfigDescriptionDocumentConstraints {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionDocumentConstraints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If true, the root elements get their own entry in the table of contents..
         /// </summary>
         internal static string ConfigDescriptionDocumentRootElements {
