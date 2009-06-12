@@ -1,6 +1,7 @@
 Todos
 -----
 
+- Disable genration of type usage generation as it blows up the documentation.
 - Update documentation regarding the new options (document root elements,
   document root schemas, document schemas, document syntax, document constraints).
 - Check if we can change the generation of the tables so that all values
