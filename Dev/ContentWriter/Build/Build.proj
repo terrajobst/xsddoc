@@ -114,6 +114,7 @@
 	<!-- Generate Samples -->
 
 	<Target Name="GenerateSamples">
+		<RemoveDir Directories="$(GeneratedSamples)" />
 		<ItemGroup>
 			<Sample Include="$(SamplesDir)**\*.shfbproj" />
 		</ItemGroup>
