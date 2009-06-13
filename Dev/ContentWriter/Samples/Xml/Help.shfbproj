@@ -18,35 +18,29 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>..\..\Output\Samples\Xml\</OutputPath>
+    <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>Xml</HtmlHelpName>
     <HelpTitle>XML Sample</HelpTitle>
-    <CopyrightHref>
-    </CopyrightHref>
+    <CopyrightHref>http://xsddoc.codeplex.com</CopyrightHref>
     <RootNamespaceTitle>
     </RootNamespaceTitle>
     <PlugInConfigurations>
       <PlugInConfig id="XML Schema Documenter" enabled="True">
         <configuration>
-          <roots document="true" />
+          <document rootSchemas="true" rootElements="true" constraints="true" schemas="true" syntax="true" />
           <schemaSet container="true" title="XML Reference" />
+          <namespace container="true" />
           <sortOrder>1</sortOrder>
+          <includeLinkUriInKeywordK>false</includeLinkUriInKeywordK>
           <annotationTransformFile path="" />
           <schemaFiles>
-            <schemaFile path="xhtml.xsd" />
-            <schemaFile path="xlink.xsd" />
-            <schemaFile path="xml.xsd" />
-            <schemaFile path="xslt.xsd" />
-            <schemaFile path="xsdschema.xsd" />
+            <schemaFile path="Schemas\*.xsd" />
           </schemaFiles>
           <dependencyFiles />
           <docFiles />
         </configuration>
       </PlugInConfig>
-      <PlugInConfig id="Additional Content Only" enabled="True">
-        <configuration />
-      </PlugInConfig>
-    </PlugInConfigurations>
+<PlugInConfig id="Additional Content Only" enabled="True"><configuration /></PlugInConfig></PlugInConfigurations>
     <DocumentationSources>
     </DocumentationSources>
     <BuildLogFile>
@@ -59,8 +53,7 @@
     </SandcastlePath>
     <WorkingPath>
     </WorkingPath>
-    <CopyrightText>
-    </CopyrightText>
+    <CopyrightText>Produced with XML Schema Docmenter {%2540HelpFileVersion}</CopyrightText>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
     <FeedbackEMailLinkText>
