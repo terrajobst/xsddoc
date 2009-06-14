@@ -117,10 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExceptionBuilderCannotReadSchemaFile" xml:space="preserve">
+    <value>There was an error reading the schema file '{0}'.</value>
+  </data>
+  <data name="ExceptionBuilderCannotReadTransform" xml:space="preserve">
+    <value>There was an error reading the inline documentation XSLT file '{0}'.</value>
+  </data>
+  <data name="ExceptionBuilderErrorBuildingSchemaSet" xml:space="preserve">
+    <value>There was an error constructing the schema set.</value>
+  </data>
+  <data name="ExceptionBuilderErrorReadingExternalDocumentation" xml:space="preserve">
+    <value>There was an error reading the external documentation file '{0}'.</value>
+  </data>
+  <data name="ExceptionBuilderErrorTransformingInlineDocumentation" xml:space="preserve">
+    <value>There was an error transforming the inline documentation contained in the XML schema file '{0}'.</value>
+  </data>
   <data name="ExceptionBuilderUnexpectedSchemaObjectType" xml:space="preserve">
     <value>Unexpected schema object type '{0}'.</value>
   </data>
   <data name="ExceptionBuilderUnhandledCaseLabel" xml:space="preserve">
     <value>Unhandled case label '{0}'</value>
+  </data>
+  <data name="ProblemReporterAttributeParentAttributGroupOffersNoExtension" xml:space="preserve">
+    <value>The attribute group '{0}' cannot be extended with attribute '{1}' as '{0}' does not contain an xs:anyAttribute element.</value>
+  </data>
+  <data name="ProblemReporterAttributeParentComplexTypeOffersNoExtension" xml:space="preserve">
+    <value>The complex type '{0}' cannot be extended with attribute '{1}' as '{0}' does not contain an xs:anyAttribute element.</value>
+  </data>
+  <data name="ProblemReporterAttributeParentElementOffersNoExtension" xml:space="preserve">
+    <value>The element '{0}' cannot be extended with attribute '{1}' as '{0}' does not contain an xs:anyAttribute element.</value>
+  </data>
+  <data name="ProblemReporterElementParentComplexTypeOffersNoExtension" xml:space="preserve">
+    <value>The complex type '{0}' cannot be extended with element '{1}' as '{0}' does not contain an xs:any element.</value>
+  </data>
+  <data name="ProblemReporterElementParentElementOffersNoExtension" xml:space="preserve">
+    <value>The element '{0}' cannot be extended with element '{1}' as '{0}' does not contain an xs:any element.</value>
+  </data>
+  <data name="ProblemReporterElementParentGroupOffersNoExtension" xml:space="preserve">
+    <value>The group '{0}' cannot be extended with element '{1}' as '{0}' does not contain an xs:any element.</value>
+  </data>
+  <data name="ProblemReporterInvalidExtensionType" xml:space="preserve">
+    <value>The '{0}' entity cannot be used as an extension. The only valid extension types are 'Element' and 'Attribute'.</value>
+  </data>
+  <data name="ProblemReporterInvalidNamespaceUriInSchemaSet" xml:space="preserve">
+    <value>The external doc file '{0}' contains a member URI with a value of '##Namespace' although the doc file was marked as documenting the schema set.</value>
+  </data>
+  <data name="ProblemReporterInvalidObsoleteUri" xml:space="preserve">
+    <value>The URI '{0}' is used to indicate a preferred alternative over an obsolete entity but does not refer to a valid XML entity.</value>
+  </data>
+  <data name="ProblemReporterInvalidParentForExtension" xml:space="preserve">
+    <value>The '{0}' entity type cannot be used as the parent for an element extension. The only valid parent types are 'Element', 'Group', and 'ComplexType'.</value>
+  </data>
+  <data name="ProblemReporterInvalidParentForExtension1" xml:space="preserve">
+    <value>The '{0}' entity type cannot be used as the parent for an attribute extension. The only valid parent types are 'Element', 'AttributeGroup', and 'ComplexType'.</value>
+  </data>
+  <data name="ProblemReporterInvalidParentUri" xml:space="preserve">
+    <value>The URI '{0}' is used to indicate an extension parent but does not refer to a valid XML entity.</value>
   </data>
 </root>

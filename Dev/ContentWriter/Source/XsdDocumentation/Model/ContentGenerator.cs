@@ -18,9 +18,9 @@ namespace XsdDocumentation.Model
 		private List<string> _topicFiles = new List<string>();
 		private List<MediaItem> _mediaItems = new List<MediaItem>();
 
-		public ContentGenerator(Configuration configuration)
+		public ContentGenerator(IMessageReporter messageReporter, Configuration configuration)
 		{
-			_context = new Context(configuration);
+			_context = new Context(messageReporter, configuration);
 		}
 
 		public string ContentFile

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="093665fc-bf29-4f8e-8df1-ed72f742e192" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+								 xmlns:xlink="http://www.w3.org/1999/xlink"
+								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
+		<introduction>
+			<para>
+				The URI '<placeholder>MemberUri</placeholder>' is used to indicate an extension parent
+				but does not refer to a valid XML entity.
+			</para>
+		</introduction>
+		<section address="cause">
+			<title>Cause</title>
+			<content>
+				<para>
+					The error is caused if the <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+					documentation element is used to indicate that an XML entity extends another XML entity but
+					that the URI indicating the extension target could not be resolved to a valid XML entity.
+				</para>
+				<para>
+					For example, in the following schema the element <codeInline>extension</codeInline> declares that it extends
+					the <codeInline>extensionParent</codeInline> element. However, it uses an incorrectly formatted member URI:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.org/XSD0003"
+		   xmlns="http://schemas.example.org/XSD0003"
+		   xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
+		   elementFormDefault="qualified"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	&lt;xs:element name="extensionParent">
+		&lt;xs:complexType>
+			&lt;xs:sequence>
+				&lt;xs:element ref="extensionParent" />
+				&lt;xs:any namespace="##other" processContents="strict" />
+			&lt;/xs:sequence>
+		&lt;/xs:complexType>
+	&lt;/xs:element>
+	&lt;xs:element name="extension">
+		&lt;xs:annotation>
+			&lt;xs:appinfo>
+				&lt;xsd:schemaDoc>
+					&lt;xsd:parent uri="extensionParent"/>
+				&lt;/xsd:schemaDoc>
+			&lt;/xs:appinfo>
+		&lt;/xs:annotation>
+	&lt;/xs:element>
+&lt;/xs:schema></code>
+			</content>
+		</section>
+		<section>
+			<title>Solution</title>
+			<content>
+				<para>
+					The solution is to use a correctly formatted member URI:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.org/XSD0003"
+		   xmlns="http://schemas.example.org/XSD0003"
+		   xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
+		   elementFormDefault="qualified"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	&lt;xs:element name="extensionParent">
+		&lt;xs:complexType>
+			&lt;xs:sequence>
+				&lt;xs:element ref="extensionParent" />
+				&lt;xs:any namespace="##other" processContents="strict" />
+			&lt;/xs:sequence>
+		&lt;/xs:complexType>
+	&lt;/xs:element>
+	&lt;xs:element name="extension">
+		&lt;xs:annotation>
+			&lt;xs:appinfo>
+				&lt;xsd:schemaDoc>
+					&lt;xsd:parent uri="http://schemas.example.org/XSD0003#E/extensionParent"/>
+				&lt;/xsd:schemaDoc>
+			&lt;/xs:appinfo>
+		&lt;/xs:annotation>
+	&lt;/xs:element>
+&lt;/xs:schema></code>
+			</content>
+		</section>
+		<relatedTopics>
+			<link xlink:href="88d67097-41d0-4dd5-8317-e476b7dc6a56" />
+			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/memberDocUri</xsd:xmlEntityReference>
+			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

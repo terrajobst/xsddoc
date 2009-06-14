@@ -151,7 +151,7 @@ namespace XsdDocumentation.PlugIn
 		public void Execute(ExecutionContext executionContext)
 		{
 			_buildProcess.ReportProgress(Resources.PlugInBuildProgress);
-
+			var messageReporter = new MessageReporter(_buildProcess);
 			var configuration = new Configuration
 			                    {
 			                    	OutputFolderPath = _buildProcess.WorkingFolder,
@@ -170,7 +170,7 @@ namespace XsdDocumentation.PlugIn
 			                    	DocFileNames = ExpandFiles(_configuration.DocFilePaths)
 			                    };
 
-			var contentGenerator = new ContentGenerator(configuration);
+			var contentGenerator = new ContentGenerator(messageReporter, configuration);
 			contentGenerator.Generate();
 
 			var contentLayoutItem = AddLinkedItem(BuildAction.ContentLayout, contentGenerator.ContentFile);

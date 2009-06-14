@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="712b0cac-fbdb-49db-9f65-371c283c4b08" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+								 xmlns:xlink="http://www.w3.org/1999/xlink"
+								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
+		<introduction>
+			<para>
+				The '<placeholder>EntityType</placeholder>' entity cannot be used as an extension. The
+				only valid extension types are 'Element' and 'Attribute'.
+			</para>
+		</introduction>
+		<section address="cause">
+			<title>Cause</title>
+			<content>
+				<para>
+					The error is caused if the <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+					documentation element is used to indicate that an XML entity extends another XML entity but
+					that the extending entity is neither an element nor an attribute.
+				</para>
+				<para>
+					For example, in the following schema the complex type <codeInline>extensionType</codeInline> declares that it extends
+					the <codeInline>extensionParent</codeInline> element which is invalid:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.org/XSD0004"
+		   xmlns="http://schemas.example.org/XSD0004"
+		   xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
+		   elementFormDefault="qualified"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	&lt;xs:element name="extensionParent">
+		&lt;xs:complexType>
+			&lt;xs:sequence>
+				&lt;xs:element ref="extensionParent" />
+				&lt;xs:any namespace="##other" processContents="strict" />
+			&lt;/xs:sequence>
+		&lt;/xs:complexType>
+	&lt;/xs:element>
+	&lt;xs:complexType name="extensionType">
+		&lt;xs:annotation>
+			&lt;xs:appinfo>
+				&lt;xsd:schemaDoc>
+					&lt;xsd:parent uri="http://schemas.example.org/XSD0004#E/extensionParent"/>
+				&lt;/xsd:schemaDoc>
+			&lt;/xs:appinfo>
+		&lt;/xs:annotation>
+	&lt;/xs:complexType>
+&lt;/xs:schema></code>
+			</content>
+		</section>
+		<section>
+			<title>Solution</title>
+			<content>
+				<para>
+					The solution is to just remove the
+					<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+					documentation element:
+				</para>
+				<code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.org/XSD0004"
+		   xmlns="http://schemas.example.org/XSD0004"
+		   xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
+		   elementFormDefault="qualified"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	&lt;xs:element name="extensionParent">
+		&lt;xs:complexType>
+			&lt;xs:sequence>
+				&lt;xs:element ref="extensionParent" />
+				&lt;xs:any namespace="##other" processContents="strict" />
+			&lt;/xs:sequence>
+		&lt;/xs:complexType>
+	&lt;/xs:element>
+	&lt;xs:complexType name="extensionType">
+	&lt;/xs:complexType>
+&lt;/xs:schema></code>
+			</content>
+		</section>
+		<relatedTopics>
+			<link xlink:href="88d67097-41d0-4dd5-8317-e476b7dc6a56" />
+			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

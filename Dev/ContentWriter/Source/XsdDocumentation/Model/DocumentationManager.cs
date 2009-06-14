@@ -28,9 +28,15 @@ namespace XsdDocumentation.Model
 			var transformPath = string.IsNullOrEmpty(Context.Configuration.AnnotationTransformFileName)
 			                    	? GetDefaultTransform(path)
 			                    	: Context.Configuration.AnnotationTransformFileName;
-			using (var reader = new XmlTextReader(transformPath))
-				_compiledTransform.Load(reader);
-
+			try
+			{
+				using (var reader = new XmlTextReader(transformPath))
+					_compiledTransform.Load(reader);
+			}
+			catch (Exception ex)
+			{
+				throw ExceptionBuilder.CannotReadTransform(transformPath, ex);
+			}
 			var documentatbleObjects = GetDocumentatbleObjects(Context.SchemaSetManager.SchemaSet);
 			LoadEmbeddedDocumentation(documentatbleObjects);
 			LoadExternalDocumentation();
@@ -91,7 +97,15 @@ namespace XsdDocumentation.Model
 			using (var xmlTextWriter = new XmlTextWriter(stringWriter))
 			{
 				var argumentList = GetXsltArgumentList(documentatbleObject);
-				_compiledTransform.Transform(xmlReader, argumentList, xmlTextWriter);
+				try
+				{
+					_compiledTransform.Transform(xmlReader, argumentList, xmlTextWriter);
+				}
+				catch (Exception ex)
+				{
+					var fileName = documentatbleObject.GetLocalPath();
+					throw ExceptionBuilder.ErrorTransformingInlineDocumentation(fileName, ex);
+				}
 				var doc = new XmlDocument();
 				try
 				{
@@ -136,10 +150,17 @@ namespace XsdDocumentation.Model
 			foreach (var externalDocFileName in Context.Configuration.DocFileNames)
 			{
 				var doc = new XmlDocument();
-				doc.Load(externalDocFileName);
+				try
+				{
+					doc.Load(externalDocFileName);
+				}
+				catch (Exception ex)
+				{
+					throw ExceptionBuilder.ErrorReadingExternalDocumentation(externalDocFileName, ex);
+				}
 
-				const string SchemaSetUri = "##SchemaSet";
-				const string NamespaceUri = "##Namespace";
+				const string schemaSetUri = "##SchemaSet";
+				const string namespaceUri = "##Namespace";
 
 				var namespaceManager = GetNamespaceManager(doc);
 				var namespaceKey = doc.SelectSingleNode("//xsd:namespace/xsd:name", namespaceManager).InnerText;
@@ -154,44 +175,50 @@ namespace XsdDocumentation.Model
 						XmlSchemaObject documentableObject;
 						DocumentationInfo documentationInfo;
 
-						if (partialDocUri == NamespaceUri)
+						switch (partialDocUri)
 						{
-							if (namespaceKey == SchemaSetUri)
-							{
-								// TODO: Report invalid member Uri
-								documentableObject = null;
-								documentationInfo = null;
-							}
-							else
+							case schemaSetUri:
 							{
 								documentableObject = null;
-								documentationInfo = GetOrCreateDocumentationInfo(namespaceKey);
+								documentationInfo = GetOrCreateDocumentationInfo(Context.SchemaSetManager.SchemaSet);
+								break;
 							}
-						}
-						else if (partialDocUri == SchemaSetUri)
-						{
-							documentableObject = null;
-							documentationInfo = GetOrCreateDocumentationInfo(Context.SchemaSetManager.SchemaSet);
-						}
-						else
-						{
-							var docUri = (namespaceKey == SchemaSetUri)
-							             	? partialDocUri
-							             	: namespaceKey + "#" + partialDocUri;
-							var topic = Context.TopicManager.GetTopicByUri(docUri);
+							case namespaceUri:
+							{
+								if (namespaceKey == schemaSetUri)
+								{
+									Context.ProblemReporter.InvalidNamespaceUriInSchemaSet(externalDocFileName);
+									documentableObject = null;
+									documentationInfo = null;
+								}
+								else
+								{
+									documentableObject = null;
+									documentationInfo = GetOrCreateDocumentationInfo(namespaceKey);
+								}
+								break;
+							}
+							default:
+							{
+								var docUri = (namespaceKey == schemaSetUri)
+								             	? partialDocUri
+								             	: namespaceKey + "#" + partialDocUri;
+								var topic = Context.TopicManager.GetTopicByUri(docUri);
 
-							if (topic == null)
-							{
-								documentableObject = null;
-								documentationInfo = null;
+								if (topic == null)
+								{
+									documentableObject = null;
+									documentationInfo = null;
+								}
+								else
+								{
+									documentableObject = topic.SchemaObject;
+									documentationInfo = (topic.TopicType == TopicType.Namespace)
+									                    	? GetOrCreateDocumentationInfo(topic.Namespace)
+									                    	: GetOrCreateDocumentationInfo(topic.SchemaObject);
+								}
 							}
-							else
-							{
-								documentableObject = topic.SchemaObject;
-								documentationInfo = (topic.TopicType == TopicType.Namespace)
-								                    	? GetOrCreateDocumentationInfo(topic.Namespace)
-								                    	: GetOrCreateDocumentationInfo(topic.SchemaObject);
-							}
+								break;
 						}
 
 						if (documentationInfo != null)
@@ -221,12 +248,10 @@ namespace XsdDocumentation.Model
 						var uri = uriAttribute.Value;
 						var nonObsoleteTopic = Context.TopicManager.GetTopicByUri(uri);
 
-						if (nonObsoleteTopic != null)
-                            documentationInfo.NonObsoleteAlternative = nonObsoleteTopic.SchemaObject;
+						if (nonObsoleteTopic == null)
+							Context.ProblemReporter.InvalidObsoleteUri(uri);
 						else
-						{
-							// TODO: Report invalid obsolete URI.
-						}
+							documentationInfo.NonObsoleteAlternative = nonObsoleteTopic.SchemaObject;
 					}
 				}
 
@@ -237,14 +262,14 @@ namespace XsdDocumentation.Model
 					{
 						var uri = parentNode.Attributes["uri"].Value;
 						var parentTopic = Context.TopicManager.GetTopicByUri(uri);
-						if (parentTopic != null)
+						if (parentTopic == null)
 						{
-							if (parentTopic.SchemaObject != null)
-								Context.SchemaSetManager.RegisterExtension(parentTopic.SchemaObject, documentatbleObject);
+							Context.ProblemReporter.InvalidParentUri(uri);
 						}
 						else
 						{
-							// TODO: Report invalid parent URI.
+							if (parentTopic.SchemaObject != null)
+								Context.SchemaSetManager.RegisterExtension(parentTopic.SchemaObject, documentatbleObject);
 						}
 					}
 				}

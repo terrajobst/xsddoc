@@ -4,14 +4,16 @@ namespace XsdDocumentation.Model
 {
 	internal sealed class Context
 	{
+		private ProblemReporter _problemReporter;
 		private Configuration _configuration;
 		private SchemaSetManager _schemaSetManager;
 		private SourceCodeManager _sourceCodeManager;
 		private TopicManager _topicManager;
 		private DocumentationManager _documentationManager;
 
-		public Context(Configuration configuration)
+		public Context(IMessageReporter messageReporter, Configuration configuration)
 		{
+			_problemReporter = new ProblemReporter(messageReporter);
 			_configuration = configuration;
 			_schemaSetManager = new SchemaSetManager(this);
 			_sourceCodeManager = new SourceCodeManager(this);
@@ -22,6 +24,11 @@ namespace XsdDocumentation.Model
 			_sourceCodeManager.Initialize();
 			_topicManager.Initialize();
 			_documentationManager.Initialize();
+		}
+
+		public ProblemReporter ProblemReporter
+		{
+			get { return _problemReporter; }
 		}
 
 		public Configuration Configuration

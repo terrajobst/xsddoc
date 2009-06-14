@@ -28,7 +28,15 @@ namespace XsdDocumentation.Model
 			var schemaFileNames = Context.Configuration.SchemaFileNames;
 			var schemaDependencyFileNames = Context.Configuration.SchemaDependencyFileNames;
 			var allFileNames = schemaFileNames.Union(schemaDependencyFileNames);
-			_schemaSet = XmlSchemaSetBuilder.Build(allFileNames);
+
+			try
+			{
+				_schemaSet = XmlSchemaSetBuilder.Build(allFileNames);
+			}
+			catch (Exception ex)
+			{
+				throw ExceptionBuilder.ErrorBuildingSchemaSet(ex);
+			}
 
 			_schemaDependencyFiles = new HashSet<string>(schemaDependencyFileNames, StringComparer.OrdinalIgnoreCase);
 
@@ -213,12 +221,10 @@ namespace XsdDocumentation.Model
 			else if (Casting.TryCast(extension, out attribute))
 				RegisterExtensionAttribute(parent, attribute);
 			else
-			{
-				// TODO: Report invalid extension.
-			}
+				Context.ProblemReporter.InvalidExtensionType(extension);
 		}
 
-		private void RegisterExtensionElement(XmlSchemaObject parent, XmlSchemaObject element)
+		private void RegisterExtensionElement(XmlSchemaObject parent, XmlSchemaElement element)
 		{
 			XmlSchemaAny parentAny;
 			XmlSchemaElement parentElement;
@@ -231,26 +237,36 @@ namespace XsdDocumentation.Model
 			}
 			else if (Casting.TryCast(parent, out parentElement))
 			{
-				foreach (var anyElement in GetAnyElements(parentElement))
-					RegisterExtensionElement(anyElement, element);
+				var targets = GetAnyElements(parentElement);
+				if (targets.Count == 0)
+					Context.ProblemReporter.ParentOffersNoExtension(parentElement, element);
+				else
+					RegisterExtensionElements(targets, element);
 			}
 			else if (Casting.TryCast(parent, out parentGroup))
 			{
-				foreach (var anyElement in GetAnyElements(parentGroup))
-					RegisterExtensionElement(anyElement, element);
+				var targets = GetAnyElements(parentGroup);
+				if (targets.Count == 0)
+					Context.ProblemReporter.ParentOffersNoExtension(parentGroup, element);
+				else
+					RegisterExtensionElements(targets, element);
 			}
 			else if (Casting.TryCast(parent, out parentComplexType))
 			{
-				foreach (var anyElement in GetAnyElements(parentComplexType))
-					RegisterExtensionElement(anyElement, element);
+				var targets = GetAnyElements(parentComplexType);
+				if (targets.Count == 0)
+					Context.ProblemReporter.ParentOffersNoExtension(parentComplexType, element);
+				else
+					RegisterExtensionElements(targets, element);
 			}
 			else
 			{
-				// TODO: Report invalid parent for element extension.
+				Context.ProblemReporter.InvalidParentForExtension(parent, element);
+				return;
 			}
 		}
 
-		private void RegisterExtensionAttribute(XmlSchemaObject parent, XmlSchemaObject attribute)
+		private void RegisterExtensionAttribute(XmlSchemaObject parent, XmlSchemaAttribute attribute)
 		{
 			XmlSchemaAnyAttribute parentAnyAttribute;
 			XmlSchemaElement parentElement;
@@ -259,34 +275,49 @@ namespace XsdDocumentation.Model
 
 			if (Casting.TryCast(parent, out parentAnyAttribute))
 			{
-				RegisterExtensionAttributes(parentAnyAttribute, attribute);
+				RegisterExtensionAttribute(parentAnyAttribute, (XmlSchemaObject) attribute);
 			}
 			else if (Casting.TryCast(parent, out parentElement))
 			{
 				parentAnyAttribute = GetAnyAttribute(parentElement);
-				if (parentAnyAttribute != null)
-					RegisterExtensionAttributes(parentAnyAttribute, attribute);
+				if (parentAnyAttribute == null)
+					Context.ProblemReporter.ParentOffersNoExtension(parentElement, attribute);
+				else
+					RegisterExtensionAttribute(parentAnyAttribute, (XmlSchemaObject) attribute);
 			}
 			else if (Casting.TryCast(parent, out parentAttributeGroup))
 			{
 				parentAnyAttribute = GetAnyAttribute(parentAttributeGroup);
-				if (parentAnyAttribute != null)
-					RegisterExtensionAttributes(parentAnyAttribute, attribute);
+				if (parentAnyAttribute == null)
+					Context.ProblemReporter.ParentOffersNoExtension(parentAttributeGroup, attribute);
+				else
+					RegisterExtensionAttribute(parentAnyAttribute, (XmlSchemaObject) attribute);
 			}
 			else if (Casting.TryCast(parent, out parentComplexType))
 			{
 				parentAnyAttribute = GetAnyAttribute(parentComplexType);
-				if (parentAnyAttribute != null)
-					RegisterExtensionAttributes(parentAnyAttribute, attribute);
+				if (parentAnyAttribute == null)
+					Context.ProblemReporter.ParentOffersNoExtension(parentComplexType, attribute);
+				else
+					RegisterExtensionAttribute(parentAnyAttribute, (XmlSchemaObject) attribute);
 			}
 			else
 			{
-				// TODO: Report invalid parent for attribute extension.
+				Context.ProblemReporter.InvalidParentForExtension(parent, attribute);
 			}
 		}
 
-		private void RegisterExtensionElement(XmlSchemaAny parent, XmlSchemaObject obj)
+		private void RegisterExtensionElements(IEnumerable<XmlSchemaAny> targets, XmlSchemaElement element)
 		{
+			foreach (var target in targets)
+				RegisterExtensionElement(target, element);
+		}
+
+		private void RegisterExtensionElement(XmlSchemaAny parent, XmlSchemaElement element)
+		{
+			// Just there to require the argument to be of type XmlSchemaElement.
+			Debug.Assert(element.Name != null);
+
 			// Add object to parent's extension elements.
 
 			List<XmlSchemaObject> elements;
@@ -296,14 +327,14 @@ namespace XsdDocumentation.Model
 				_extensionElements.Add(parent, elements);
 			}
 
-			elements.Add(obj);
+			elements.Add(element);
 
 			// Add parent to object's parents.
 
-			RegisterParent(obj, parent);
+			RegisterParent(element, parent);
 		}
 
-		private void RegisterExtensionAttributes(XmlSchemaAnyAttribute parent, XmlSchemaObject obj)
+		private void RegisterExtensionAttribute(XmlSchemaAnyAttribute parent, XmlSchemaObject obj)
 		{
 			// Add object to parent's extension attributes.
 
@@ -343,27 +374,30 @@ namespace XsdDocumentation.Model
 			parents.Add(parentElement);
 		}
 
-		private IEnumerable<XmlSchemaAny> GetAnyElements(XmlSchemaElement element)
+		private List<XmlSchemaAny> GetAnyElements(XmlSchemaElement element)
 		{
 			var children = GetChildren(element);
 			var result = new List<XmlSchemaAny>();
-			GetAnyElements(result, children);
+			if (children != null)
+				GetAnyElements(result, children);
 			return result;
 		}
 
-		private IEnumerable<XmlSchemaAny> GetAnyElements(XmlSchemaGroup group)
+		private List<XmlSchemaAny> GetAnyElements(XmlSchemaGroup group)
 		{
 			var children = GetChildren(group);
 			var result = new List<XmlSchemaAny>();
-			GetAnyElements(result, children);
+			if (children != null)
+				GetAnyElements(result, children);
 			return result;
 		}
 
-		private IEnumerable<XmlSchemaAny> GetAnyElements(XmlSchemaComplexType type)
+		private List<XmlSchemaAny> GetAnyElements(XmlSchemaComplexType type)
 		{
 			var children = GetChildren(type);
 			var result = new List<XmlSchemaAny>();
-			GetAnyElements(result, children);
+			if (children != null)
+				GetAnyElements(result, children);
 			return result;
 		}
 
