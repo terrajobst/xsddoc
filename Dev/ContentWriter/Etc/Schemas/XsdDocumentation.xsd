@@ -134,7 +134,7 @@
 					</xs:attribute>
 				</xs:complexType>
 			</xs:element>
-			<xs:element ref="ddue:summary">
+			<xs:element ref="ddue:summary" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>
 						This element contains a summary, introduction, or short description of the current item.
