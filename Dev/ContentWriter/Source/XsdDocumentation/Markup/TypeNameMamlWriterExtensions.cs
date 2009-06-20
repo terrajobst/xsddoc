@@ -44,6 +44,7 @@ namespace XsdDocumentation.Markup
 				              	: ArtItem.Restriction;
 
 				writer.WriteImageWithTopicLink(topicManager, artItem, baseType);
+				return;
 			}
 
 			throw ExceptionBuilder.UnexpectedSchemaObjectType(schemaType);

@@ -16,8 +16,12 @@ namespace XsdDocumentation.Markup
 			if (root.Children.Count == 1)
 			{
 				var node = root.Children[0];
-				writer.WriteSingle(context.TopicManager, node);
-				return;
+				var isSingleRow = GetIsSingleRow(node);
+				if (isSingleRow)
+				{
+					writer.WriteSingle(context.TopicManager, node);
+					return;
+				}
 			}
 
 			writer.StartTable();
@@ -122,8 +126,7 @@ namespace XsdDocumentation.Markup
 					writer.EndHtmlArtItem();
 					break;
 				default:
-					return; // TODO: Handle the case for extension and restrictions.
-					//throw ExceptionBuilder.UnhandledCaseLabel(node.NodeType);
+					throw ExceptionBuilder.UnhandledCaseLabel(node.NodeType);
 			}
 		}
 
@@ -146,10 +149,9 @@ namespace XsdDocumentation.Markup
 					continue;
 
 				if (isFirst)
-				{
-					writer.WriteString(", ");
 					isFirst = false;
-				}
+				else
+					writer.WriteString(", ");
 
 				var simpleType = (XmlSchemaSimpleType) node.Node;
 				var topic = topicManager.GetTopic(simpleType);
@@ -217,7 +219,7 @@ namespace XsdDocumentation.Markup
 
 		private static void WriteConstructor(this MamlWriter writer, int level, TopicManager topicManager, SimpleTypeStructureNode node, ArtItem constructionArtItem, string constructName)
 		{
-			writer.StartTableRow();
+			writer.StartTableRowEntry();
 			writer.WriteHtmlIndent(level);
 			writer.StartHtmlArtItem(constructionArtItem);
 			if (ContainsNamedTypes(node.Children))
@@ -225,6 +227,7 @@ namespace XsdDocumentation.Markup
 			else
 				writer.WriteString(constructName);
 			writer.EndHtmlArtItem();
+			writer.EndTableRowEntry();
 			writer.StartTableRowEntry();
 			writer.EndTableRowEntry();
 		}
@@ -244,7 +247,7 @@ namespace XsdDocumentation.Markup
 		{
 			var facetValue = ((XmlSchemaFacet) node.Node).Value;
 
-			writer.StartTableRow();
+			writer.StartTableRowEntry();
 			writer.WriteHtmlIndent(level);
 			writer.WriteHtmlArtItemWithText(ArtItem.Facet, facetType);
 			writer.EndTableRowEntry();
