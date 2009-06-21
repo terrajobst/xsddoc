@@ -267,7 +267,7 @@ namespace XsdDocumentation.Model
 		{
 			var element = (XmlSchemaElement) topic.SchemaObject;
 			var parents = _context.SchemaSetManager.GetObjectParents(element);
-			var simpleTypeStructureRoots = _context.SchemaSetManager.GetSimpleTypeStructure(element.ElementSchemaType);
+			var simpleTypeStructureRoot = _context.SchemaSetManager.GetSimpleTypeStructure(element.ElementSchemaType);
 			var children = _context.SchemaSetManager.GetChildren(element);
 			var attributeEntries = _context.SchemaSetManager.GetAttributeEntries(element);
 			var constraints = element.Constraints;
@@ -278,9 +278,9 @@ namespace XsdDocumentation.Model
 				writer.StartTopic(topic.Id);
 				writer.WriteIntroductionForObject(_context, element);
 				writer.WriteTypeSection(_context, element);
+				writer.WriteContentTypeSection(_context, simpleTypeStructureRoot);
 				writer.WriteParentsSection(_context, parents);
 				writer.WriteChildrenSection(_context, children);
-				writer.WriteContentTypeSection(_context, simpleTypeStructureRoots);
 				writer.WriteAttributesSection(_context, attributeEntries);
 				writer.WriteConstraintsSection(_context, constraints);
 				writer.WriteRemarksSectionForObject(_context, element);
@@ -293,16 +293,16 @@ namespace XsdDocumentation.Model
 		private void GenerateAttributeTopic(Topic topic)
 		{
 			var attribute = (XmlSchemaAttribute) topic.SchemaObject;
-			var usages = _context.SchemaSetManager.GetObjectParents(attribute);
-			var simpleTypeStructureRoots = _context.SchemaSetManager.GetSimpleTypeStructure(attribute.AttributeSchemaType);
+			var parents = _context.SchemaSetManager.GetObjectParents(attribute);
+			var simpleTypeStructureRoot = _context.SchemaSetManager.GetSimpleTypeStructure(attribute.AttributeSchemaType);
 
 			using (var stream = File.Create(topic.FileName))
 			using (var writer = new MamlWriter(stream))
 			{
 				writer.StartTopic(topic.Id);
 				writer.WriteIntroductionForObject(_context, attribute);
-				writer.WriteUsagesSection(_context, usages);
-				writer.WriteContentTypeSection(_context, simpleTypeStructureRoots);
+				writer.WriteContentTypeSection(_context, simpleTypeStructureRoot);
+				writer.WriteParentsSection(_context, parents);
 				writer.WriteRemarksSectionForObject(_context, attribute);
 				writer.WriteSyntaxSection(_context, attribute);
 				writer.WriteRelatedTopics(_context, attribute);
@@ -333,7 +333,7 @@ namespace XsdDocumentation.Model
 		private void GenerateAttributeGroup(Topic topic)
 		{
 			var attributeGroup = (XmlSchemaAttributeGroup) topic.SchemaObject;
-			var parents = _context.SchemaSetManager.GetObjectParents(attributeGroup);
+			var usages = _context.SchemaSetManager.GetObjectParents(attributeGroup);
 			var attributeEntries = _context.SchemaSetManager.GetAttributeEntries(attributeGroup);
 
 			using (var stream = File.Create(topic.FileName))
@@ -341,7 +341,7 @@ namespace XsdDocumentation.Model
 			{
 				writer.StartTopic(topic.Id);
 				writer.WriteIntroductionForObject(_context, attributeGroup);
-				writer.WriteUsagesSection(_context, parents);
+				writer.WriteUsagesSection(_context, usages);
 				writer.WriteAttributesSection(_context, attributeEntries);
 				writer.WriteRemarksSectionForObject(_context, attributeGroup);
 				writer.WriteSyntaxSection(_context, attributeGroup);
@@ -354,15 +354,15 @@ namespace XsdDocumentation.Model
 		{
 			var simpleType = (XmlSchemaSimpleType) topic.SchemaObject;
 			var usages = _context.SchemaSetManager.GetTypeUsages(simpleType);
-			var simpleTypeStructureRoots = _context.SchemaSetManager.GetSimpleTypeStructure(simpleType.Content);
+			var simpleTypeStructureRoot = _context.SchemaSetManager.GetSimpleTypeStructure(simpleType.Content);
 
 			using (var stream = File.Create(topic.FileName))
 			using (var writer = new MamlWriter(stream))
 			{
 				writer.StartTopic(topic.Id);
 				writer.WriteIntroductionForObject(_context, simpleType);
+				writer.WriteContentTypeSection(_context, simpleTypeStructureRoot);
 				writer.WriteUsagesSection(_context, usages);
-				writer.WriteContentTypeSection(_context, simpleTypeStructureRoots);
 				writer.WriteRemarksSectionForObject(_context, simpleType);
 				writer.WriteSyntaxSection(_context, simpleType);
 				writer.WriteRelatedTopics(_context, simpleType);
@@ -374,7 +374,7 @@ namespace XsdDocumentation.Model
 		{
 			var complexType = (XmlSchemaComplexType) topic.SchemaObject;
 			var usages = _context.SchemaSetManager.GetTypeUsages(complexType);
-			var simpleTypeStructureRoots = _context.SchemaSetManager.GetSimpleTypeStructure(complexType);
+			var simpleTypeStructureRoot = _context.SchemaSetManager.GetSimpleTypeStructure(complexType);
 			var children = _context.SchemaSetManager.GetChildren(complexType);
 			var attributeEntries = _context.SchemaSetManager.GetAttributeEntries(complexType);
 
@@ -384,9 +384,9 @@ namespace XsdDocumentation.Model
 				writer.StartTopic(topic.Id);
 				writer.WriteIntroductionForObject(_context, complexType);
 				writer.WriteBaseTypeSection(_context, complexType);
+				writer.WriteContentTypeSection(_context, simpleTypeStructureRoot);
 				writer.WriteUsagesSection(_context, usages);
 				writer.WriteChildrenSection(_context, children);
-				writer.WriteContentTypeSection(_context, simpleTypeStructureRoots);
 				writer.WriteAttributesSection(_context, attributeEntries);
 				writer.WriteRemarksSectionForObject(_context, complexType);
 				writer.WriteSyntaxSection(_context, complexType);
