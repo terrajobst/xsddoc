@@ -351,20 +351,23 @@ namespace XsdDocumentation.Model
 
 		private void SetTopicIds()
 		{
+			var guidsInUse = new HashSet<Guid>();
 			using (var md5 = HashAlgorithm.Create("MD5"))
-				SetTopicIds(_topics, md5);
+				SetTopicIds(_topics, md5, guidsInUse);
 		}
 
-		private static void SetTopicIds(IEnumerable<Topic> topics, HashAlgorithm algorithm)
+		private static void SetTopicIds(IEnumerable<Topic> topics, HashAlgorithm algorithm, HashSet<Guid> guidsInUse)
 		{
 			foreach (var topic in topics)
 			{
 				var input = Encoding.UTF8.GetBytes(topic.LinkUri);
 				var output = algorithm.ComputeHash(input);
 				var guid = new Guid(output);
+				while (!guidsInUse.Add(guid))
+					guid = Guid.NewGuid();
 				topic.Id = guid.ToString();
 
-				SetTopicIds(topic.Children, algorithm);
+				SetTopicIds(topic.Children, algorithm, guidsInUse);
 			}
 		}
 
