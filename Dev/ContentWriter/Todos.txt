@@ -1,6 +1,0 @@
-Todos
------
-- Investigate how we can use shared content for localization
-- Consider qualifiying names within parents/usages so that they are unqiue.
-- Redefinition?
-- Substitution groups?
