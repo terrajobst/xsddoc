@@ -1,6 +1,5 @@
 Todos
 -----
-- Disable genration of type usage generation as it blows up the documentation.
 - Investigate how we can use shared content for localization
 - Consider qualifiying names within parents/usages so that they are unqiue.
 - Redefinition?
