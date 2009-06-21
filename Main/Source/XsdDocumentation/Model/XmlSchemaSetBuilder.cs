@@ -45,10 +45,17 @@ namespace XsdDocumentation.Model
 			return schemaSet;
 		}
 
-		private static XmlSchema GetSchema(string rootSchemaFilePath)
+		private static XmlSchema GetSchema(string fileName)
 		{
-			using (var nodeReader = new XmlTextReader(rootSchemaFilePath))
-				return XmlSchema.Read(nodeReader, null);
+			try
+			{
+				using (var nodeReader = new XmlTextReader(fileName))
+					return XmlSchema.Read(nodeReader, null);
+			}
+			catch (Exception ex)
+			{
+				throw ExceptionBuilder.CannotReadSchemaFile(fileName, ex);
+			}
 		}
 
 		private static string GetLocation(string directory, string localPathOrUri)

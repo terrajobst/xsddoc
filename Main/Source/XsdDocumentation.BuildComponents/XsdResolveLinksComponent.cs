@@ -7,6 +7,7 @@ using System.Xml.XPath;
 
 using Microsoft.Ddue.Tools;
 
+using XsdDocumentation.BuildComponents.Properties;
 using XsdDocumentation.Model;
 
 namespace XsdDocumentation.BuildComponents

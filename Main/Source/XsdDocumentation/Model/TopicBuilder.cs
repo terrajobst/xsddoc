@@ -50,6 +50,10 @@ namespace XsdDocumentation.Model
 
 		private Topic AddTopic(TopicType topicType, string objNamespace, XmlSchemaObject obj, string name)
 		{
+			objNamespace = (objNamespace == string.Empty)
+							? null
+							: objNamespace;
+
 			if (_topicStack.Count == 0)
 			{
 				var root = new List<Topic>();

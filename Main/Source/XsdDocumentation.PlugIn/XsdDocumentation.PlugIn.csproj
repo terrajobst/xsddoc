@@ -78,6 +78,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HelpTopics.cs" />
+    <Compile Include="MessageReporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Configuration\SchemaDependencyFilePathsEditor.cs" />
     <Compile Include="Configuration\SchemaFilePathsEditor.cs" />

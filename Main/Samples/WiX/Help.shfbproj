@@ -18,19 +18,20 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>..\..\Output\Samples\WiX\</OutputPath>
+    <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>WiX</HtmlHelpName>
     <HelpTitle>Windows Installer XML Schema Sample</HelpTitle>
-    <CopyrightHref>
-    </CopyrightHref>
+    <CopyrightHref>http://xsddoc.codeplex.com</CopyrightHref>
     <RootNamespaceTitle>
     </RootNamespaceTitle>
     <PlugInConfigurations>
       <PlugInConfig id="XML Schema Documenter" enabled="True">
         <configuration>
-          <roots document="true" />
+          <document rootSchemas="true" rootElements="true" constraints="true" schemas="true" syntax="false" />
           <schemaSet container="true" title="WiX Schema References" />
+          <namespace container="true" />
           <sortOrder>1</sortOrder>
+          <includeLinkUriInKeywordK>false</includeLinkUriInKeywordK>
           <annotationTransformFile path="AnnotationTranform.xslt" />
           <schemaFiles>
             <schemaFile path="Schemas\complus.xsd" />
@@ -53,10 +54,7 @@
           </docFiles>
         </configuration>
       </PlugInConfig>
-      <PlugInConfig id="Additional Content Only" enabled="True">
-        <configuration />
-      </PlugInConfig>
-    </PlugInConfigurations>
+<PlugInConfig id="Additional Content Only" enabled="True"><configuration /></PlugInConfig></PlugInConfigurations>
     <DocumentationSources>
     </DocumentationSources>
     <BuildLogFile>
@@ -69,8 +67,7 @@
     </SandcastlePath>
     <WorkingPath>
     </WorkingPath>
-    <CopyrightText>
-    </CopyrightText>
+    <CopyrightText>Produced with XML Schema Docmenter {%2540HelpFileVersion}</CopyrightText>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
     <FeedbackEMailLinkText>

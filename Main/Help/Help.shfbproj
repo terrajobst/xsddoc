@@ -57,6 +57,19 @@
     <ContentLayout Include="Help.content" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Topics\Warnings\XSD0012.aml" />
+    <None Include="Topics\Warnings\XSD0011.aml" />
+    <None Include="Topics\Warnings\XSD0010.aml" />
+    <None Include="Topics\Warnings\XSD0009.aml" />
+    <None Include="Topics\Warnings\XSD0008.aml" />
+    <None Include="Topics\Warnings\XSD0007.aml" />
+    <None Include="Topics\Warnings\XSD0006.aml" />
+    <None Include="Topics\Warnings\XSD0005.aml" />
+    <None Include="Topics\Warnings\XSD0004.aml" />
+    <None Include="Topics\Warnings\XSD0003.aml" />
+    <None Include="Topics\Warnings\XSD0002.aml" />
+    <None Include="Topics\Warnings\Warnings.aml" />
+    <None Include="Topics\Warnings\XSD0001.aml" />
     <None Include="Topics\Documenting\Elements.aml" />
     <None Include="Topics\User Interface\SchemaDependencyFilePathsEditor.aml" />
     <None Include="Topics\Documenting\Linking.aml" />
@@ -71,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Media\" />
+    <Folder Include="Topics\Warnings\" />
     <Folder Include="Topics\Documenting\" />
     <Folder Include="Topics\User Interface\" />
     <Folder Include="Topics\" />

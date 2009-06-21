@@ -151,11 +151,15 @@ namespace XsdDocumentation.PlugIn
 		public void Execute(ExecutionContext executionContext)
 		{
 			_buildProcess.ReportProgress(Resources.PlugInBuildProgress);
-
+			var messageReporter = new MessageReporter(_buildProcess);
 			var configuration = new Configuration
 			                    {
 			                    	OutputFolderPath = _buildProcess.WorkingFolder,
-			                    	RootDocumentation = _configuration.RootDocumentation,
+			                    	DocumentRootSchemas = _configuration.DocumentRootSchemas,
+			                    	DocumentRootElements = _configuration.DocumentRootElements,
+			                    	DocumentConstraints = _configuration.DocumentConstraints,
+			                    	DocumentSchemas = _configuration.DocumentSchemas,
+			                    	DocumentSyntax = _configuration.DocumentSyntax,
 			                    	SchemaSetContainer = _configuration.SchemaSetContainer,
 			                    	SchemaSetTitle = _configuration.SchemaSetTitle,
 			                    	NamespaceContainer = _configuration.NamespaceContainer,
@@ -166,7 +170,7 @@ namespace XsdDocumentation.PlugIn
 			                    	DocFileNames = ExpandFiles(_configuration.DocFilePaths)
 			                    };
 
-			var contentGenerator = new ContentGenerator(configuration);
+			var contentGenerator = new ContentGenerator(messageReporter, configuration);
 			contentGenerator.Generate();
 
 			var contentLayoutItem = AddLinkedItem(BuildAction.ContentLayout, contentGenerator.ContentFile);

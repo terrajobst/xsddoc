@@ -106,6 +106,51 @@ namespace XsdDocumentation.PlugIn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If true, the element constraints xs:unique, xs:key, and xs:keyref are documented..
+        /// </summary>
+        internal static string ConfigDescriptionDocumentConstraints {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionDocumentConstraints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If true, the root elements get their own entry in the table of contents..
+        /// </summary>
+        internal static string ConfigDescriptionDocumentRootElements {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionDocumentRootElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If true, the root schemas get their own entry in the table of contents. Please note that DocumentSchemas must be set to true for this setting to be effective..
+        /// </summary>
+        internal static string ConfigDescriptionDocumentRootSchemas {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionDocumentRootSchemas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If true, the schemas get their own entry in the table of contents..
+        /// </summary>
+        internal static string ConfigDescriptionDocumentSchemas {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionDocumentSchemas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If true, every element, attribute, group, attribute group, complex type, and simple type topic contains a section showing their XSD declaration..
+        /// </summary>
+        internal static string ConfigDescriptionDocumentSyntax {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionDocumentSyntax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specifies whether XML entity links such as &quot;http://schemas.example.org#E/myElement/@myAttribute&quot; are included in the K keyword index. This allows programmatically navigating the help file to a topic describing a given XML entity..
         /// </summary>
         internal static string ConfigDescriptionIncludeLinkUriInKeywordK {
@@ -115,20 +160,11 @@ namespace XsdDocumentation.PlugIn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If true, the default, a namespace table of content entry will be created as the container of the namespace contents in the documented schema set. If false, the namespace contents are listed directly. Please note that this setting is ignored if the schema set contains more than one namespace. In that case, every namespace will always have a table of content entry..
+        ///   Looks up a localized string similar to If true, a namespace table of content entry will be created as the container of the namespace contents in the documented schema set. If false, the namespace contents are listed directly. Please note that this setting is ignored if the schema set contains more than one namespace. In that case, every namespace will always have a table of content entry..
         /// </summary>
         internal static string ConfigDescriptionNamespaceContainer {
             get {
                 return ResourceManager.GetString("ConfigDescriptionNamespaceContainer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If true, the root schemas and root elements get their own entry in the table of contents..
-        /// </summary>
-        internal static string ConfigDescriptionRootDocumentation {
-            get {
-                return ResourceManager.GetString("ConfigDescriptionRootDocumentation", resourceCulture);
             }
         }
         

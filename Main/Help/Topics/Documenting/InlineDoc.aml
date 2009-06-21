@@ -235,6 +235,100 @@
 				</para>
 			</content>
 		</section>
+		<section>
+			<title>XSLT Arguments</title>
+			<content>
+				<para>
+					During the transformation <token>AppName</token> provides a set of parameters that you can use:
+				</para>
+				<table>
+					<tableHeader>
+						<row>
+							<entry>
+								<para>Parameter Name</para>
+							</entry>
+							<entry>
+								<para>Description</para>
+							</entry>
+						</row>
+					</tableHeader>
+					<row>
+						<entry>
+							<para>currentItemType</para>
+						</entry>
+						<entry>
+							<para>
+								Contains the type of the item being documented, such as <codeInline>element</codeInline>,
+								<codeInline>attribute</codeInline> or <codeInline>complextype</codeInline>.
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>currentItemNamespace</para>
+						</entry>
+						<entry>
+							<para>
+								Contains the namespace of the item being documented, such as
+								<fictitiousUri>http://schemas.example.org</fictitiousUri>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>currentItemUri</para>
+						</entry>
+						<entry>
+							<para>
+								Contains the <link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e">link</link> URI of the item
+								being documented, such as
+								<fictitiousUri>http://schemas.example.org#E/element/@atttribute</fictitiousUri>.
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>parentItemType</para>
+						</entry>
+						<entry>
+							<para>
+								Contains the namespace of the current item's parent, such as
+								<fictitiousUri>http://schemas.example.org</fictitiousUri>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>parentItemNamespace</para>
+						</entry>
+						<entry>
+							<para>
+								Contains the namespace of the current item's parent, such as
+								<fictitiousUri>http://schemas.example.org</fictitiousUri>
+							</para>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<para>parentItemUri</para>
+						</entry>
+						<entry>
+							<para>
+								Contains the <link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e">link</link> URI of the
+								current item's parent, such as
+								<fictitiousUri>http://schemas.example.org#E/element/@atttribute</fictitiousUri>.
+							</para>
+						</entry>
+					</row>
+				</table>
+				<alert class="note">
+					<para>
+						The Windows Installer XML (WiX) sample contains an XSL transformation that demonstrates the use
+						of these parameters.
+					</para>
+				</alert>
+			</content>
+		</section>
 		<relatedTopics>
 			<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3" />
 			<link xlink:href="613da747-f812-4393-98b6-c764a105bdf1" />

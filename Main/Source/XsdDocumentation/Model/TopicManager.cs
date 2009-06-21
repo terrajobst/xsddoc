@@ -28,6 +28,7 @@ namespace XsdDocumentation.Model
 			_topics = topicBuilder.GetRootTopics();
 
 			RemoveNamespaceContainerIfConfigured();
+			RemoveSchemasIfConfigured();
 			SortNamespaces();
 			InsertNamespaceOverviewTopics();
 			InsertNamespaceRootTopics();
@@ -93,6 +94,35 @@ namespace XsdDocumentation.Model
 			}
 
 			Context.Configuration.NamespaceContainer = !removeNamespaceTopic;
+		}
+
+		private void RemoveSchemasIfConfigured()
+		{
+			if (Context.Configuration.DocumentSchemas)
+				return;
+
+			if (!Context.Configuration.NamespaceContainer)
+			{
+				RemoveSchemas(_topics);
+			}
+			else
+			{
+				foreach (var namespaceTopic in _topics)
+					RemoveSchemas(namespaceTopic.Children);
+			}
+		}
+
+		private void RemoveSchemas(IList<Topic> topics)
+		{
+			for (var i = topics.Count - 1; i >= 0; i--)
+			{
+				var topic = topics[i];
+				if (topic.TopicType != TopicType.Schema)
+					continue;
+
+				topics.RemoveAt(i);
+				_topicDictionary.Remove(topic.SchemaObject);
+			}
 		}
 
 		private void SortNamespaces()
@@ -166,11 +196,17 @@ namespace XsdDocumentation.Model
 
 		private void InsertNamespaceRootTopics(string namespaceUri, IList<Topic> namespaceChildren)
 		{
-			var rootElements = Context.SchemaSetManager.GetNamespaceRootElements(namespaceUri);
-			var rootSchemas = Context.SchemaSetManager.GetNamespaceRootSchemas(namespaceUri);
+			if (Context.Configuration.DocumentRootElements)
+			{
+				var rootElements = Context.SchemaSetManager.GetNamespaceRootElements(namespaceUri);
+				InsertNamespaceRootTopic(namespaceUri, namespaceChildren, rootElements, TopicType.RootElementsSection);
+			}
 
-			InsertNamespaceRootTopic(namespaceUri, namespaceChildren, rootElements, TopicType.RootElementsSection);
-			InsertNamespaceRootTopic(namespaceUri, namespaceChildren, rootSchemas, TopicType.RootSchemasSection);
+			if (Context.Configuration.DocumentRootSchemas && Context.Configuration.DocumentSchemas)
+			{
+				var rootSchemas = Context.SchemaSetManager.GetNamespaceRootSchemas(namespaceUri);
+				InsertNamespaceRootTopic(namespaceUri, namespaceChildren, rootSchemas, TopicType.RootSchemasSection);
+			}
 		}
 
 		private static void InsertNamespaceRootTopic(string namespaceUri, IList<Topic> namespaceChildren, IEnumerable<XmlSchemaObject> rootItems, TopicType topicType)
@@ -315,20 +351,23 @@ namespace XsdDocumentation.Model
 
 		private void SetTopicIds()
 		{
+			var guidsInUse = new HashSet<Guid>();
 			using (var md5 = HashAlgorithm.Create("MD5"))
-				SetTopicIds(_topics, md5);
+				SetTopicIds(_topics, md5, guidsInUse);
 		}
 
-		private static void SetTopicIds(IEnumerable<Topic> topics, HashAlgorithm algorithm)
+		private static void SetTopicIds(IEnumerable<Topic> topics, HashAlgorithm algorithm, HashSet<Guid> guidsInUse)
 		{
 			foreach (var topic in topics)
 			{
 				var input = Encoding.UTF8.GetBytes(topic.LinkUri);
 				var output = algorithm.ComputeHash(input);
 				var guid = new Guid(output);
+				while (!guidsInUse.Add(guid))
+					guid = Guid.NewGuid();
 				topic.Id = guid.ToString();
 
-				SetTopicIds(topic.Children, algorithm);
+				SetTopicIds(topic.Children, algorithm, guidsInUse);
 			}
 		}
 

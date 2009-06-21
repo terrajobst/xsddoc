@@ -58,6 +58,9 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Helpers\XsdDocumentationException.cs" />
+    <Compile Include="Model\IMessageReporter.cs" />
+    <Compile Include="Model\ProblemReporter.cs" />
     <Compile Include="Markup\AlertClass.cs" />
     <Compile Include="Markup\ListClass.cs" />
     <Compile Include="Markup\MamlWriter.cs" />

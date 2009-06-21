@@ -58,6 +58,24 @@ namespace XsdDocumentation.Markup
 			writer.EndHtmlArtItem();
 		}
 
+		private static void WriteHtmlNamespaceLink(this MamlWriter writer, Context context, string namespaceUri)
+		{
+			var topic = context.TopicManager.GetNamespaceTopic(namespaceUri);
+			if (topic == null)
+				writer.WriteString(namespaceUri ?? "Empty");
+			else
+				writer.WriteHtmlTopicLink(topic);
+		}
+
+		private static void WriteHtmlSchemaLink(this MamlWriter writer, Context context, XmlSchemaObject obj)
+		{
+			var topic = context.TopicManager.GetTopic(obj.GetSchema());
+			if (topic == null)
+				writer.WriteString(obj.GetSchemaName());
+			else
+				writer.WriteHtmlTopicLink(topic);
+		}
+
 		public static void WriteArtItemInline(this MamlWriter writer, ArtItem artItem)
 		{
 			writer.WriteMediaLinkInline(artItem.Id);
@@ -75,6 +93,15 @@ namespace XsdDocumentation.Markup
 			writer.WriteLink(rootItemTopic.Id, rootItemTopic.LinkTitle, xmlTopicType);
 		}
 
+		public static void WriteNamespaceLink(this MamlWriter writer, Context context, string namespaceUri)
+		{
+			var topic = context.TopicManager.GetNamespaceTopic(namespaceUri);
+			if (topic == null)
+				writer.WriteString(namespaceUri ?? "Empty");
+			else
+				writer.WriteTopicLink(topic);
+		}
+
 		public static void WriteSummary(this MamlWriter writer, DocumentationInfo documentationInfo)
 		{
 			if (documentationInfo != null && documentationInfo.SummaryNode != null)
@@ -90,7 +117,7 @@ namespace XsdDocumentation.Markup
 		public static void WriteNamespaceInfo(this MamlWriter writer, Context context, string namespaceUri)
 		{
 			writer.WriteRaw(@"<markup><p /><b>Namespace:</b> ");
-			writer.WriteNamespaceLink(context, namespaceUri);
+			writer.WriteHtmlNamespaceLink(context, namespaceUri);
 			writer.WriteRaw(@"<br/></markup>");
 		}
 
@@ -99,25 +126,10 @@ namespace XsdDocumentation.Markup
 			var targetNamespace = obj.GetSchema().TargetNamespace;
 
 			writer.WriteRaw(@"<markup><p /><b>Namespace:</b> ");
-			writer.WriteNamespaceLink(context, targetNamespace);
+			writer.WriteHtmlNamespaceLink(context, targetNamespace);
 			writer.WriteRaw(@"<br/><b>Schema:</b> ");
-			writer.WriteSchemaLink(context, obj);
+			writer.WriteHtmlSchemaLink(context, obj);
 			writer.WriteRaw(@"<br/></markup>");
-		}
-
-		public static void WriteNamespaceLink(this MamlWriter writer, Context context, string namespaceUri)
-		{
-			var topic = context.TopicManager.GetNamespaceTopic(namespaceUri);
-			if (topic == null)
-				writer.WriteString(namespaceUri ?? "Empty");
-			else
-				writer.WriteHtmlTopicLink(topic);
-		}
-
-		private static void WriteSchemaLink(this MamlWriter writer, Context context, XmlSchemaObject obj)
-		{
-			var topic = context.TopicManager.GetTopic(obj.GetSchema());
-			writer.WriteHtmlTopicLink(topic);
 		}
 
 		public static void WriteLinksForObject(this MamlWriter writer, XmlSchemaObject obj, Context context)

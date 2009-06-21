@@ -1,9 +1,5 @@
 Todos
 -----
-
-- Package the sample source together with their resulting CHM file
-  into a common ZIP file.
-- Document the XSLT parameters.
 - Investigate how we can use shared content for localization
 - Consider qualifiying names within parents/usages so that they are unqiue.
 - Redefinition?

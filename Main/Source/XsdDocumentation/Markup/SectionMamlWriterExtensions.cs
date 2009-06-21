@@ -68,7 +68,8 @@ namespace XsdDocumentation.Markup
 
 		public static void WriteTypeSection(this MamlWriter writer, Context context, XmlSchemaElement element)
 		{
-			if (element.ElementSchemaType is XmlSchemaSimpleType)
+			var isSimpleType = element.ElementSchemaType is XmlSchemaSimpleType;
+			if (!isSimpleType)
 			{
 				writer.StartSection("Type", "type");
 				writer.WriteTypeName(context.TopicManager, element.ElementSchemaType);
@@ -137,6 +138,9 @@ namespace XsdDocumentation.Markup
 
 		public static void WriteConstraintsSection(this MamlWriter writer, Context context, XmlSchemaObjectCollection constraints)
 		{
+			if (!context.Configuration.DocumentConstraints)
+				return;
+
 			writer.StartSection("Constraints", "constraints");
 			writer.WriteConstraintTable(context, constraints);
 			writer.EndSection();
@@ -192,6 +196,9 @@ namespace XsdDocumentation.Markup
 
 		public static void WriteSyntaxSection(this MamlWriter writer, Context context, XmlSchemaObject obj)
 		{
+			if (!context.Configuration.DocumentSyntax)
+				return;
+
 			var sourceCodeAbridged = context.SourceCodeManager.GetSourceCodeAbridged(obj);
 
 			writer.StartSection("Syntax", "syntax");
@@ -221,17 +228,20 @@ namespace XsdDocumentation.Markup
 
 		public static void WriteRootSchemasSection(this MamlWriter writer, Context context, IEnumerable<XmlSchemaObject> rootSchemas)
 		{
-			writer.WriteJumpTableSection(context, rootSchemas, "Root Schemas", "rootSchemas");
+			if (context.Configuration.DocumentRootSchemas && context.Configuration.DocumentSchemas)
+				writer.WriteJumpTableSection(context, rootSchemas, "Root Schemas", "rootSchemas");
 		}
 
 		public static void WriteRootElementsSection(this MamlWriter writer, Context context, IEnumerable<XmlSchemaObject> rootElements)
 		{
-			writer.WriteJumpTableSection(context, rootElements, "Root Elements", "rootElements");
+			if (context.Configuration.DocumentRootElements)
+				writer.WriteJumpTableSection(context, rootElements, "Root Elements", "rootElements");
 		}
 
 		public static void WriteSchemasSection(this MamlWriter writer, Context context, IEnumerable<XmlSchemaObject> schemas)
 		{
-			writer.WriteJumpTableSection(context, schemas, "Schemas", "schemas");
+			if (context.Configuration.DocumentSchemas)
+				writer.WriteJumpTableSection(context, schemas, "Schemas", "schemas");
 		}
 
 		public static void WriteElementsSection(this MamlWriter writer, Context context, IEnumerable<XmlSchemaObject> elements)

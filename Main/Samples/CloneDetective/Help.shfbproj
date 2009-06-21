@@ -18,22 +18,23 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>..\..\Output\Samples\CloneDetective\</OutputPath>
+    <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>CloneDetective</HtmlHelpName>
     <HelpTitle>Clone Detective Sample</HelpTitle>
-    <CopyrightHref>
-    </CopyrightHref>
+    <CopyrightHref>http://xsddoc.codeplex.com</CopyrightHref>
     <RootNamespaceTitle>
     </RootNamespaceTitle>
     <PlugInConfigurations>
       <PlugInConfig id="XML Schema Documenter" enabled="True">
         <configuration>
-          <roots document="false" />
+          <document rootSchemas="true" rootElements="true" constraints="true" schemas="true" syntax="true" />
           <schemaSet container="true" title="" />
+          <namespace container="true" />
           <sortOrder>1</sortOrder>
+          <includeLinkUriInKeywordK>false</includeLinkUriInKeywordK>
           <annotationTransformFile path="" />
           <schemaFiles>
-            <schemaFile path="clonereport.xsd" />
+            <schemaFile path="Schemas\*.xsd" />
           </schemaFiles>
           <dependencyFiles />
           <docFiles>
@@ -42,10 +43,7 @@
           </docFiles>
         </configuration>
       </PlugInConfig>
-      <PlugInConfig id="Additional Content Only" enabled="True">
-        <configuration />
-      </PlugInConfig>
-    </PlugInConfigurations>
+<PlugInConfig id="Additional Content Only" enabled="True"><configuration /></PlugInConfig></PlugInConfigurations>
     <DocumentationSources>
     </DocumentationSources>
     <BuildLogFile>
@@ -58,8 +56,7 @@
     </SandcastlePath>
     <WorkingPath>
     </WorkingPath>
-    <CopyrightText>
-    </CopyrightText>
+    <CopyrightText>Produced with XML Schema Docmenter {%2540HelpFileVersion}</CopyrightText>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
     <FeedbackEMailLinkText>
@@ -67,6 +64,7 @@
     <ComponentConfigurations>
     </ComponentConfigurations>
     <CleanIntermediates>False</CleanIntermediates>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
   </PropertyGroup>
   <!--
 		There are no properties for these two groups but they need to appear in order for

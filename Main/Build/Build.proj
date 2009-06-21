@@ -72,16 +72,21 @@
 
 	<Target Name="Compile">
 		<MSBuild Projects="$(SourceDir)XsdDocumentation.sln"
-				 Properties="Configuration=$(Configuration);OutDir=$(GeneratedBinaries);PostBuildEvent=" />
+				 Properties="Configuration=$(Configuration);OutDir=$(GeneratedBinaries)" />
 	</Target>
 
-	<!-- Generate Help -->
+	<!-- Get Version -->
 
-	<Target Name="GenerateHelp" DependsOnTargets="CompileBuildTasks">
+	<Target Name="GetVersion">
 		<GetFileVersion File="$(GeneratedBinaries)XsdDocumentation.dll">
 			<Output TaskParameter="Version"
 					PropertyName="XsdDocVersion" />
 		</GetFileVersion>
+	</Target>
+
+	<!-- Generate Help -->
+
+	<Target Name="GenerateHelp" DependsOnTargets="CompileBuildTasks;GetVersion">
 		<MSBuild Projects="$(HelpDir)Help.shfbproj"
 				 Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion)" />
 	</Target>
@@ -113,19 +118,44 @@
 
 	<!-- Generate Samples -->
 
-	<Target Name="GenerateSamples">
-		<ItemGroup>
-			<Sample Include="$(SamplesDir)**\*.shfbproj" />
-		</ItemGroup>
+	<Target Name="GenerateSamples" DependsOnTargets="GetVersion">
+		<RemoveDir Directories="$(GeneratedSamples)" />
 
-		<MSBuild Projects="@(Sample)" />
+		<!-- Compile sample projects files -->
 
 		<ItemGroup>
-			<GeneratedSample Include="$(GeneratedSamples)**\*.chm" />
+			<SampleProjectCloneDetective Include="$(SamplesDir)CloneDetective\Help.shfbproj" />
+			<SampleProjectWiX Include="$(SamplesDir)WiX\Help.shfbproj" />
+			<SampleProjectXml Include="$(SamplesDir)Xml\Help.shfbproj" />
 		</ItemGroup>
 
-		<Copy SourceFiles="@(GeneratedSample)" DestinationFolder="$(GeneratedSamples)" />
-		<RemoveDir Directories="%(GeneratedSample.RootDir)%(GeneratedSample.Directory)" />
+		<MSBuild Projects="@(SampleProjectCloneDetective)"
+				 Properties="OutputPath=$(GeneratedSamples)CloneDetective;HelpFileVersion=$(XsdDocVersion)" />
+		<MSBuild Projects="@(SampleProjectWiX)"
+				 Properties="OutputPath=$(GeneratedSamples)WiX;HelpFileVersion=$(XsdDocVersion)" />
+		<MSBuild Projects="@(SampleProjectXml)"
+				 Properties="OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />
+
+		<!-- Delete all non CHM files -->
+
+		<ItemGroup>
+			<NonChmFiles Include="$(GeneratedSamples)**\*.*" Exclude="$(GeneratedSamples)**\*.chm" />
+		</ItemGroup>
+
+		<Delete Files="@(NonChmFiles)" />
+
+		<!-- Copy sample source code -->
+
+		<ItemGroup>
+			<SampleSourceCloneDetective Include="$(SamplesDir)CloneDetective\**\*.*" />
+			<SampleSourceWiX Include="$(SamplesDir)WiX\**\*.*" />
+			<SampleSourceXml Include="$(SamplesDir)Xml\**\*.*" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(SampleSourceCloneDetective)" DestinationFolder="$(GeneratedSamples)CloneDetective\Source\%(RecursiveDir)" />
+		<Copy SourceFiles="@(SampleSourceWiX)" DestinationFolder="$(GeneratedSamples)WiX\Source\%(RecursiveDir)" />
+		<Copy SourceFiles="@(SampleSourceXml)" DestinationFolder="$(GeneratedSamples)Xml\Source\%(RecursiveDir)" />
+		<Exec Command="attrib -r -h /s" WorkingDirectory="$(GeneratedSamples)" />
 	</Target>
 	
 	<!-- Generate Release -->
