@@ -139,6 +139,7 @@ namespace XsdDocumentation.Model
 					writer.StartTopic(topic.Id);
 					writer.WriteIntroductionForSchemaSet(_context);
 					writer.WriteRemarksSectionForSchemaSet(_context);
+					writer.WriteExamplesSectionForSchemaSet(_context);
 					writer.WriteNamespacesSection(_context, _context.SchemaSetManager.GetNamespaces());
 					writer.EndTopic();
 				}
@@ -154,6 +155,7 @@ namespace XsdDocumentation.Model
 					writer.StartTopic(topic.Id);
 					writer.WriteIntroductionForSchemaSet(_context);
 					writer.WriteRemarksSectionForSchemaSet(_context);
+					writer.WriteExamplesSectionForSchemaSet(_context);
 					writer.WriteRootSchemasSection(_context, _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace));
 					writer.WriteRootElementsSection(_context, _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace));
 					writer.WriteSchemasSection(_context, contentFinder.Schemas);
@@ -179,6 +181,7 @@ namespace XsdDocumentation.Model
 				writer.StartTopic(topic.Id);
 				writer.WriteIntroductionForNamespace(_context, topic.Namespace);
 				writer.WriteRemarksSectionForNamespace(_context, topic.Namespace);
+				writer.WriteExamplesSectionForNamespace(_context, topic.Namespace);
 				writer.WriteRootSchemasSection(_context, _context.SchemaSetManager.GetNamespaceRootSchemas(topic.Namespace));
 				writer.WriteRootElementsSection(_context, _context.SchemaSetManager.GetNamespaceRootElements(topic.Namespace));
 				writer.WriteSchemasSection(_context, contentFinder.Schemas);
@@ -205,6 +208,7 @@ namespace XsdDocumentation.Model
 				writer.StartTopic(topic.Id);
 				writer.WriteIntroductionForSchema(_context, schema);
 				writer.WriteRemarksSectionForObject(_context, schema);
+				writer.WriteExamplesSectionForObject(_context, schema);
 				writer.WriteElementsSection(_context, contentFinder.Elements);
 				writer.WriteAttributesSection(_context, contentFinder.Attributes);
 				writer.WriteGroupsSection(_context, contentFinder.Groups);
@@ -284,6 +288,7 @@ namespace XsdDocumentation.Model
 				writer.WriteAttributesSection(_context, attributeEntries);
 				writer.WriteConstraintsSection(_context, constraints);
 				writer.WriteRemarksSectionForObject(_context, element);
+				writer.WriteExamplesSectionForObject(_context, element);
 				writer.WriteSyntaxSection(_context, element);
 				writer.WriteRelatedTopics(_context, element);
 				writer.EndTopic();
@@ -304,6 +309,7 @@ namespace XsdDocumentation.Model
 				writer.WriteContentTypeSection(_context, simpleTypeStructureRoot);
 				writer.WriteParentsSection(_context, parents);
 				writer.WriteRemarksSectionForObject(_context, attribute);
+				writer.WriteExamplesSectionForObject(_context, attribute);
 				writer.WriteSyntaxSection(_context, attribute);
 				writer.WriteRelatedTopics(_context, attribute);
 				writer.EndTopic();
@@ -324,6 +330,7 @@ namespace XsdDocumentation.Model
 				writer.WriteUsagesSection(_context, parents);
 				writer.WriteChildrenSection(_context, children);
 				writer.WriteRemarksSectionForObject(_context, group);
+				writer.WriteExamplesSectionForObject(_context, group);
 				writer.WriteSyntaxSection(_context, group);
 				writer.WriteRelatedTopics(_context, group);
 				writer.EndTopic();
@@ -344,6 +351,7 @@ namespace XsdDocumentation.Model
 				writer.WriteUsagesSection(_context, usages);
 				writer.WriteAttributesSection(_context, attributeEntries);
 				writer.WriteRemarksSectionForObject(_context, attributeGroup);
+				writer.WriteExamplesSectionForObject(_context, attributeGroup);
 				writer.WriteSyntaxSection(_context, attributeGroup);
 				writer.WriteRelatedTopics(_context, attributeGroup);
 				writer.EndTopic();
@@ -364,6 +372,7 @@ namespace XsdDocumentation.Model
 				writer.WriteContentTypeSection(_context, simpleTypeStructureRoot);
 				writer.WriteUsagesSection(_context, usages);
 				writer.WriteRemarksSectionForObject(_context, simpleType);
+				writer.WriteExamplesSectionForObject(_context, simpleType);
 				writer.WriteSyntaxSection(_context, simpleType);
 				writer.WriteRelatedTopics(_context, simpleType);
 				writer.EndTopic();
@@ -389,6 +398,7 @@ namespace XsdDocumentation.Model
 				writer.WriteChildrenSection(_context, children);
 				writer.WriteAttributesSection(_context, attributeEntries);
 				writer.WriteRemarksSectionForObject(_context, complexType);
+				writer.WriteExamplesSectionForObject(_context, complexType);
 				writer.WriteSyntaxSection(_context, complexType);
 				writer.WriteRelatedTopics(_context, complexType);
 				writer.EndTopic();

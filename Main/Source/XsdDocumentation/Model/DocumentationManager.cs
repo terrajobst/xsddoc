@@ -230,9 +230,10 @@ namespace XsdDocumentation.Model
 
 		private void InitializeDocumentationInfo(XmlSchemaObject documentatbleObject, DocumentationInfo documentationInfo, XmlNode schemaDocElement, XmlNamespaceManager namespaceManager)
 		{
-			documentationInfo.SummaryNode = schemaDocElement.SelectSingleNode("ddue:summary", namespaceManager);
-			documentationInfo.RemarksNode = schemaDocElement.SelectSingleNode("ddue:remarks", namespaceManager);
-			documentationInfo.RelatedTopicsNode = schemaDocElement.SelectSingleNode("ddue:relatedTopics", namespaceManager);
+			documentationInfo.SummaryNode = schemaDocElement.SelectSingleNode("ddue:summary", namespaceManager) ?? documentationInfo.SummaryNode;
+			documentationInfo.RemarksNode = schemaDocElement.SelectSingleNode("ddue:remarks", namespaceManager) ?? documentationInfo.RemarksNode;
+			documentationInfo.ExamplesNode = schemaDocElement.SelectSingleNode("xsd:examples", namespaceManager) ?? documentationInfo.ExamplesNode;
+			documentationInfo.RelatedTopicsNode = schemaDocElement.SelectSingleNode("ddue:relatedTopics", namespaceManager) ?? documentationInfo.RelatedTopicsNode;
 
 			// schemaset and namespaces do not have an XmlSchemaObject counterpart.
 			if (documentatbleObject != null)

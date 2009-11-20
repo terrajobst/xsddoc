@@ -9,10 +9,8 @@
 			This file is a placholder for the Microsoft Assistance Markup Language (MAML)
 			schema. It is only used to allow the XSD schema to be documented.
 		</xs:documentation>
-		<xs:appinfo>
-			
-		</xs:appinfo>
 	</xs:annotation>
+
 	<xs:element name="summary">
 		<xs:annotation>
 			<xs:documentation>
@@ -36,5 +34,13 @@
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+
+	<xs:complexType name="namedSectionType">
+		<xs:annotation>
+			<xs:documentation>
+				This represents a named section in MAML.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
 
 </xs:schema>

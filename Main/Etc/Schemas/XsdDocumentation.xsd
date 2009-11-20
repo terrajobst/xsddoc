@@ -31,6 +31,14 @@
 		</xs:annotation>
 	</xs:element>
 
+	<xs:element name="examples" type="ddue:namedSectionType">
+		<xs:annotation>
+			<xs:documentation>
+				This element holds a discussion of an example.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
 	<xs:element name="doc" >
 		<xs:annotation>
 			<xs:documentation>
@@ -150,6 +158,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element ref="examples" minOccurs="0" />
 			<xs:element ref="ddue:relatedTopics" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>

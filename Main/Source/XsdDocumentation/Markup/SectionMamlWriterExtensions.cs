@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Schema;
 
 using XsdDocumentation.Model;
@@ -8,6 +9,24 @@ namespace XsdDocumentation.Markup
 {
 	internal static class SectionMamlWriterExtensions
 	{
+		#region Section
+		
+		private static void WriteSection(this MamlWriter writer, string title, string address, XmlNode sectionNode)
+		{
+			var contentNode = sectionNode.ChildNodes[0];
+			var sectionsNode = sectionNode.ChildNodes.Count <= 1
+								? null
+								: sectionNode.ChildNodes[1];
+			
+			writer.StartSection(title, address);
+			writer.WriteRawContent(contentNode);
+			if (sectionsNode != null)
+				writer.WriteRawContent(sectionsNode);
+			writer.EndSection();
+		}
+
+		#endregion
+
 		#region Introduction
 
 		public static void WriteIntroductionForSchemaSet(this MamlWriter writer, Context context)
@@ -184,10 +203,37 @@ namespace XsdDocumentation.Markup
 			if (documentationInfo == null || documentationInfo.RemarksNode == null)
 				return;
 
-			var contentNode = documentationInfo.RemarksNode.ChildNodes[0];
-			writer.StartSection("Remarks", "remarks");
-			writer.WriteRawContent(contentNode);
-			writer.EndSection();
+			writer.WriteSection("Remarks", "remarks", documentationInfo.RemarksNode);
+		}
+
+		#endregion
+
+		#region Examples
+
+		public static void WriteExamplesSectionForSchemaSet(this MamlWriter writer, Context context)
+		{
+			var documentationInfo = context.DocumentationManager.GetSchemaSetDocumentationInfo();
+			writer.WriteExamplesSection(documentationInfo);
+		}
+
+		public static void WriteExamplesSectionForNamespace(this MamlWriter writer, Context context, string targetNamespace)
+		{
+			var documentationInfo = context.DocumentationManager.GetNamespaceDocumentationInfo(targetNamespace);
+			writer.WriteExamplesSection(documentationInfo);
+		}
+
+		public static void WriteExamplesSectionForObject(this MamlWriter writer, Context context, XmlSchemaObject obj)
+		{
+			var documentationInfo = context.DocumentationManager.GetObjectDocumentationInfo(obj);
+			writer.WriteExamplesSection(documentationInfo);
+		}
+
+		private static void WriteExamplesSection(this MamlWriter writer, DocumentationInfo documentationInfo)
+		{
+			if (documentationInfo == null || documentationInfo.ExamplesNode == null)
+				return;
+
+			writer.WriteSection("Examples", "examples", documentationInfo.ExamplesNode);
 		}
 
 		#endregion

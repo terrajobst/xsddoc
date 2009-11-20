@@ -39,6 +39,22 @@
 				</alert>
 			</content>
 		</section>
+		<section address="examples">
+			<title>examples Element</title>
+			<content>
+				<para>
+					The <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/examples</xsd:xmlEntityReference>
+					element contains a discussion of an example for the current item.
+				</para>
+				<alert class="note">
+					<para>
+						Although this is not a standard element imported from the Microsoft Assistance Markup Language (MAML)
+						it is typed as a MAML section and therefore allows the same contents as the <codeInline>remarks</codeInline>
+						element. Please see the MAML documentation for details how to use sections.
+				</para>
+				</alert>
+			</content>
+		</section>
 		<section address="parent">
 			<title>parent Element</title>
 			<content>
@@ -84,6 +100,7 @@
 			</content>
 		</section>
 		<relatedTopics>
+			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/examples</xsd:xmlEntityReference>
 			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
 			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/obsolete</xsd:xmlEntityReference>
 			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
