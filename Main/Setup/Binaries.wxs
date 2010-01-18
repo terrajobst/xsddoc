@@ -18,7 +18,7 @@
 				<File Id="XsdDocumentation.BuildComponents.components" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.BuildComponents.components" />
 			</Component>
 			<Component Id="AnnotationTranform.xslt" Guid="{056966E9-AA5F-4670-92CE-70E49D4701F9}">
-				<File Id="AnnotationTranform.xslt" KeyPath="yes" Source="$(var.EtcFolder)Schemas\AnnotationTranform.xslt" />
+				<File Id="AnnotationTranform.xslt" KeyPath="yes" Source="$(var.BinFolder)AnnotationTranform.xslt" />
 			</Component>
 			<Component Id="Help.chm" Guid="{142A6051-2102-4B95-B65D-FDCFAE12C5CD}">
 				<File Id="Help.chm" KeyPath="yes" Source="$(var.HelpFolder)Help.chm" />

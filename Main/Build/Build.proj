@@ -9,6 +9,7 @@
 		<ProjectDir>$(BuildDir)..\</ProjectDir>
 		<SourceDir>$(ProjectDir)Source\</SourceDir>
 		<SetupDir>$(ProjectDir)Setup\</SetupDir>
+		<EtcDir>$(ProjectDir)Etc\</EtcDir>
 		<LibDir>$(ProjectDir)Lib\</LibDir>
 		<HelpDir>$(ProjectDir)Help\</HelpDir>
 		<SamplesDir>$(ProjectDir)Samples\</SamplesDir>
@@ -19,6 +20,7 @@
 		<GeneratedSourceCode>$(OutputDir)Source\</GeneratedSourceCode>
 		<GeneratedSamples>$(OutputDir)Samples\</GeneratedSamples>
 		<GeneratedRelease>$(OutputDir)Release\</GeneratedRelease>
+		<BootstrappedShfb>$(OutputDir)SHFB\</BootstrappedShfb>
 		<Configuration>Release</Configuration>
 	</PropertyGroup>
 
@@ -58,7 +60,6 @@
 		<RemoveDir Directories="$(OutputDir)" />
 	</Target>
 
-
 	<!-- Compile MSBuild tasks needed by the build process itself -->
 
 	<Target Name="CompileBuildTasks">
@@ -71,10 +72,11 @@
 	<!-- Compile -->
 
 	<Target Name="Compile">
-		<MSBuild Projects="$(SourceDir)XsdDocumentation.sln"
+		<!-- First we have to compile our projects. -->
+		<MSBuild Projects="$(SourceDir)XsdDocumentation.sln" Targets="XsdDocumentation_PlugIn;XsdDocumentation_BuildComponents"
 				 Properties="Configuration=$(Configuration);OutDir=$(GeneratedBinaries)" />
 
-		<!-- Rename built component file -->
+		<!-- Rename build component file -->
 		<Copy SourceFiles="$(GeneratedBinaries)XsdDocumentation.BuildComponents.dll.config"
 			  DestinationFiles="$(GeneratedBinaries)XsdDocumentation.BuildComponents.components" />
 		<Delete Files="$(GeneratedBinaries)XsdDocumentation.BuildComponents.dll.config" />
@@ -83,6 +85,19 @@
 		<Copy SourceFiles="$(GeneratedBinaries)XsdDocumentation.PlugIn.dll"
 			  DestinationFiles="$(GeneratedBinaries)XsdDocumentation.PlugIn.plugins" />
 		<Delete Files="$(GeneratedBinaries)XsdDocumentation.PlugIn.dll" />
+
+		<!-- Delete all files that are already part of SHFB. -->
+		<ItemGroup>
+			<ShfbFiles Include="$(SHFBROOT)\*.*" />
+		</ItemGroup>
+		<Delete Files="@(ShfbFiles->'$(GeneratedBinaries)%(filename)%(extension)')" />
+
+		<!-- Copy in required runtime files. -->
+		<ItemGroup>
+			<MediaFiles Include="$(EtcDir)Media\**\*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(MediaFiles)" DestinationFolder="$(GeneratedBinaries)Media\%(RecursiveDir)" />
+		<Copy SourceFiles="$(EtcDir)Schemas\AnnotationTranform.xslt" DestinationFolder="$(GeneratedBinaries)" />
 	</Target>
 
 	<!-- Get Version -->
@@ -99,8 +114,22 @@
 	<!-- Generate Help -->
 
 	<Target Name="GenerateHelp" DependsOnTargets="GetVersion">
+		<!-- We copy the complete SHFB installation to the output folder in order
+		     to bootstrap XSDDoc since we need ourself to generate documenation for
+		     our schemas.
+		-->
+		<ItemGroup>
+			<ShfbFiles Include="$(SHFBROOT)**\*.*" />
+			<XsdFiles Include="$(GeneratedBinaries)**\*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(ShfbFiles)" DestinationFolder="$(BootstrappedShfb)%(RecursiveDir)" />
+		<Copy SourceFiles="@(XsdFiles)" DestinationFolder="$(BootstrappedShfb)XsdDoc\%(RecursiveDir)" />
+
+		<!-- Now we can run SHFB from our output folder. This is done by providing overriding
+		     the SHFBROOT property
+		-->
 		<MSBuild Projects="$(HelpDir)Help.shfbproj"
-				 Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDoc);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
+				 Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDoc);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
 	</Target>
 
 	<!-- Generate Setup -->
@@ -115,11 +144,16 @@
 	<Target Name="GenerateSourceCode" DependsOnTargets="CompileBuildTasks">
 		<ItemGroup>
 			<SourceCodeFiles Include="$(ProjectDir)**\*.*"
-							 Exclude="$(OutputDir)**\*.*;$(LibDir)**\*.*;$(CustomTasksDir)**\*.*;$(ProjectDir)**\bin\**\*.*;$(ProjectDir)**\obj\**\*.*;$(ProjectDir)**\*.scc;$(ProjectDir)**\*.vssscc;$(ProjectDir)**\*.vspscc;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
+							 Exclude="$(OutputDir)**;$(LibDir)**;$(ProjectDir)**\bin\**;$(ProjectDir)**\obj\**;$(ProjectDir)**\*.scc;$(ProjectDir)**\*.vssscc;$(ProjectDir)**\*.vspscc;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
 		</ItemGroup>
 
 		<Copy SourceFiles="@(SourceCodeFiles)" DestinationFolder="$(GeneratedSourceCode)%(RecursiveDir)" />
 		<Exec Command="attrib -r -h /s" WorkingDirectory="$(GeneratedSourceCode)" />
+
+		<!-- For some strange reason, excluding $(CustomTasksDir)**\*.* does not work. I assume there are some weird issues
+		     in MSBuild that causes currently opened/locked files not being added correctly to the list of exclusions.
+		-->
+		<RemoveDir Directories="$(GeneratedSourceCode)\Build\Custom Tasks" />
 
 		<ItemGroup>
 			<SolutionFiles Include="$(GeneratedSourceCode)Source\XsdDocumentation.sln" />
@@ -174,6 +208,7 @@
 
 	<Target Name="GenerateRelease">
 		<ItemGroup>
+			<GeneratedBuildServerFiles Include="$(GeneratedBinaries)\**\*.*" />
 			<GeneratedSourceCodeFiles Include="$(GeneratedSourceCode)\**\*.*" />
 			<GeneratedSetupFiles Include="$(GeneratedSetup)\**\*.*" />
 			<GeneratedSampleFiles Include="$(GeneratedSamples)\**\*.*" />
@@ -181,6 +216,7 @@
 
 		<RemoveDir Directories="$(GeneratedRelease)" />
 		<MakeDir Directories="$(GeneratedRelease)" />
+		<Zip WorkingDirectory="$(GeneratedBinaries)" Files="@(GeneratedBuildServerFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_BuildServer.zip" />
 		<Zip WorkingDirectory="$(GeneratedSourceCode)" Files="@(GeneratedSourceCodeFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Source.zip" />
 		<Zip WorkingDirectory="$(GeneratedSetup)" Files="@(GeneratedSetupFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Setup.zip" />
 		<Zip WorkingDirectory="$(GeneratedSamples)" Files="@(GeneratedSampleFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Samples.zip" />

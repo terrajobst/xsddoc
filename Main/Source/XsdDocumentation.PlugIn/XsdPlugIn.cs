@@ -219,7 +219,7 @@ namespace XsdDocumentation.PlugIn
 			return buildItem;
 		}
 
-		public static string GetComponentId()
+		private static string GetComponentId()
 		{
 			return @"XsdResolveLinks";
 		}
@@ -228,8 +228,10 @@ namespace XsdDocumentation.PlugIn
 		{
 			var id = GetComponentId();
 			const string name = @"XsdDocumentation.BuildComponents.XsdResolveLinksComponent";
-			const string location = @"{@ComponentsFolder}\XML Schema Documenter\XsdDocumentation.BuildComponents.dll";
-			var componentConfig = string.Format(@"<component id=""{0}"" type=""{1}"" assembly=""{2}""><indexFile location=""{3}"" /></component>", id, name, location, indexFileName);
+			const string componentDllName = "XsdDocumentation.BuildComponents.dll";
+			var plugInDirectoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			var componentPath = Path.Combine(plugInDirectoryPath, componentDllName);
+			var componentConfig = string.Format(@"<component id=""{0}"" type=""{1}"" assembly=""{2}""><indexFile location=""{3}"" /></component>", id, name, componentPath, indexFileName);
 			return componentConfig;
 		}
 
