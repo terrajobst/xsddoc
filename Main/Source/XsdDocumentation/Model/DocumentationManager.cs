@@ -149,81 +149,86 @@ namespace XsdDocumentation.Model
 		{
 			foreach (var externalDocFileName in Context.Configuration.DocFileNames)
 			{
-				var doc = new XmlDocument();
 				try
 				{
-					doc.Load(externalDocFileName);
+					LoadExternalDocumentation(externalDocFileName);
 				}
 				catch (Exception ex)
 				{
 					throw ExceptionBuilder.ErrorReadingExternalDocumentation(externalDocFileName, ex);
 				}
+			}
+		}
 
-				const string schemaSetUri = "##SchemaSet";
-				const string namespaceUri = "##Namespace";
+		private void LoadExternalDocumentation(string externalDocFileName)
+		{
+			var doc = new XmlDocument();
+			doc.Load(externalDocFileName);
 
-				var namespaceManager = GetNamespaceManager(doc);
-				var namespaceKey = doc.SelectSingleNode("//xsd:namespace/xsd:name", namespaceManager).InnerText;
-				var memberNodes = doc.SelectNodes("//xsd:member", namespaceManager);
+			const string schemaSetUri = "##SchemaSet";
+			const string namespaceUri = "##Namespace";
 
-				if (memberNodes != null)
+			var namespaceManager = GetNamespaceManager(doc);
+			var namespaceKey = doc.SelectSingleNode("//xsd:namespace/xsd:name", namespaceManager).InnerText;
+			var memberNodes = doc.SelectNodes("//xsd:member", namespaceManager);
+
+			if (memberNodes != null)
+			{
+				foreach (XmlNode memberNode in memberNodes)
 				{
-					foreach (XmlNode memberNode in memberNodes)
+					var partialDocUri = memberNode.Attributes["uri"].Value;
+
+					XmlSchemaObject documentableObject;
+					DocumentationInfo documentationInfo;
+
+					switch (partialDocUri)
 					{
-						var partialDocUri = memberNode.Attributes["uri"].Value;
-
-						XmlSchemaObject documentableObject;
-						DocumentationInfo documentationInfo;
-
-						switch (partialDocUri)
+						case schemaSetUri:
 						{
-							case schemaSetUri:
+							documentableObject = null;
+							documentationInfo = GetOrCreateDocumentationInfo(Context.SchemaSetManager.SchemaSet);
+							break;
+						}
+						case namespaceUri:
+						{
+							if (namespaceKey == schemaSetUri)
+							{
+								Context.ProblemReporter.InvalidNamespaceUriInSchemaSet(externalDocFileName);
+								documentableObject = null;
+								documentationInfo = null;
+							}
+							else
 							{
 								documentableObject = null;
-								documentationInfo = GetOrCreateDocumentationInfo(Context.SchemaSetManager.SchemaSet);
-								break;
+								documentationInfo = GetOrCreateDocumentationInfo(namespaceKey);
 							}
-							case namespaceUri:
-							{
-								if (namespaceKey == schemaSetUri)
-								{
-									Context.ProblemReporter.InvalidNamespaceUriInSchemaSet(externalDocFileName);
-									documentableObject = null;
-									documentationInfo = null;
-								}
-								else
-								{
-									documentableObject = null;
-									documentationInfo = GetOrCreateDocumentationInfo(namespaceKey);
-								}
-								break;
-							}
-							default:
-							{
-								var docUri = (namespaceKey == schemaSetUri)
-								             	? partialDocUri
-								             	: namespaceKey + "#" + partialDocUri;
-								var topic = Context.TopicManager.GetTopicByUri(docUri);
-
-								if (topic == null)
-								{
-									documentableObject = null;
-									documentationInfo = null;
-								}
-								else
-								{
-									documentableObject = topic.SchemaObject;
-									documentationInfo = (topic.TopicType == TopicType.Namespace)
-									                    	? GetOrCreateDocumentationInfo(topic.Namespace)
-									                    	: GetOrCreateDocumentationInfo(topic.SchemaObject);
-								}
-							}
-								break;
+							break;
 						}
+						default:
+						{
+							var docUri = (namespaceKey == schemaSetUri)
+							             	? partialDocUri
+							             	: namespaceKey + "#" + partialDocUri;
+							var topic = Context.TopicManager.GetTopicByUri(docUri);
 
-						if (documentationInfo != null)
-							InitializeDocumentationInfo(documentableObject, documentationInfo, memberNode, namespaceManager);
+							if (topic == null)
+							{
+								documentableObject = null;
+								documentationInfo = null;
+							}
+							else
+							{
+								documentableObject = topic.SchemaObject;
+								documentationInfo = (topic.TopicType == TopicType.Namespace)
+								                    	? GetOrCreateDocumentationInfo(topic.Namespace)
+								                    	: GetOrCreateDocumentationInfo(topic.SchemaObject);
+							}
+						}
+							break;
 					}
+
+					if (documentationInfo != null)
+						InitializeDocumentationInfo(documentableObject, documentationInfo, memberNode, namespaceManager);
 				}
 			}
 		}
