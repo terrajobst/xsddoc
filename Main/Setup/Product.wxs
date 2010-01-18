@@ -16,7 +16,7 @@
 
 		<Upgrade Id="$(var.UpgradeCode)">
 			<UpgradeVersion Minimum="!(bind.fileVersion.XsdDocumentation.PlugIn.plugins)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
-			<UpgradeVersion Minimum="0.0.0.0" IncludeMinimum="yes" Maximum="!(bind.fileVersion.XsdDocumentation.PlugIn.plugins)" IncludeMaximum="yes" Property="OLDERVERSIONBEINGUPGRADED" />
+			<UpgradeVersion Minimum="0.0.0.0" IncludeMinimum="yes" Maximum="!(bind.fileVersion.XsdDocumentation.PlugIn.plugins)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
 		</Upgrade>
 
 		<!-- Properties -->
