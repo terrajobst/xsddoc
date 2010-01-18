@@ -40,8 +40,6 @@
     </PlugInConfigurations>
     <HelpTitle>XML Schema Documenter</HelpTitle>
     <CleanIntermediates>True</CleanIntermediates>
-    <Preliminary>True</Preliminary>
-    <CopyrightText>[v{%40HelpFileVersion}] Copyright \xA9 2009 Immo Landwerth</CopyrightText>
     <CopyrightHref>http://xsddoc.codeplex.com</CopyrightHref>
     <FeedbackEMailAddress>terrajobst%40web.de</FeedbackEMailAddress>
     <FeedbackEMailLinkText>Immo Landwerth</FeedbackEMailLinkText>

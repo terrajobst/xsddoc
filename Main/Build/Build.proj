@@ -28,7 +28,7 @@
 
 	<!-- External Tasks -->
 
-	<UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.GetFileVersion" />
+	<UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
 	<UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.RemoveTfsBindings" />
 
 	<!-- Build -->
@@ -77,18 +77,20 @@
 
 	<!-- Get Version -->
 
-	<Target Name="GetVersion">
-		<GetFileVersion File="$(GeneratedBinaries)XsdDocumentation.dll">
-			<Output TaskParameter="Version"
+	<Target Name="GetVersion" DependsOnTargets="CompileBuildTasks">
+		<GetFileVersionInfo File="$(GeneratedBinaries)XsdDocumentation.dll">
+			<Output TaskParameter="FileVersion"
 					PropertyName="XsdDocVersion" />
-		</GetFileVersion>
+			<Output TaskParameter="LegalCopyright"
+					PropertyName="XsdDocCopyright"/>
+		</GetFileVersionInfo>
 	</Target>
 
 	<!-- Generate Help -->
 
-	<Target Name="GenerateHelp" DependsOnTargets="CompileBuildTasks;GetVersion">
+	<Target Name="GenerateHelp" DependsOnTargets="GetVersion">
 		<MSBuild Projects="$(HelpDir)Help.shfbproj"
-				 Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion)" />
+				 Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDoc);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
 	</Target>
 
 	<!-- Generate Setup -->
