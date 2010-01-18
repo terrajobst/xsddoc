@@ -73,6 +73,16 @@
 	<Target Name="Compile">
 		<MSBuild Projects="$(SourceDir)XsdDocumentation.sln"
 				 Properties="Configuration=$(Configuration);OutDir=$(GeneratedBinaries)" />
+
+		<!-- Rename built component file -->
+		<Copy SourceFiles="$(GeneratedBinaries)XsdDocumentation.BuildComponents.dll.config"
+			  DestinationFiles="$(GeneratedBinaries)XsdDocumentation.BuildComponents.components" />
+		<Delete Files="$(GeneratedBinaries)XsdDocumentation.BuildComponents.dll.config" />
+
+		<!-- Rename plugin file -->
+		<Copy SourceFiles="$(GeneratedBinaries)XsdDocumentation.PlugIn.dll"
+			  DestinationFiles="$(GeneratedBinaries)XsdDocumentation.PlugIn.plugins" />
+		<Delete Files="$(GeneratedBinaries)XsdDocumentation.PlugIn.dll" />
 	</Target>
 
 	<!-- Get Version -->

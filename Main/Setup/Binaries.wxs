@@ -3,31 +3,19 @@
 
 	<?include Product.wxi ?>
 
-	<Fragment Id="BuildComponents ">
-		<DirectoryRef Id="XsdDocBuildComponents">
+	<Fragment Id="XsdDocComponentsAndPlugIns">
+		<DirectoryRef Id="XsdDocComponentsAndPlugIns">
+			<Component Id="XsdDocumentation.dll" Guid="{182939C3-6E9A-4403-ABED-8E5E1E03B8CE}">
+				<File Id="XsdDocumentation.dll" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.dll" />
+			</Component>
+			<Component Id="XsdDocumentation.PlugIn.plugins" Guid="{7E697FD8-9669-4330-9920-925C8D039DD7}">
+				<File Id="XsdDocumentation.PlugIn.plugins" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.PlugIn.plugins" />
+			</Component>
 			<Component Id="XsdDocumentation.BuildComponents.dll" Guid="{6787E6BB-EFAF-4201-872B-1FDABED432FD}">
 				<File Id="XsdDocumentation.BuildComponents.dll" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.BuildComponents.dll" />
 			</Component>
-			<Component Id="XsdDocumentation.BuildComponents.dll.config" Guid="{5F3F429E-9916-479A-B684-6915292D0866}">
-				<File Id="XsdDocumentation.BuildComponents.dll.config" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.BuildComponents.dll.config" />
-			</Component>
-		</DirectoryRef>
-
-		<ComponentGroup Id="BuildComponents">
-			<ComponentRef Id="XsdDocumentation.BuildComponents.dll"/>
-			<ComponentRef Id="XsdDocumentation.BuildComponents.dll.config"/>
-		</ComponentGroup>
-	</Fragment>
-
-	<Fragment Id="PlugIns">
-		<DirectoryRef Id="XsdDocPlugIns">
-			<Component Id="XsdDocumentation.dll" Guid="{182939C3-6E9A-4403-ABED-8E5E1E03B8CE}">
-				<File Id="XsdDocumentation.dll" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.dll">
-					<CopyFile Id="CopyXsdDocumentationToBuildComponents" DestinationDirectory="XsdDocBuildComponents"/>
-				</File>
-			</Component>
-			<Component Id="XsdDocumentation.PlugIn.dll" Guid="{7E697FD8-9669-4330-9920-925C8D039DD7}">
-				<File Id="XsdDocumentation.PlugIn.dll" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.PlugIn.dll" />
+			<Component Id="XsdDocumentation.BuildComponents.components" Guid="{5F3F429E-9916-479A-B684-6915292D0866}">
+				<File Id="XsdDocumentation.BuildComponents.components" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.BuildComponents.components" />
 			</Component>
 			<Component Id="AnnotationTranform.xslt" Guid="{056966E9-AA5F-4670-92CE-70E49D4701F9}">
 				<File Id="AnnotationTranform.xslt" KeyPath="yes" Source="$(var.EtcFolder)Schemas\AnnotationTranform.xslt" />
@@ -37,9 +25,11 @@
 			</Component>
 		</DirectoryRef>
 
-		<ComponentGroup Id="PlugIns">
+		<ComponentGroup Id="XsdDocComponentsAndPlugIns">
 			<ComponentRef Id="XsdDocumentation.dll"/>
-			<ComponentRef Id="XsdDocumentation.PlugIn.dll"/>
+			<ComponentRef Id="XsdDocumentation.PlugIn.plugins"/>
+			<ComponentRef Id="XsdDocumentation.BuildComponents.dll"/>
+			<ComponentRef Id="XsdDocumentation.BuildComponents.components"/>
 			<ComponentRef Id="AnnotationTranform.xslt"/>
 			<ComponentRef Id="Help.chm"/>
 		</ComponentGroup>
@@ -61,9 +51,8 @@
 		<Feature Id="Binaries" Level="1" Absent="disallow" AllowAdvertise="no"
 				 Title="SHFB Integration"
 				 Description="Integrates [ProductName] into Sandcastle Help File Builder (SHFB).">
-			<ComponentGroupRef Id="BuildComponents"/>
-			<ComponentGroupRef Id="PlugIns"/>
-			<ComponentGroupRef Id="Media"/>
+			<ComponentGroupRef Id="XsdDocComponentsAndPlugIns"/>
+			<ComponentGroupRef Id="XsdDocMedia"/>
 		</Feature>
 		
 		<Feature Id="Schemas" Level="1" AllowAdvertise="no"

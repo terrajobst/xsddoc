@@ -4,19 +4,19 @@
 	<?include Product.wxi ?>
 
 	<Product Id="*" UpgradeCode="$(var.UpgradeCode)"
-			 Name="$(var.ProductName)" Version="!(bind.fileVersion.XsdDocumentation.PlugIn.dll)"
+			 Name="$(var.ProductName)" Version="!(bind.fileVersion.XsdDocumentation.PlugIn.plugins)"
 			 Language="1033" Manufacturer="$(var.Manufacturer)">
 
 		<!-- Package Definition -->
 
-		<Package Id="*" Compressed="yes" Description="$(var.ProductShortName) !(bind.fileVersion.XsdDocumentation.PlugIn.dll)" InstallerVersion="200"
+		<Package Id="*" Compressed="yes" Description="$(var.ProductShortName) !(bind.fileVersion.XsdDocumentation.PlugIn.plugins)" InstallerVersion="200"
 				 ShortNames="no" Manufacturer="$(var.Manufacturer)" Languages="1033" SummaryCodepage="1252" />
 
 		<!-- Major Upgrade Support -->
 
 		<Upgrade Id="$(var.UpgradeCode)">
-			<UpgradeVersion Minimum="!(bind.fileVersion.XsdDocumentation.PlugIn.dll)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
-			<UpgradeVersion Minimum="0.0.0.0" IncludeMinimum="yes" Maximum="!(bind.fileVersion.XsdDocumentation.PlugIn.dll)" IncludeMaximum="yes" Property="OLDERVERSIONBEINGUPGRADED" />
+			<UpgradeVersion Minimum="!(bind.fileVersion.XsdDocumentation.PlugIn.plugins)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
+			<UpgradeVersion Minimum="0.0.0.0" IncludeMinimum="yes" Maximum="!(bind.fileVersion.XsdDocumentation.PlugIn.plugins)" IncludeMaximum="yes" Property="OLDERVERSIONBEINGUPGRADED" />
 		</Upgrade>
 
 		<!-- Properties -->
@@ -66,11 +66,8 @@
 			<Directory Id="CommonAppDataFolder">
 				<Directory Id="EWSoftware" Name="EWSoftware">
 					<Directory Id="SHFB" Name="Sandcastle Help File Builder">
-						<Directory Id="BuildComponents" Name="Build Components">
-							<Directory Id="XsdDocBuildComponents" Name="XML Schema Documenter" />
-						</Directory>
-						<Directory Id="PlugIns" Name="Plug-Ins">
-							<Directory Id="XsdDocPlugIns" Name="XML Schema Documenter">
+						<Directory Id="ComponentsAndPlugIns" Name="Components and Plug-Ins">
+							<Directory Id="XsdDocComponentsAndPlugIns" Name="XML Schema Documenter">
 								<Directory Id="XsdDocMedia" Name="Media" />
 							</Directory>
 						</Directory>

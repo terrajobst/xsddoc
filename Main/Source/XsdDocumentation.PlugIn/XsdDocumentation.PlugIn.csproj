@@ -38,10 +38,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build.Engine" />
-    <Reference Include="SandcastleBuilder.Utils">
+    <Reference Include="SandcastleBuilder.Utils, Version=1.8.0.3, Culture=neutral, PublicKeyToken=71c06e0a0c1c8bf2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\SandcastleBuilder.Utils.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

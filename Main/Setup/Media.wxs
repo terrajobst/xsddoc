@@ -77,7 +77,7 @@
 		</DirectoryRef>
 	</Fragment>
 	<Fragment>
-		<ComponentGroup Id="Media">
+		<ComponentGroup Id="XsdDocMedia">
 			<ComponentRef Id="XsdAllIcon.png" />
 			<ComponentRef Id="XsdAnyAttributeIcon.png" />
 			<ComponentRef Id="XsdAnyElementIcon.png" />
