@@ -32,7 +32,7 @@
 		<Property Id="SHFB_EXISTS" Secure="yes">
 			<DirectorySearch Id="ShfbRootSearch" Path="[%SHFBROOT]">
 				<!-- We must set the version number one lower than the actual file we are looking for. -->
-				<FileSearch Name="SandcastleBuilderGUI.exe" MinVersion="1.8.0.1" />
+				<FileSearch Name="SandcastleBuilderGUI.exe" MinVersion="1.8.0.2" />
 			</DirectorySearch>
 		</Property>
 
@@ -46,7 +46,7 @@
 			NOT NEWERVERSIONDETECTED
 		</Condition>
 
-		<Condition Message="[ProductName] requires Sandcastle Help File Builder 1.8.0.2 or higher.&#13;&#10;&#13;&#10;Visit http://shfb.codeplex.com/ to download the latest stable release.">
+		<Condition Message="[ProductName] requires Sandcastle Help File Builder 1.8.0.3 or higher. If you just installed it, please make sure to reboot your machine. Otherwise certain required environment variables will not be visible.&#13;&#10;&#13;&#10;Visit http://shfb.codeplex.com/ to download the latest stable release.">
 			Installed OR SHFB_EXISTS
 		</Condition>
 
