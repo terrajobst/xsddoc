@@ -227,6 +227,20 @@ namespace XsdDocumentation.Markup
 
 		#endregion
 
+		#region Markup
+
+		public void StartMarkup()
+		{
+			_xmlWriter.WriteStartElement("markup", Namespaces.Maml);
+		}
+
+		public void EndMarkup()
+		{
+			_xmlWriter.WriteEndElement(); // markup
+		}
+
+		#endregion
+
 		#region Simple
 
 		public void WriteCode(string source, string language)
@@ -278,11 +292,6 @@ namespace XsdDocumentation.Markup
 		public void WriteRaw(string data)
 		{
 			_xmlWriter.WriteRaw(data);
-		}
-
-		public void WriteRaw(XmlNode node)
-		{
-			node.WriteTo(_xmlWriter);
 		}
 
 		public void WriteRawContent(XmlNode node)
