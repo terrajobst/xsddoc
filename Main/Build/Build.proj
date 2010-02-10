@@ -111,9 +111,9 @@
 		</GetFileVersionInfo>
 	</Target>
 
-	<!-- Generate Help -->
+	<!-- BootstrapXsdDoc -->
 
-	<Target Name="GenerateHelp" DependsOnTargets="GetVersion">
+	<Target Name="BootstrapXsdDoc">
 		<!-- We copy the complete SHFB installation to the output folder in order
 		     to bootstrap XSDDoc since we need ourself to generate documenation for
 		     our schemas.
@@ -124,12 +124,18 @@
 		</ItemGroup>
 		<Copy SourceFiles="@(ShfbFiles)" DestinationFolder="$(BootstrappedShfb)%(RecursiveDir)" />
 		<Copy SourceFiles="@(XsdFiles)" DestinationFolder="$(BootstrappedShfb)XsdDoc\%(RecursiveDir)" />
-
 		<!-- Now we can run SHFB from our output folder. This is done by providing overriding
 		     the SHFBROOT property
 		-->
+	</Target>
+	
+	<!-- Generate Help -->
+
+	<Target Name="GenerateHelp" DependsOnTargets="GetVersion;BootstrapXsdDoc">
+
+		<!-- Here we use our boostrapped version of SHFB with XsdDoc -->
 		<MSBuild Projects="$(HelpDir)Help.shfbproj"
-				 Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDoc);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
+				 Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
 	</Target>
 
 	<!-- Generate Setup -->
@@ -164,10 +170,10 @@
 
 	<!-- Generate Samples -->
 
-	<Target Name="GenerateSamples" DependsOnTargets="GetVersion">
+	<Target Name="GenerateSamples" DependsOnTargets="GetVersion;BootstrapXsdDoc">
 		<RemoveDir Directories="$(GeneratedSamples)" />
 
-		<!-- Compile sample projects files -->
+		<!-- Sample projects files -->
 
 		<ItemGroup>
 			<SampleProjectCloneDetective Include="$(SamplesDir)CloneDetective\Help.shfbproj" />
@@ -175,12 +181,14 @@
 			<SampleProjectXml Include="$(SamplesDir)Xml\Help.shfbproj" />
 		</ItemGroup>
 
+		<!-- Here we use our boostrapped version of SHFB with XsdDoc -->
+
 		<MSBuild Projects="@(SampleProjectCloneDetective)"
-				 Properties="OutputPath=$(GeneratedSamples)CloneDetective;HelpFileVersion=$(XsdDocVersion)" />
+				 Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)CloneDetective;HelpFileVersion=$(XsdDocVersion)" />
 		<MSBuild Projects="@(SampleProjectWiX)"
-				 Properties="OutputPath=$(GeneratedSamples)WiX;HelpFileVersion=$(XsdDocVersion)" />
+				 Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)WiX;HelpFileVersion=$(XsdDocVersion)" />
 		<MSBuild Projects="@(SampleProjectXml)"
-				 Properties="OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />
+				 Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />
 
 		<!-- Delete all non CHM files -->
 
