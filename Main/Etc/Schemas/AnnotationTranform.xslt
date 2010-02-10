@@ -8,7 +8,7 @@
 
 	<xsl:template match="*">
 		<xsl:variable name="schemaDoc" select="xs:annotation/xs:appinfo/xsd:schemaDoc" />
-		<xsl:variable name="doc" select="xs:annotation/xs:documentation" />
+		<xsl:variable name="doc" select="xs:annotation/xs:documentation/text()" />
 
 		<xsl:choose>
 			<xsl:when test="$schemaDoc">
