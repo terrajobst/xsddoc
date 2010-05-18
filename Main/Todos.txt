@@ -1,5 +1,6 @@
 Todos
 -----
+- When an element does not have documentation we should provide an option to pull the documentation from the underlying type (simple type / complex type).
 - xmlEntityLink: should render bold when the target is the current topic.
 - Investigate how we can use shared content for localization
 - Consider qualifiying names within parents/usages so that they are unqiue.
