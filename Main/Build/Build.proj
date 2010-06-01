@@ -154,7 +154,7 @@
   <Target Name="GenerateSourceCode" DependsOnTargets="CompileBuildTasks">
     <ItemGroup>
       <SourceCodeFiles Include="$(ProjectDir)**\*.*"
-                       Exclude="$(OutputDir)**;$(LibDir)**;$(SamplesDir)*\Help\**\*.*;$(ProjectDir)**\bin\**;$(ProjectDir)**\obj\**;$(ProjectDir)**\*.scc;$(ProjectDir)**\*.vssscc;$(ProjectDir)**\*.vspscc;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
+                       Exclude="$(OutputDir)**;$(LibDir)**;$(HelpDir)Help\**\*.*;$(SamplesDir)*\Help\**\*.*;$(ProjectDir)**\bin\**;$(ProjectDir)**\obj\**;$(ProjectDir)**\*.scc;$(ProjectDir)**\*.vssscc;$(ProjectDir)**\*.vspscc;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
     </ItemGroup>
 
     <Copy SourceFiles="@(SourceCodeFiles)" DestinationFolder="$(GeneratedSourceCode)%(RecursiveDir)" />
