@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-	<?include Product.wxi ?>
+  <?include Product.wxi ?>
 
-	<Fragment Id="XsdDocComponentsAndPlugIns">
-		<DirectoryRef Id="XsdDocComponentsAndPlugIns">
-			<Component Id="XsdDocumentation.dll" Guid="{182939C3-6E9A-4403-ABED-8E5E1E03B8CE}">
-				<File Id="XsdDocumentation.dll" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.dll" />
-			</Component>
-			<Component Id="XsdDocumentation.PlugIn.plugins" Guid="{7E697FD8-9669-4330-9920-925C8D039DD7}">
-				<File Id="XsdDocumentation.PlugIn.plugins" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.PlugIn.plugins" />
-			</Component>
-			<Component Id="XsdDocumentation.BuildComponents.dll" Guid="{6787E6BB-EFAF-4201-872B-1FDABED432FD}">
-				<File Id="XsdDocumentation.BuildComponents.dll" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.BuildComponents.dll" />
-			</Component>
-			<Component Id="XsdDocumentation.BuildComponents.components" Guid="{5F3F429E-9916-479A-B684-6915292D0866}">
-				<File Id="XsdDocumentation.BuildComponents.components" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.BuildComponents.components" />
-			</Component>
-			<Component Id="AnnotationTranform.xslt" Guid="{056966E9-AA5F-4670-92CE-70E49D4701F9}">
-				<File Id="AnnotationTranform.xslt" KeyPath="yes" Source="$(var.BinFolder)AnnotationTranform.xslt" />
-			</Component>
-			<Component Id="Help.chm" Guid="{142A6051-2102-4B95-B65D-FDCFAE12C5CD}">
-				<File Id="Help.chm" KeyPath="yes" Source="$(var.HelpFolder)Help.chm" />
-			</Component>
-		</DirectoryRef>
+  <Fragment Id="XsdDocComponentsAndPlugIns">
+    <DirectoryRef Id="XsdDocComponentsAndPlugIns">
+      <Component Id="XsdDocumentation.dll" Guid="{182939C3-6E9A-4403-ABED-8E5E1E03B8CE}">
+        <File Id="XsdDocumentation.dll" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.dll" />
+      </Component>
+      <Component Id="XsdDocumentation.PlugIn.plugins" Guid="{7E697FD8-9669-4330-9920-925C8D039DD7}">
+        <File Id="XsdDocumentation.PlugIn.plugins" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.PlugIn.plugins" />
+      </Component>
+      <Component Id="XsdDocumentation.BuildComponents.dll" Guid="{6787E6BB-EFAF-4201-872B-1FDABED432FD}">
+        <File Id="XsdDocumentation.BuildComponents.dll" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.BuildComponents.dll" />
+      </Component>
+      <Component Id="XsdDocumentation.BuildComponents.components" Guid="{5F3F429E-9916-479A-B684-6915292D0866}">
+        <File Id="XsdDocumentation.BuildComponents.components" KeyPath="yes" Source="$(var.BinFolder)XsdDocumentation.BuildComponents.components" />
+      </Component>
+      <Component Id="AnnotationTranform.xslt" Guid="{056966E9-AA5F-4670-92CE-70E49D4701F9}">
+        <File Id="AnnotationTranform.xslt" KeyPath="yes" Source="$(var.BinFolder)AnnotationTranform.xslt" />
+      </Component>
+      <Component Id="Help.chm" Guid="{142A6051-2102-4B95-B65D-FDCFAE12C5CD}">
+        <File Id="Help.chm" KeyPath="yes" Source="$(var.HelpFolder)Help.chm" />
+      </Component>
+    </DirectoryRef>
 
-		<ComponentGroup Id="XsdDocComponentsAndPlugIns">
-			<ComponentRef Id="XsdDocumentation.dll"/>
-			<ComponentRef Id="XsdDocumentation.PlugIn.plugins"/>
-			<ComponentRef Id="XsdDocumentation.BuildComponents.dll"/>
-			<ComponentRef Id="XsdDocumentation.BuildComponents.components"/>
-			<ComponentRef Id="AnnotationTranform.xslt"/>
-			<ComponentRef Id="Help.chm"/>
-		</ComponentGroup>
-	</Fragment>
+    <ComponentGroup Id="XsdDocComponentsAndPlugIns">
+      <ComponentRef Id="XsdDocumentation.dll"/>
+      <ComponentRef Id="XsdDocumentation.PlugIn.plugins"/>
+      <ComponentRef Id="XsdDocumentation.BuildComponents.dll"/>
+      <ComponentRef Id="XsdDocumentation.BuildComponents.components"/>
+      <ComponentRef Id="AnnotationTranform.xslt"/>
+      <ComponentRef Id="Help.chm"/>
+    </ComponentGroup>
+  </Fragment>
 
-	<Fragment Id="Schemas">
-		<DirectoryRef Id="VS90_SCHEMAS_DIR">
-			<Component Id="XsdDocumentation.xsd" Guid="{8D7753F8-9588-46CA-89F9-88908A3741C9}">
-				<File Id="XsdDocumentation.xsd" KeyPath="yes" Source="$(var.EtcFolder)\Schemas\XsdDocumentation.xsd" />
-			</Component>
-		</DirectoryRef>
+  <Fragment Id="Schemas">
+    <DirectoryRef Id="VS90_SCHEMAS_DIR">
+      <Component Id="XsdDocumentation.xsd" Guid="{8D7753F8-9588-46CA-89F9-88908A3741C9}">
+        <File Id="XsdDocumentation.xsd" KeyPath="yes" Source="$(var.EtcFolder)\Schemas\XsdDocumentation.xsd" />
+      </Component>
+    </DirectoryRef>
 
-		<ComponentGroup Id="Schemas">
-			<ComponentRef Id="XsdDocumentation.xsd"/>
-		</ComponentGroup>
-	</Fragment>
+    <ComponentGroup Id="Schemas">
+      <ComponentRef Id="XsdDocumentation.xsd"/>
+    </ComponentGroup>
+  </Fragment>
 
-	<Fragment>
-		<Feature Id="Binaries" Level="1" Absent="disallow" AllowAdvertise="no"
-				 Title="SHFB Integration"
-				 Description="Integrates [ProductName] into Sandcastle Help File Builder (SHFB).">
-			<ComponentGroupRef Id="XsdDocComponentsAndPlugIns"/>
-			<ComponentGroupRef Id="XsdDocMedia"/>
-		</Feature>
-		
-		<Feature Id="Schemas" Level="1" AllowAdvertise="no"
-				 Title="IntelliSense Support"
-				 Description="Integrates [ProductName] schema files into Visual Studio IntelliSense.">
-			<ComponentGroupRef Id="Schemas"/>
-		</Feature>
-	</Fragment>
+  <Fragment>
+    <Feature Id="Binaries" Level="1" Absent="disallow" AllowAdvertise="no"
+             Title="SHFB Integration"
+             Description="Integrates [ProductName] into Sandcastle Help File Builder (SHFB).">
+      <ComponentGroupRef Id="XsdDocComponentsAndPlugIns"/>
+      <ComponentGroupRef Id="XsdDocMedia"/>
+    </Feature>
+
+    <Feature Id="Schemas" Level="1" AllowAdvertise="no"
+             Title="IntelliSense Support"
+             Description="Integrates [ProductName] schema files into Visual Studio IntelliSense.">
+      <ComponentGroupRef Id="Schemas"/>
+    </Feature>
+  </Fragment>
 </Wix>

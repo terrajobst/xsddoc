@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FD46872A-763A-4F8D-B5C3-6832C47A5360}"
 	ProjectSection(SolutionItems) = preProject
 		..\Todos.txt = ..\Todos.txt
@@ -19,10 +19,10 @@ Global
 		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs08.codeplex.com/
-		SccProjectUniqueName0 = XsdDocumentation.Build\\XsdDocumentation.Build.csproj
-		SccProjectName0 = XsdDocumentation.Build
-		SccLocalPath0 = XsdDocumentation.Build
-		SccLocalPath1 = .
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = XsdDocumentation.Build\\XsdDocumentation.Build.csproj
+		SccProjectName1 = XsdDocumentation.Build
+		SccLocalPath1 = XsdDocumentation.Build
 		SccProjectUniqueName2 = XsdDocumentation\\XsdDocumentation.csproj
 		SccProjectName2 = XsdDocumentation
 		SccLocalPath2 = XsdDocumentation

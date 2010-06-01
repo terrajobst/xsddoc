@@ -4,7 +4,7 @@ How to XML Schema Documenter
 Prerequisites
 -------------
 
-1. Microsoft Visual Studio 2008 (Standard, Professional or any edition of the Team Suite).
+1. Microsoft Visual Studio 2010 (Professional, Premium or Ultimate).
    http://msdn.microsoft.com/en-us/vstudio/default.aspx
 
 2. MSBuild Community Tasks
@@ -19,13 +19,13 @@ Prerequisites
 5. Sandcastle Help File Builder (SHFB)
    http://www.codeplex.com/SHFB
 
-6. Windows Installer XML (WiX) toolset Version 3
+6. Windows Installer XML (WiX) toolset Version 3.5
    http://wix.sourceforge.net/
 
 Building
 --------
 
-1. Run Build\Build.bat (make sure the path to MSBuild is correct)
+1. Run Build\Build.bat
 
 2. The folder Output will now contain the following subfolders:
    - Bin. Contains the binaries (compiled in "Release" configuration).
