@@ -135,10 +135,13 @@
 
   <Target Name="GenerateHelp" DependsOnTargets="GetVersion;BootstrapXsdDoc">
 
-    <!-- Here we use our boostrapped version of SHFB with XsdDoc -->
-    <!--<MSBuild Projects="$(HelpDir)Help.shfbproj"
-             Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />-->
+    <!-- Here we use our boostrapped version of SHFB with XsdDoc.
+         Unfortunately, we cannot use the MSBuild task as SHFB can only the project when called
+         from the .NET 3.5 toolset.
 
+    <MSBuild Projects="$(HelpDir)Help.shfbproj"
+             Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
+    -->
     <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;$(HelpDir)Help.shfbproj&quot; /p:SHFBROOT=&quot;$(BootstrappedShfb)\&quot; /p:OutputPath=&quot;$(GeneratedHelp)\&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot; /p:CopyrightText=&quot;[v{%40HelpFileVersion}] $(XsdDocCopyright)&quot;" />
   </Target>
 
@@ -185,15 +188,17 @@
       <SampleProjectXml Include="$(SamplesDir)Xml\Help.shfbproj" />
     </ItemGroup>
 
-    <!-- Here we use our boostrapped version of SHFB with XsdDoc -->
+    <!-- Here we use our boostrapped version of SHFB with XsdDoc.
+         Same as in GenerateHelp target: we cannot use the MSBuild task to
+         create the documentation.
 
-    <!--<MSBuild Projects="@(SampleProjectCloneDetective)"
+    <MSBuild Projects="@(SampleProjectCloneDetective)"
              Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)CloneDetective;HelpFileVersion=$(XsdDocVersion)" />
     <MSBuild Projects="@(SampleProjectWiX)"
              Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)WiX;HelpFileVersion=$(XsdDocVersion)" />
     <MSBuild Projects="@(SampleProjectXml)"
-             Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />-->
-
+             Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />
+    -->
     <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectCloneDetective)&quot; /p:SHFBROOT=&quot;$(BootstrappedShfb)\&quot; /p:OutputPath=&quot;$(GeneratedSamples)CloneDetective&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
     <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectWiX)&quot; /p:SHFBROOT=&quot;$(BootstrappedShfb)\&quot; /p:OutputPath=&quot;$(GeneratedSamples)WiX&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
     <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectXml)&quot; /p:SHFBROOT=&quot;$(BootstrappedShfb)\&quot; /p:OutputPath=&quot;$(GeneratedSamples)Xml&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
