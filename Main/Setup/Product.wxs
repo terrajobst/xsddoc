@@ -14,10 +14,7 @@
 
     <!-- Major Upgrade Support -->
 
-    <Upgrade Id="$(var.UpgradeCode)">
-      <UpgradeVersion Minimum="!(bind.fileVersion.XsdDocumentation.PlugIn.plugins)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
-      <UpgradeVersion Minimum="0.0.0.0" IncludeMinimum="yes" Maximum="!(bind.fileVersion.XsdDocumentation.PlugIn.plugins)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
-    </Upgrade>
+    <MajorUpgrade DowngradeErrorMessage="[ProductName] is already installed in a newer version on your computer." />
 
     <!-- Properties -->
 
@@ -40,10 +37,6 @@
 
     <Condition Message="An administrator must approve or install [ProductName].">
       Privileged
-    </Condition>
-
-    <Condition Message="[ProductName] is already installed in a newer version on your computer.">
-      NOT NEWERVERSIONDETECTED
     </Condition>
 
     <Condition Message="[ProductName] requires Sandcastle Help File Builder 1.8.0.3 or higher. If you just installed it, please make sure to reboot your machine. Otherwise certain required environment variables will not be visible.&#13;&#10;&#13;&#10;Visit http://shfb.codeplex.com/ to download the latest stable release.">
@@ -86,7 +79,6 @@
 
     <InstallExecuteSequence>
       <FindRelatedProducts Before="LaunchConditions" />
-      <RemoveExistingProducts After="InstallValidate" />
     </InstallExecuteSequence>
 
     <InstallUISequence>
