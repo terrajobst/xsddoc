@@ -13,7 +13,6 @@ namespace XsdDocumentation.Model
     {
         private Dictionary<string, Topic> _namespaceTopics = new Dictionary<string, Topic>();
         private Dictionary<XmlSchemaObject, Topic> _topicDictionary = new Dictionary<XmlSchemaObject, Topic>();
-        private List<Topic> _topics;
         private Dictionary<string, Topic> _topicUriIndex = new Dictionary<string, Topic>();
 
         public TopicManager(Context context)
@@ -25,7 +24,7 @@ namespace XsdDocumentation.Model
         {
             var topicBuilder = new TopicBuilder(Context.SchemaSetManager, _namespaceTopics, _topicDictionary);
             topicBuilder.Traverse(Context.SchemaSetManager.SchemaSet);
-            _topics = topicBuilder.GetRootTopics();
+            Topics = topicBuilder.GetRootTopics();
 
             RemoveNamespaceContainerIfConfigured();
             RemoveSchemasIfConfigured();
@@ -34,8 +33,8 @@ namespace XsdDocumentation.Model
             InsertNamespaceRootTopics();
             InsertSchemaSetTopic();
             SetTopicIds();
-            SetKeywords(_topics);
-            GenerateTopicUriIndex(_topics);
+            SetKeywords(Topics);
+            GenerateTopicUriIndex(Topics);
         }
 
         public Topic GetNamespaceTopic(string targetNamespace)
@@ -73,23 +72,20 @@ namespace XsdDocumentation.Model
             return result;
         }
 
-        public List<Topic> Topics
-        {
-            get { return _topics; }
-        }
+        public List<Topic> Topics { get; private set; }
 
         private void RemoveNamespaceContainerIfConfigured()
         {
-            var namespaceTopicCount = _topics.Count;
+            var namespaceTopicCount = Topics.Count;
             var shouldRemoveNamespaceTopic = !Context.Configuration.NamespaceContainer;
             var canRemoveNamespaceTopic = (namespaceTopicCount == 1);
             var removeNamespaceTopic = shouldRemoveNamespaceTopic && canRemoveNamespaceTopic;
 
             if (removeNamespaceTopic)
             {
-                var singleNamespaceTopic = _topics[0];
-                _topics.Clear();
-                _topics.AddRange(singleNamespaceTopic.Children);
+                var singleNamespaceTopic = Topics[0];
+                Topics.Clear();
+                Topics.AddRange(singleNamespaceTopic.Children);
                 _namespaceTopics.Remove(singleNamespaceTopic.Namespace ?? string.Empty);
             }
 
@@ -103,11 +99,11 @@ namespace XsdDocumentation.Model
 
             if (!Context.Configuration.NamespaceContainer)
             {
-                RemoveSchemas(_topics);
+                RemoveSchemas(Topics);
             }
             else
             {
-                foreach (var namespaceTopic in _topics)
+                foreach (var namespaceTopic in Topics)
                     RemoveSchemas(namespaceTopic.Children);
             }
         }
@@ -128,20 +124,20 @@ namespace XsdDocumentation.Model
         private void SortNamespaces()
         {
             if (Context.Configuration.NamespaceContainer)
-                _topics.Sort((x, y) => x.LinkTitle.CompareTo(y.LinkTitle));
+                Topics.Sort((x, y) => x.LinkTitle.CompareTo(y.LinkTitle));
         }
 
         private void InsertNamespaceOverviewTopics()
         {
             if (Context.Configuration.NamespaceContainer)
             {
-                foreach (var namespaceTopic in _topics)
+                foreach (var namespaceTopic in Topics)
                     CreateNamespaceOverviewTopics(namespaceTopic.Namespace, namespaceTopic.Children);
             }
-            else if (_topics.Count > 0)
+            else if (Topics.Count > 0)
             {
-                var firstEntry = _topics[0];
-                CreateNamespaceOverviewTopics(firstEntry.Namespace, _topics);
+                var firstEntry = Topics[0];
+                CreateNamespaceOverviewTopics(firstEntry.Namespace, Topics);
             }
         }
 
@@ -184,13 +180,13 @@ namespace XsdDocumentation.Model
         {
             if (Context.Configuration.NamespaceContainer)
             {
-                foreach (var namespaceTopic in _topics)
+                foreach (var namespaceTopic in Topics)
                     InsertNamespaceRootTopics(namespaceTopic.Namespace, namespaceTopic.Children);
             }
-            else if (_topics.Count > 0)
+            else if (Topics.Count > 0)
             {
-                var firstEntry = _topics[0];
-                InsertNamespaceRootTopics(firstEntry.Namespace, _topics);
+                var firstEntry = Topics[0];
+                InsertNamespaceRootTopics(firstEntry.Namespace, Topics);
             }
         }
 
@@ -244,9 +240,9 @@ namespace XsdDocumentation.Model
                                      TopicType = TopicType.SchemaSet,
                                  };
 
-            schemaSetTopic.Children.AddRange(_topics);
-            _topics.Clear();
-            _topics.Add(schemaSetTopic);
+            schemaSetTopic.Children.AddRange(Topics);
+            Topics.Clear();
+            Topics.Add(schemaSetTopic);
         }
 
         private static int GetTopicTypeSortOrderKey(TopicType topicType)
@@ -353,7 +349,7 @@ namespace XsdDocumentation.Model
         {
             var guidsInUse = new HashSet<Guid>();
             using (var md5 = HashAlgorithm.Create("MD5"))
-                SetTopicIds(_topics, md5, guidsInUse);
+                SetTopicIds(Topics, md5, guidsInUse);
         }
 
         private static void SetTopicIds(IEnumerable<Topic> topics, HashAlgorithm algorithm, HashSet<Guid> guidsInUse)
@@ -440,7 +436,7 @@ namespace XsdDocumentation.Model
 
         private void GenerateTopicUriIndex(IEnumerable<Topic> topics)
         {
-            foreach (Topic topic in topics)
+            foreach (var topic in topics)
             {
                 AddTopicUriToIndex(topic, topic.LinkUri);
                 AddTopicUriToIndex(topic, topic.LinkIdUri);

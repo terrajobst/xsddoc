@@ -21,10 +21,9 @@ namespace XsdDocumentation.Model
 
         public List<Topic> GetRootTopics()
         {
-            if (_topicStack.Count == 0)
-                return new List<Topic>();
-
-            return _topicStack.Pop();
+            return _topicStack.Count == 0
+                       ? new List<Topic>()
+                       : _topicStack.Pop();
         }
 
         private void PushTopic(TopicType topicType, string objNamespace, XmlSchemaObject obj, string name)
@@ -84,8 +83,8 @@ namespace XsdDocumentation.Model
             if (type == TopicType.Namespace)
                 return objNamespace ?? string.Empty;
 
-            bool isGlobal = obj.Parent is XmlSchema;
-            string parent = _topicUriStack.Peek();
+            var isGlobal = obj.Parent is XmlSchema;
+            var parent = _topicUriStack.Peek();
 
             switch (type)
             {

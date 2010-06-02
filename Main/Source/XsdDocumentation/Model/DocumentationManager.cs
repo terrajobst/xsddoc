@@ -87,7 +87,7 @@ namespace XsdDocumentation.Model
 
         private void AddEmbeddedDocumenation(XmlNamespaceManager namespaceManager, XmlSchemaObject documentatbleObject)
         {
-            string sourceCode = Context.SourceCodeManager.GetSourceCode(documentatbleObject);
+            var sourceCode = Context.SourceCodeManager.GetSourceCode(documentatbleObject);
             if (string.IsNullOrEmpty(sourceCode))
                 return;
 
@@ -172,64 +172,64 @@ namespace XsdDocumentation.Model
             var namespaceKey = doc.SelectSingleNode("//xsd:namespace/xsd:name", namespaceManager).InnerText;
             var memberNodes = doc.SelectNodes("//xsd:member", namespaceManager);
 
-            if (memberNodes != null)
+            if (memberNodes == null)
+                return;
+
+            foreach (XmlNode memberNode in memberNodes)
             {
-                foreach (XmlNode memberNode in memberNodes)
+                var partialDocUri = memberNode.Attributes["uri"].Value;
+
+                XmlSchemaObject documentableObject;
+                DocumentationInfo documentationInfo;
+
+                switch (partialDocUri)
                 {
-                    var partialDocUri = memberNode.Attributes["uri"].Value;
-
-                    XmlSchemaObject documentableObject;
-                    DocumentationInfo documentationInfo;
-
-                    switch (partialDocUri)
-                    {
-                        case schemaSetUri:
+                    case schemaSetUri:
+                        {
+                            documentableObject = null;
+                            documentationInfo = GetOrCreateDocumentationInfo(Context.SchemaSetManager.SchemaSet);
+                            break;
+                        }
+                    case namespaceUri:
+                        {
+                            if (namespaceKey == schemaSetUri)
+                            {
+                                Context.ProblemReporter.InvalidNamespaceUriInSchemaSet(externalDocFileName);
+                                documentableObject = null;
+                                documentationInfo = null;
+                            }
+                            else
                             {
                                 documentableObject = null;
-                                documentationInfo = GetOrCreateDocumentationInfo(Context.SchemaSetManager.SchemaSet);
-                                break;
-                            }
-                        case namespaceUri:
-                            {
-                                if (namespaceKey == schemaSetUri)
-                                {
-                                    Context.ProblemReporter.InvalidNamespaceUriInSchemaSet(externalDocFileName);
-                                    documentableObject = null;
-                                    documentationInfo = null;
-                                }
-                                else
-                                {
-                                    documentableObject = null;
-                                    documentationInfo = GetOrCreateDocumentationInfo(namespaceKey);
-                                }
-                                break;
-                            }
-                        default:
-                            {
-                                var docUri = (namespaceKey == schemaSetUri)
-                                                ? partialDocUri
-                                                : namespaceKey + "#" + partialDocUri;
-                                var topic = Context.TopicManager.GetTopicByUri(docUri);
-
-                                if (topic == null)
-                                {
-                                    documentableObject = null;
-                                    documentationInfo = null;
-                                }
-                                else
-                                {
-                                    documentableObject = topic.SchemaObject;
-                                    documentationInfo = (topic.TopicType == TopicType.Namespace)
-                                                            ? GetOrCreateDocumentationInfo(topic.Namespace)
-                                                            : GetOrCreateDocumentationInfo(topic.SchemaObject);
-                                }
+                                documentationInfo = GetOrCreateDocumentationInfo(namespaceKey);
                             }
                             break;
-                    }
+                        }
+                    default:
+                        {
+                            var docUri = (namespaceKey == schemaSetUri)
+                                             ? partialDocUri
+                                             : namespaceKey + "#" + partialDocUri;
+                            var topic = Context.TopicManager.GetTopicByUri(docUri);
 
-                    if (documentationInfo != null)
-                        InitializeDocumentationInfo(documentableObject, documentationInfo, memberNode, namespaceManager);
+                            if (topic == null)
+                            {
+                                documentableObject = null;
+                                documentationInfo = null;
+                            }
+                            else
+                            {
+                                documentableObject = topic.SchemaObject;
+                                documentationInfo = (topic.TopicType == TopicType.Namespace)
+                                                        ? GetOrCreateDocumentationInfo(topic.Namespace)
+                                                        : GetOrCreateDocumentationInfo(topic.SchemaObject);
+                            }
+                        }
+                        break;
                 }
+
+                if (documentationInfo != null)
+                    InitializeDocumentationInfo(documentableObject, documentationInfo, memberNode, namespaceManager);
             }
         }
 
@@ -241,43 +241,52 @@ namespace XsdDocumentation.Model
             documentationInfo.RelatedTopicsNode = schemaDocElement.SelectSingleNode("ddue:relatedTopics", namespaceManager) ?? documentationInfo.RelatedTopicsNode;
 
             // schemaset and namespaces do not have an XmlSchemaObject counterpart.
-            if (documentatbleObject != null)
+            if (documentatbleObject == null)
+                return;
+
+            InitializeObsoleteDocumentationInfo(documentationInfo, schemaDocElement, namespaceManager);
+            InitializeParentDocumentationInfo(schemaDocElement, namespaceManager, documentatbleObject);
+        }
+
+        private void InitializeObsoleteDocumentationInfo(DocumentationInfo documentationInfo, XmlNode schemaDocElement, XmlNamespaceManager namespaceManager)
+        {
+            var obsoleteNode = schemaDocElement.SelectSingleNode("xsd:obsolete", namespaceManager);
+            if (obsoleteNode == null)
+                return;
+
+            documentationInfo.IsObsolete = true;
+
+            var uriAttribute = obsoleteNode.Attributes["uri"];
+            if (uriAttribute == null)
+                return;
+
+            var uri = uriAttribute.Value;
+            var nonObsoleteTopic = Context.TopicManager.GetTopicByUri(uri);
+
+            if (nonObsoleteTopic == null)
+                Context.ProblemReporter.InvalidObsoleteUri(uri);
+            else
+                documentationInfo.NonObsoleteAlternative = nonObsoleteTopic.SchemaObject;
+        }
+
+        private void InitializeParentDocumentationInfo(XmlNode schemaDocElement, XmlNamespaceManager namespaceManager, XmlSchemaObject documentatbleObject)
+        {
+            var parentNodes = schemaDocElement.SelectNodes("xsd:parent", namespaceManager);
+            if (parentNodes == null)
+                return;
+
+            foreach (XmlNode parentNode in parentNodes)
             {
-                var obsoleteNode = schemaDocElement.SelectSingleNode("xsd:obsolete", namespaceManager);
-                if (obsoleteNode != null)
+                var uri = parentNode.Attributes["uri"].Value;
+                var parentTopic = Context.TopicManager.GetTopicByUri(uri);
+                if (parentTopic == null)
                 {
-                    documentationInfo.IsObsolete = true;
-
-                    var uriAttribute = obsoleteNode.Attributes["uri"];
-                    if (uriAttribute != null)
-                    {
-                        var uri = uriAttribute.Value;
-                        var nonObsoleteTopic = Context.TopicManager.GetTopicByUri(uri);
-
-                        if (nonObsoleteTopic == null)
-                            Context.ProblemReporter.InvalidObsoleteUri(uri);
-                        else
-                            documentationInfo.NonObsoleteAlternative = nonObsoleteTopic.SchemaObject;
-                    }
+                    Context.ProblemReporter.InvalidParentUri(uri);
                 }
-
-                var parentNodes = schemaDocElement.SelectNodes("xsd:parent", namespaceManager);
-                if (parentNodes != null)
+                else
                 {
-                    foreach (XmlNode parentNode in parentNodes)
-                    {
-                        var uri = parentNode.Attributes["uri"].Value;
-                        var parentTopic = Context.TopicManager.GetTopicByUri(uri);
-                        if (parentTopic == null)
-                        {
-                            Context.ProblemReporter.InvalidParentUri(uri);
-                        }
-                        else
-                        {
-                            if (parentTopic.SchemaObject != null)
-                                Context.SchemaSetManager.RegisterExtension(parentTopic.SchemaObject, documentatbleObject);
-                        }
-                    }
+                    if (parentTopic.SchemaObject != null)
+                        Context.SchemaSetManager.RegisterExtension(parentTopic.SchemaObject, documentatbleObject);
                 }
             }
         }

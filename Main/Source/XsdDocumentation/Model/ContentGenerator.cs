@@ -11,49 +11,27 @@ namespace XsdDocumentation.Model
     public sealed class ContentGenerator
     {
         private Context _context;
-        private string _contentFile;
-        private string _indexFile;
-        private string _topicsFolder;
-        private string _mediaFolder;
-        private List<string> _topicFiles = new List<string>();
-        private List<MediaItem> _mediaItems = new List<MediaItem>();
 
         public ContentGenerator(IMessageReporter messageReporter, Configuration configuration)
         {
             _context = new Context(messageReporter, configuration);
+            MediaItems = new List<MediaItem>();
+            TopicFiles = new List<string>();
         }
 
-        public string ContentFile
-        {
-            get { return _contentFile; }
-        }
-
-        public string IndexFile
-        {
-            get { return _indexFile; }
-        }
-
-        public string TopicsFolder
-        {
-            get { return _topicsFolder; }
-        }
-
-        public List<string> TopicFiles
-        {
-            get { return _topicFiles; }
-        }
-
-        public List<MediaItem> MediaItems
-        {
-            get { return _mediaItems; }
-        }
+        public string ContentFile { get; private set; }
+        public string IndexFile { get; private set; }
+        public string TopicsFolder { get; private set; }
+        public string MediaFolder { get; private set; }
+        public List<string> TopicFiles { get; private set; }
+        public List<MediaItem> MediaItems { get; private set; }
 
         public void Generate()
         {
-            _topicsFolder = Path.Combine(_context.Configuration.OutputFolderPath, "xsdTopics");
-            _contentFile = Path.Combine(_topicsFolder, "xsd.content");
-            _indexFile = Path.Combine(_topicsFolder, "xsd.index");
-            _mediaFolder = Path.Combine(_context.Configuration.OutputFolderPath, "xsdMedia");
+            TopicsFolder = Path.Combine(_context.Configuration.OutputFolderPath, "xsdTopics");
+            ContentFile = Path.Combine(TopicsFolder, "xsd.content");
+            IndexFile = Path.Combine(TopicsFolder, "xsd.index");
+            MediaFolder = Path.Combine(_context.Configuration.OutputFolderPath, "xsdMedia");
             GenerateIndex();
             GenerateContentFile();
             GenerateTopicFiles();
@@ -64,12 +42,12 @@ namespace XsdDocumentation.Model
         {
             var topicIndex = new TopicIndex();
             topicIndex.Load(_context.TopicManager);
-            topicIndex.Save(_indexFile);
+            topicIndex.Save(IndexFile);
         }
 
         private void GenerateTopicFiles()
         {
-            Directory.CreateDirectory(_topicsFolder);
+            Directory.CreateDirectory(TopicsFolder);
 
             GenerateTopicFiles(_context.TopicManager.Topics);
         }
@@ -78,8 +56,8 @@ namespace XsdDocumentation.Model
         {
             foreach (var topic in topics)
             {
-                topic.FileName = GetAbsoluteFileName(_topicsFolder, topic);
-                _topicFiles.Add(topic.FileName);
+                topic.FileName = GetAbsoluteFileName(TopicsFolder, topic);
+                TopicFiles.Add(topic.FileName);
 
                 switch (topic.TopicType)
                 {
@@ -408,15 +386,15 @@ namespace XsdDocumentation.Model
         private void GenerateMediaFiles()
         {
             var mediaFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "Media");
-            Directory.CreateDirectory(_mediaFolder);
+            Directory.CreateDirectory(MediaFolder);
             foreach (var artItem in ArtItem.ArtItems)
             {
                 var sourceFile = Path.Combine(mediaFolder, artItem.FileName);
-                var destinationFile = Path.Combine(_mediaFolder, artItem.FileName);
+                var destinationFile = Path.Combine(MediaFolder, artItem.FileName);
                 File.Copy(sourceFile, destinationFile);
 
                 var mediaItem = new MediaItem(artItem, destinationFile);
-                _mediaItems.Add(mediaItem);
+                MediaItems.Add(mediaItem);
             }
         }
 
@@ -428,10 +406,10 @@ namespace XsdDocumentation.Model
 
             GenerateContentFileElements(rootNode, _context.TopicManager.Topics);
 
-            var directory = Path.GetDirectoryName(_contentFile);
+            var directory = Path.GetDirectoryName(ContentFile);
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
-            doc.Save(_contentFile);
+            doc.Save(ContentFile);
         }
 
         private static void GenerateContentFileElements(XmlNode parentNode, IEnumerable<Topic> topics)

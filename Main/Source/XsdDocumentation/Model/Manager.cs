@@ -9,10 +9,8 @@ namespace XsdDocumentation.Model
             Context = context;
         }
 
-        public virtual void Initialize()
-        {
-        }
+        public abstract void Initialize();
 
-        public Context Context { get; private set; }
+        protected Context Context { get; private set; }
     }
 }

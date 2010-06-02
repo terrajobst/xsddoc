@@ -187,10 +187,9 @@ namespace XsdDocumentation.PlugIn
         private static FilePath GetFilePath(IBasePathProvider basePathProvider, XPathNavigator navigator, string xpath)
         {
             var path = navigator.SelectSingleNode(xpath);
-            if (path == null)
-                return new FilePath(string.Empty, basePathProvider);
-
-            return new FilePath(path.Value, basePathProvider);
+            return path == null
+                       ? new FilePath(string.Empty, basePathProvider)
+                       : new FilePath(path.Value, basePathProvider);
         }
 
         private static FilePathCollection GetFilePaths(IBasePathProvider basePathProvider, XPathNavigator navigator, string xpath)

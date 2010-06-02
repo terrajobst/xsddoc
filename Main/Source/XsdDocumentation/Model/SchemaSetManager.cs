@@ -9,7 +9,6 @@ namespace XsdDocumentation.Model
     internal sealed class SchemaSetManager : Manager
     {
         private HashSet<string> _schemaDependencyFiles;
-        private XmlSchemaSet _schemaSet;
         private XmlSchemaObject[] _emptyObjectList = new XmlSchemaObject[0];
         private Dictionary<XmlSchemaObject, HashSet<XmlSchemaObject>> _objectParents;
         private Dictionary<XmlSchemaType, HashSet<XmlSchemaObject>> _typeUsages;
@@ -23,6 +22,8 @@ namespace XsdDocumentation.Model
         {
         }
 
+        public XmlSchemaSet SchemaSet { get; private set; }
+
         public override void Initialize()
         {
             var schemaFileNames = Context.Configuration.SchemaFileNames;
@@ -31,7 +32,7 @@ namespace XsdDocumentation.Model
 
             try
             {
-                _schemaSet = XmlSchemaSetBuilder.Build(allFileNames);
+                SchemaSet = XmlSchemaSetBuilder.Build(allFileNames);
             }
             catch (Exception ex)
             {
@@ -41,19 +42,19 @@ namespace XsdDocumentation.Model
             _schemaDependencyFiles = new HashSet<string>(schemaDependencyFileNames, StringComparer.OrdinalIgnoreCase);
 
             _objectParents = new Dictionary<XmlSchemaObject, HashSet<XmlSchemaObject>>();
-            var parentFinderNew = new ParentFinder(_schemaSet, _objectParents);
-            parentFinderNew.Traverse(_schemaSet);
+            var parentFinderNew = new ParentFinder(SchemaSet, _objectParents);
+            parentFinderNew.Traverse(SchemaSet);
 
             _typeUsages = new Dictionary<XmlSchemaType, HashSet<XmlSchemaObject>>();
-            var typeUsageFinder = new TypeUsageFinder(_schemaSet, _typeUsages);
-            typeUsageFinder.Traverse(_schemaSet);
+            var typeUsageFinder = new TypeUsageFinder(SchemaSet, _typeUsages);
+            typeUsageFinder.Traverse(SchemaSet);
 
             var rootSchemaFinder = new NamespaceRootSchemaFinder(_schemaDependencyFiles);
-            rootSchemaFinder.Traverse(_schemaSet);
+            rootSchemaFinder.Traverse(SchemaSet);
             _namespaceRootSchemas = rootSchemaFinder.GetRootSchemas();
 
-            var rootElementFinder = new NamespaceRootElementFinder(_schemaSet);
-            rootElementFinder.Traverse(_schemaSet);
+            var rootElementFinder = new NamespaceRootElementFinder(SchemaSet);
+            rootElementFinder.Traverse(SchemaSet);
             _namespaceRootElements = rootElementFinder.GetRootElements();
 
             RemoveDependencySchemaObjects(_namespaceRootSchemas);
@@ -65,18 +66,13 @@ namespace XsdDocumentation.Model
             foreach (var pair in namespaeRootObjects)
             {
                 var rootObjects = pair.Value;
-                for (int i = rootObjects.Count - 1; i >= 0; i--)
+                for (var i = rootObjects.Count - 1; i >= 0; i--)
                 {
                     var rootObject = rootObjects[i];
                     if (IsDependencySchema(rootObject.GetSchema()))
                         rootObjects.RemoveAt(i);
                 }
             }
-        }
-
-        public XmlSchemaSet SchemaSet
-        {
-            get { return _schemaSet; }
         }
 
         public bool IsDependencySchema(XmlSchema schema)
@@ -123,18 +119,6 @@ namespace XsdDocumentation.Model
                 return _emptyObjectList;
 
             return rootElements;
-        }
-
-        public static XmlSchemaType GetDeclaringType(XmlSchemaObject obj)
-        {
-            var type = obj as XmlSchemaType;
-            if (type != null && !type.QualifiedName.IsEmpty)
-                return type;
-
-            if (obj.Parent == null)
-                return null;
-
-            return GetDeclaringType(obj.Parent);
         }
 
         public List<ChildEntry> GetChildren(XmlSchemaElement element)

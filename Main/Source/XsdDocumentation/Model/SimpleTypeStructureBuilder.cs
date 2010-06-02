@@ -17,10 +17,9 @@ namespace XsdDocumentation.Model
 
         public SimpleTypeStructureNode GetRoot()
         {
-            if (_nodeStack.Count == 0)
-                return null;
-
-            return _nodeStack.Pop();
+            return _nodeStack.Count == 0
+                       ? null
+                       : _nodeStack.Pop();
         }
 
         private SimpleTypeStructureNode AddLeaf(SimpleTypeStructureNodeType nodeType, XmlSchemaObject obj)

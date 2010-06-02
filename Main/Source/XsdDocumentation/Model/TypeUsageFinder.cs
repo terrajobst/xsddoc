@@ -33,7 +33,7 @@ namespace XsdDocumentation.Model
             if (_namedObjectStack.Count == 0)
                 return _globalTypeUsages.Add(type);
 
-            XmlSchemaObject usage = _namedObjectStack.Peek();
+            var usage = _namedObjectStack.Peek();
 
             HashSet<XmlSchemaObject> usages;
             if (!_typeUsages.TryGetValue(type, out usages))

@@ -39,12 +39,12 @@ namespace XsdDocumentation.Model
 
         private void TraverseExternalSchema(XmlSchemaExternal external)
         {
-            if (external.Schema != null &&
-                external.Schema.TargetNamespace == _targetNamespaces.Peek())
-            {
-                _referencedSchemas.Add(external.Schema);
-                Traverse(external.Schema);
-            }
+            if (external.Schema == null ||
+                external.Schema.TargetNamespace != _targetNamespaces.Peek())
+                return;
+
+            _referencedSchemas.Add(external.Schema);
+            Traverse(external.Schema);
         }
 
         protected override void Visit(XmlSchema schema)

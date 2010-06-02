@@ -55,14 +55,14 @@ namespace XsdDocumentation.PlugIn
 
         private void FilePathListEditor_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (DialogResult == DialogResult.OK)
+            if (DialogResult != DialogResult.OK)
+                return;
+
+            FilePathsList.Clear();
+            foreach (FilePath filePath in _filesListBox.Items)
             {
-                FilePathsList.Clear();
-                foreach (FilePath filePath in _filesListBox.Items)
-                {
-                    filePath.PersistablePathChanged -= FilePath_OnPersistablePathChanged;
-                    FilePathsList.Add(filePath);
-                }
+                filePath.PersistablePathChanged -= FilePath_OnPersistablePathChanged;
+                FilePathsList.Add(filePath);
             }
         }
 
@@ -73,13 +73,13 @@ namespace XsdDocumentation.PlugIn
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            if (_openFileDialog.ShowDialog(this) == DialogResult.OK)
+            if (_openFileDialog.ShowDialog(this) != DialogResult.OK)
+                return;
+
+            foreach (var fileName in _openFileDialog.FileNames)
             {
-                foreach (var fileName in _openFileDialog.FileNames)
-                {
-                    var filePath = new FilePath(fileName, BasePathProvider);
-                    _filesListBox.Items.Add(filePath);
-                }
+                var filePath = new FilePath(fileName, BasePathProvider);
+                _filesListBox.Items.Add(filePath);
             }
         }
 

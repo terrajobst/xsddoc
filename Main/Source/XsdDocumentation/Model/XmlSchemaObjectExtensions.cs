@@ -39,7 +39,7 @@ namespace XsdDocumentation.Model
         }
 
 
-        public static string GetBaseUri(this XmlSchemaObject obj)
+        private static string GetBaseUri(this XmlSchemaObject obj)
         {
             if (obj.SourceUri != null)
                 return obj.SourceUri;

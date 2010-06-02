@@ -479,13 +479,13 @@ namespace XsdDocumentation.Model
 
         protected virtual void Visit(XmlSchemaElement element)
         {
-            if (element.RefName.IsEmpty && element.MaxOccurs > 0)
-            {
-                Traverse(element.ElementSchemaType);
+            if (!element.RefName.IsEmpty || element.MaxOccurs == 0)
+                return;
 
-                foreach (XmlSchemaIdentityConstraint constraint in element.Constraints)
-                    Traverse(constraint);
-            }
+            Traverse(element.ElementSchemaType);
+
+            foreach (XmlSchemaIdentityConstraint constraint in element.Constraints)
+                Traverse(constraint);
         }
 
         protected virtual void Visit(XmlSchemaGroupBase particle)

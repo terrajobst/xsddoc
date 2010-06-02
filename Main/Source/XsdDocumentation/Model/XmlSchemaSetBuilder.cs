@@ -22,24 +22,24 @@ namespace XsdDocumentation.Model
                 schemas.Add(schemaFileName, schema);
                 foreach (XmlSchemaExternal external in schema.Includes)
                 {
-                    if (external.SchemaLocation != null)
-                    {
-                        var referencedSchemaFullPath = GetLocation(schemaDirectory, external.SchemaLocation);
-                        referencedSchemas.Add(referencedSchemaFullPath);
-                        if (knownSchemas.Add(referencedSchemaFullPath))
-                            schemaQueue.Enqueue(referencedSchemaFullPath);
-                    }
+                    if (external.SchemaLocation == null)
+                        continue;
+
+                    var referencedSchemaFullPath = GetLocation(schemaDirectory, external.SchemaLocation);
+                    referencedSchemas.Add(referencedSchemaFullPath);
+                    if (knownSchemas.Add(referencedSchemaFullPath))
+                        schemaQueue.Enqueue(referencedSchemaFullPath);
                 }
             }
 
             var schemaSet = new XmlSchemaSet();
             foreach (var schemaFile in schemaFileNames)
             {
-                if (!referencedSchemas.Contains(schemaFile))
-                {
-                    var schema = schemas[schemaFile];
-                    schemaSet.Add(schema);
-                }
+                if (referencedSchemas.Contains(schemaFile))
+                    continue;
+
+                var schema = schemas[schemaFile];
+                schemaSet.Add(schema);
             }
             schemaSet.Compile();
             return schemaSet;

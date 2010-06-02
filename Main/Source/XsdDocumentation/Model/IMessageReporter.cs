@@ -1,6 +1,6 @@
 using System;
 
-namespace XsdDocumentation
+namespace XsdDocumentation.Model
 {
     public interface IMessageReporter
     {

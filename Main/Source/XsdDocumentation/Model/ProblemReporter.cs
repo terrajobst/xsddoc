@@ -4,7 +4,7 @@ using System.Xml.Schema;
 
 using XsdDocumentation.Properties;
 
-namespace XsdDocumentation
+namespace XsdDocumentation.Model
 {
     internal sealed class ProblemReporter
     {

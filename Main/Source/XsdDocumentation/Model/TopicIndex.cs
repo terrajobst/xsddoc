@@ -10,7 +10,7 @@ namespace XsdDocumentation.Model
         private List<TopicIndexEntry> _entries = new List<TopicIndexEntry>();
         private Dictionary<string, TopicIndexEntry> _entryDictionary = new Dictionary<string, TopicIndexEntry>();
 
-        public void Clear()
+        private void Clear()
         {
             _entries.Clear();
             _entryDictionary.Clear();

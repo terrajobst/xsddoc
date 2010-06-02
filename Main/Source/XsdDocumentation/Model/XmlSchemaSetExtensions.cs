@@ -61,11 +61,11 @@ namespace XsdDocumentation.Model
         {
             foreach (XmlSchemaExternal external in schema.Includes)
             {
-                if (external.Schema != null)
-                {
-                    if (schemas.Add(external.Schema))
-                        AddIncludedSchemas(schemas, external.Schema);
-                }
+                if (external.Schema == null)
+                    continue;
+
+                if (schemas.Add(external.Schema))
+                    AddIncludedSchemas(schemas, external.Schema);
             }
         }
 

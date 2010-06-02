@@ -98,13 +98,11 @@ namespace XsdDocumentation.PlugIn
         {
             get
             {
-                if (_executionPoints == null)
-                    _executionPoints = new ExecutionPointCollection
-					                   {
-					                   	new ExecutionPoint(BuildStep.FindingTools, ExecutionBehaviors.After)
-					                   };
-
-                return _executionPoints;
+                return _executionPoints ?? (_executionPoints = new ExecutionPointCollection
+                                                                   {
+                                                                       new ExecutionPoint(BuildStep.FindingTools,
+                                                                                          ExecutionBehaviors.After)
+                                                                   });
             }
         }
 
@@ -224,7 +222,7 @@ namespace XsdDocumentation.PlugIn
             return @"XsdResolveLinks";
         }
 
-        public static string GetComponentConfiguration(string indexFileName)
+        private static string GetComponentConfiguration(string indexFileName)
         {
             var id = GetComponentId();
             const string name = @"XsdDocumentation.BuildComponents.XsdResolveLinksComponent";

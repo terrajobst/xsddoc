@@ -2,6 +2,8 @@ using System;
 
 using SandcastleBuilder.Utils.BuildEngine;
 
+using XsdDocumentation.Model;
+
 namespace XsdDocumentation.PlugIn
 {
     internal sealed class MessageReporter : IMessageReporter

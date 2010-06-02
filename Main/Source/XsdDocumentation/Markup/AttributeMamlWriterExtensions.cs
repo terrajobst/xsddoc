@@ -91,11 +91,11 @@ namespace XsdDocumentation.Markup
             {
                 foreach (var baseMemberType in union.BaseMemberTypes)
                 {
-                    if (baseMemberType.QualifiedName.IsEmpty)
-                    {
-                        _writer.WriteHtmlArtItemWithText(ArtItem.Union, "Union");
-                        return;
-                    }
+                    if (!baseMemberType.QualifiedName.IsEmpty)
+                        continue;
+
+                    _writer.WriteHtmlArtItemWithText(ArtItem.Union, "Union");
+                    return;
                 }
 
                 _writer.StartHtmlArtItem(ArtItem.Union);

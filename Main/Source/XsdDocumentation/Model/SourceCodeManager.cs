@@ -35,7 +35,7 @@ namespace XsdDocumentation.Model
 
             protected abstract void HandleId(XmlSchemaAnnotated element);
 
-            protected bool AlreadyProcessed(XmlSchemaType type)
+            private bool AlreadyProcessed(XmlSchemaType type)
             {
                 return !_processedTypes.Add(type);
             }
@@ -178,10 +178,9 @@ namespace XsdDocumentation.Model
                 return GetSchemaSourceCode(schema, processingOptions);
 
             var annotated = obj as XmlSchemaAnnotated;
-            if (annotated != null)
-                return GetObjectSourceCode(annotated, processingOptions);
-
-            return string.Empty;
+            return annotated == null
+                       ? string.Empty
+                       : GetObjectSourceCode(annotated, processingOptions);
         }
 
         private string GetSchemaSourceCode(XmlSchema schema, PostProcessingOptions processingOptions)
@@ -267,24 +266,24 @@ namespace XsdDocumentation.Model
         private static void RemoveAnnotations(XmlNode document, XmlNamespaceManager namespaceManager)
         {
             var annotations = document.SelectNodes("//xs:annotation", namespaceManager);
-            if (annotations != null)
-            {
-                foreach (XmlNode annotation in annotations)
-                    annotation.ParentNode.RemoveChild(annotation);
-            }
+            if (annotations == null)
+                return;
+
+            foreach (XmlNode annotation in annotations)
+                annotation.ParentNode.RemoveChild(annotation);
         }
 
         private static void CollapseElements(XmlNode document, XmlNamespaceManager namespaceManager, string xpath)
         {
             var rootNode = document.ChildNodes[0];
             var nodes = document.SelectNodes(xpath, namespaceManager);
-            if (nodes != null)
+            if (nodes == null)
+                return;
+
+            foreach (XmlElement node in nodes)
             {
-                foreach (XmlElement node in nodes)
-                {
-                    if (node != rootNode)
-                        node.IsEmpty = true;
-                }
+                if (node != rootNode)
+                    node.IsEmpty = true;
             }
         }
 

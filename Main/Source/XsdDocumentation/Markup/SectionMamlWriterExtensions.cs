@@ -88,12 +88,12 @@ namespace XsdDocumentation.Markup
         public static void WriteTypeSection(this MamlWriter writer, Context context, XmlSchemaElement element)
         {
             var isSimpleType = element.ElementSchemaType is XmlSchemaSimpleType;
-            if (!isSimpleType)
-            {
-                writer.StartSection("Type", "type");
-                writer.WriteTypeName(context.TopicManager, element.ElementSchemaType);
-                writer.EndSection();
-            }
+            if (isSimpleType)
+                return;
+
+            writer.StartSection("Type", "type");
+            writer.WriteTypeName(context.TopicManager, element.ElementSchemaType);
+            writer.EndSection();
         }
 
         #endregion

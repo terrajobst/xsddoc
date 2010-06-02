@@ -41,27 +41,27 @@ namespace XsdDocumentation.BuildComponents
             namespaceManager.AddNamespace("xsd", Namespaces.XsdDoc);
 
             var nodes = document.SelectNodes("//xsd:xmlEntityReference", namespaceManager);
-            if (nodes != null)
-            {
-                foreach (XmlNode node in nodes)
-                {
-                    var parentNode = node.ParentNode;
-                    var uri = node.InnerText;
+            if (nodes == null)
+                return;
 
-                    var entry = _topicIndex.FindEntry(uri);
-                    if (entry == null)
-                    {
-                        var message = string.Format(CultureInfo.CurrentCulture, Resources.CouldNotResolveXmlEntity, uri);
-                        BuildAssembler.MessageHandler(GetType(), MessageLevel.Warn, message);
-                    }
-                    else
-                    {
-                        var linkElement = document.CreateElement("ddue", "link", Namespaces.Maml);
-                        linkElement.SetAttribute("href", Namespaces.XLink, entry.TopicId);
-                        linkElement.SetAttribute("topicType_id", "3272D745-2FFC-48C4-9E9D-CF2B2B784D5F");
-                        linkElement.InnerText = entry.LinkTitle;
-                        parentNode.ReplaceChild(linkElement, node);
-                    }
+            foreach (XmlNode node in nodes)
+            {
+                var parentNode = node.ParentNode;
+                var uri = node.InnerText;
+
+                var entry = _topicIndex.FindEntry(uri);
+                if (entry == null)
+                {
+                    var message = string.Format(CultureInfo.CurrentCulture, Resources.CouldNotResolveXmlEntity, uri);
+                    BuildAssembler.MessageHandler(GetType(), MessageLevel.Warn, message);
+                }
+                else
+                {
+                    var linkElement = document.CreateElement("ddue", "link", Namespaces.Maml);
+                    linkElement.SetAttribute("href", Namespaces.XLink, entry.TopicId);
+                    linkElement.SetAttribute("topicType_id", "3272D745-2FFC-48C4-9E9D-CF2B2B784D5F");
+                    linkElement.InnerText = entry.LinkTitle;
+                    parentNode.ReplaceChild(linkElement, node);
                 }
             }
         }

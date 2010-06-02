@@ -43,43 +43,43 @@ namespace XsdDocumentation.Model
         private void ProcessRestriction(XmlQualifiedName baseTypeName, XmlSchemaObjectCollection attributes, XmlSchemaAnyAttribute anyAttribute)
         {
             var baseType = (XmlSchemaComplexType)_schemaSetManager.SchemaSet.GlobalTypes[baseTypeName];
-            if (baseType != null)
+            if (baseType == null)
+                return;
+
+            Traverse(baseType);
+
+            var attributeDictionary = new Dictionary<XmlQualifiedName, XmlSchemaAttribute>();
+            foreach (var attribute in _attributeEntries.Attributes)
+                attributeDictionary.Add(attribute.QualifiedName, attribute);
+
+            _attributeEntries.Attributes.Clear();
+
+            _inRestrictionCounter++;
+            Traverse(attributes);
+            _inRestrictionCounter--;
+
+            if (anyAttribute != null)
+                Traverse(anyAttribute);
+
+            for (var i = _attributeEntries.Attributes.Count - 1; i >= 0; i--)
             {
-                Traverse(baseType);
-
-                var attributeDictionary = new Dictionary<XmlQualifiedName, XmlSchemaAttribute>();
-                foreach (var attribute in _attributeEntries.Attributes)
-                    attributeDictionary.Add(attribute.QualifiedName, attribute);
-
-                _attributeEntries.Attributes.Clear();
-
-                _inRestrictionCounter++;
-                Traverse(attributes);
-                _inRestrictionCounter--;
-
-                if (anyAttribute != null)
-                    Traverse(anyAttribute);
-
-                for (int i = _attributeEntries.Attributes.Count - 1; i >= 0; i--)
+                var attribute = _attributeEntries.Attributes[i];
+                if (attribute.Use == XmlSchemaUse.Prohibited)
                 {
-                    var attribute = _attributeEntries.Attributes[i];
-                    if (attribute.Use == XmlSchemaUse.Prohibited)
-                    {
-                        _attributeEntries.Attributes.RemoveAt(i);
-                        attributeDictionary.Remove(attribute.QualifiedName);
-                    }
-                    else
-                    {
-                        if (!attributeDictionary.ContainsKey(attribute.QualifiedName))
-                            _attributeEntries.AnyAttribute = null;
-
-                        attributeDictionary[attribute.QualifiedName] = attribute;
-                    }
+                    _attributeEntries.Attributes.RemoveAt(i);
+                    attributeDictionary.Remove(attribute.QualifiedName);
                 }
+                else
+                {
+                    if (!attributeDictionary.ContainsKey(attribute.QualifiedName))
+                        _attributeEntries.AnyAttribute = null;
 
-                _attributeEntries.Attributes.Clear();
-                _attributeEntries.Attributes.AddRange(attributeDictionary.Values);
+                    attributeDictionary[attribute.QualifiedName] = attribute;
+                }
             }
+
+            _attributeEntries.Attributes.Clear();
+            _attributeEntries.Attributes.AddRange(attributeDictionary.Values);
         }
 
         protected override void Visit(XmlSchemaAttribute attribute)
