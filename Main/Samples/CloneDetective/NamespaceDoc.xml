@@ -1,83 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
-	 xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
-	 xmlns:xlink="http://www.w3.org/1999/xlink">
-	<namespace>
-		<name>http://conqat.cs.tum.edu/ns/clonereport</name>
-	</namespace>
-	<members>
-		<member uri="##Namespace">
-			<ddue:summary>
-				<ddue:para>
-					Description of the namespace (external).
-				</ddue:para>
-			</ddue:summary>
-		</member>
-		<member uri="clonereport.xsd">
-			<ddue:summary>
-				<ddue:para>
-					This is the file you reference if you would like to validate the <xmlEntityReference>http://conqat.cs.tum.edu/ns/clonereport#E/cloneReport</xmlEntityReference>.
-				</ddue:para>
-			</ddue:summary>
-			<ddue:remarks>
-				<ddue:content>
-					<ddue:para>
-						clonereport.xsd external remarks
-					</ddue:para>
-				</ddue:content>
-			</ddue:remarks>
-		</member>
-		<member uri="clonereport.xsd#cloneReport">
-			<ddue:summary>
-				<ddue:para>
-					The root element of a ConQAT clone report (external).
-				</ddue:para>
-			</ddue:summary>
-			<ddue:remarks>
-				<ddue:content>
-					<ddue:para>
-						A clone report can be quite large. Thereore, you should consider
-						parsing it using a non-DOM approach.
-					</ddue:para>
-					<ddue:alert class="note">
-						<ddue:para>
-							This element has declared integrity constrained.
-						</ddue:para>
-					</ddue:alert>
-				</ddue:content>
-			</ddue:remarks>
-		</member>
-		<member uri="E/cloneReport/sourceFile">
-			<ddue:summary>
-				<ddue:para>
-					Describes a source file in which clone detective found at least one clone (external).
-				</ddue:para>
-			</ddue:summary>
-			<ddue:remarks>
-				<ddue:content>
-					<ddue:para>
-						clonereport.xsd#sourceFile external remarks
-					</ddue:para>
-				</ddue:content>
-			</ddue:remarks>
-			<ddue:relatedTopics>
-				<xmlEntityReference>http://conqat.cs.tum.edu/ns/clonereport#E/cloneReport/cloneClass</xmlEntityReference>
-				<ddue:link xlink:href="e30e87fa-d0a1-46fd-b445-a0ac489c11f3" />
-			</ddue:relatedTopics>
-		</member>
-		<member uri="E/cloneReport/sourceFile/@id">
-			<ddue:summary>
-				<ddue:para>
-					Contains a unique id of the source file. Used by a clone element to reference the source file (external).
-				</ddue:para>
-			</ddue:summary>
-			<ddue:remarks>
-				<ddue:content>
-					<ddue:para>
-						clonereport.xsd#sourceFileId external remarks
-					</ddue:para>
-				</ddue:content>
-			</ddue:remarks>
-		</member>
-	</members>
+     xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <namespace>
+    <name>http://conqat.cs.tum.edu/ns/clonereport</name>
+  </namespace>
+  <members>
+    <member uri="##Namespace">
+      <ddue:summary>
+        <ddue:para>
+          Description of the namespace (external).
+        </ddue:para>
+      </ddue:summary>
+    </member>
+    <member uri="clonereport.xsd">
+      <ddue:summary>
+        <ddue:para>
+          This is the file you reference if you would like to validate the <xmlEntityReference>http://conqat.cs.tum.edu/ns/clonereport#E/cloneReport</xmlEntityReference>.
+        </ddue:para>
+      </ddue:summary>
+      <ddue:remarks>
+        <ddue:content>
+          <ddue:para>
+            clonereport.xsd external remarks
+          </ddue:para>
+        </ddue:content>
+      </ddue:remarks>
+    </member>
+    <member uri="clonereport.xsd#cloneReport">
+      <ddue:summary>
+        <ddue:para>
+          The root element of a ConQAT clone report (external).
+        </ddue:para>
+      </ddue:summary>
+      <ddue:remarks>
+        <ddue:content>
+          <ddue:para>
+            A clone report can be quite large. Thereore, you should consider
+            parsing it using a non-DOM approach.
+          </ddue:para>
+          <ddue:alert class="note">
+            <ddue:para>
+              This element has declared integrity constrained.
+            </ddue:para>
+          </ddue:alert>
+        </ddue:content>
+      </ddue:remarks>
+    </member>
+    <member uri="E/cloneReport/sourceFile">
+      <ddue:summary>
+        <ddue:para>
+          Describes a source file in which clone detective found at least one clone (external).
+        </ddue:para>
+      </ddue:summary>
+      <ddue:remarks>
+        <ddue:content>
+          <ddue:para>
+            clonereport.xsd#sourceFile external remarks
+          </ddue:para>
+        </ddue:content>
+      </ddue:remarks>
+      <ddue:relatedTopics>
+        <xmlEntityReference>http://conqat.cs.tum.edu/ns/clonereport#E/cloneReport/cloneClass</xmlEntityReference>
+        <ddue:link xlink:href="e30e87fa-d0a1-46fd-b445-a0ac489c11f3" />
+      </ddue:relatedTopics>
+    </member>
+    <member uri="E/cloneReport/sourceFile/@id">
+      <ddue:summary>
+        <ddue:para>
+          Contains a unique id of the source file. Used by a clone element to reference the source file (external).
+        </ddue:para>
+      </ddue:summary>
+      <ddue:remarks>
+        <ddue:content>
+          <ddue:para>
+            clonereport.xsd#sourceFileId external remarks
+          </ddue:para>
+        </ddue:content>
+      </ddue:remarks>
+    </member>
+  </members>
 </doc>

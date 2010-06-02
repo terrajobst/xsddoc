@@ -1,87 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <topic id="c51da837-7785-4b33-8625-e523b47fa595" revisionNumber="1">
-	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
-								 xmlns:xlink="http://www.w3.org/1999/xlink"
-								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
-		<introduction>
-			<para>
-				The element '<placeholder>Name1</placeholder>' cannot be extended with attribute
-				'<placeholder>Name2</placeholder>' as '<placeholder>Name1</placeholder>' does not
-				contain an <codeInline>xs:anyAttribute</codeInline> element.
-			</para>
-		</introduction>
-		<section address="cause">
-			<title>Cause</title>
-			<content>
-				<para>
-					The error is caused if the <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
-					documentation element is used to indicate that an attribute extends an element
-					but this element is not open for extension because it does not contain an
-					<codeInline>xs:anyAttribute</codeInline> declaration.
-				</para>
-				<para>
-					For example, in the following schema the attribute <codeInline>attribute</codeInline>
-					declares that it extends the element <codeInline>element</codeInline> which is not
-					extensible:
-				</para>
-				<code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.org/XSD0010"
-		   xmlns="http://schemas.example.org/XSD0010"
-		   xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
-		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
-		   elementFormDefault="qualified"
-		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	&lt;xs:element name="element">
-		&lt;xs:complexType>
-			&lt;xs:attribute name="anAttribute" type="xs:string" />
-		&lt;/xs:complexType>
-	&lt;/xs:element>
-	&lt;xs:element name="attribute">
-		&lt;xs:annotation>
-			&lt;xs:appinfo>
-				&lt;xsd:schemaDoc>
-					&lt;xsd:parent uri="http://schemas.example.org/XSD0010#E/element"/>
-				&lt;/xsd:schemaDoc>
-			&lt;/xs:appinfo>
-		&lt;/xs:annotation>
-	&lt;/xs:element>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+                               xmlns:xlink="http://www.w3.org/1999/xlink"
+                               xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
+    <introduction>
+      <para>
+        The element '<placeholder>Name1</placeholder>' cannot be extended with attribute
+        '<placeholder>Name2</placeholder>' as '<placeholder>Name1</placeholder>' does not
+        contain an <codeInline>xs:anyAttribute</codeInline> element.
+      </para>
+    </introduction>
+    <section address="cause">
+      <title>Cause</title>
+      <content>
+        <para>
+          The error is caused if the <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+          documentation element is used to indicate that an attribute extends an element
+          but this element is not open for extension because it does not contain an
+          <codeInline>xs:anyAttribute</codeInline> declaration.
+        </para>
+        <para>
+          For example, in the following schema the attribute <codeInline>attribute</codeInline>
+          declares that it extends the element <codeInline>element</codeInline> which is not
+          extensible:
+        </para>
+        <code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.org/XSD0010"
+           xmlns="http://schemas.example.org/XSD0010"
+           xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+           xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  &lt;xs:element name="element">
+    &lt;xs:complexType>
+      &lt;xs:attribute name="anAttribute" type="xs:string" />
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:element name="attribute">
+    &lt;xs:annotation>
+      &lt;xs:appinfo>
+        &lt;xsd:schemaDoc>
+          &lt;xsd:parent uri="http://schemas.example.org/XSD0010#E/element"/>
+        &lt;/xsd:schemaDoc>
+      &lt;/xs:appinfo>
+    &lt;/xs:annotation>
+  &lt;/xs:element>
 &lt;/xs:schema></code>
-			</content>
-		</section>
-		<section>
-			<title>Solution</title>
-			<content>
-				<para>
-					The solution is to make the element <codeInline>element</codeInline>
-					extensible by adding an <codeInline>xs:anyAttribute</codeInline>
-					child:
-				</para>
-				<code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.org/XSD0010"
-		   xmlns="http://schemas.example.org/XSD0010"
-		   xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
-		   xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
-		   elementFormDefault="qualified"
-		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	&lt;xs:element name="element">
-		&lt;xs:complexType>
-			&lt;xs:attribute name="anAttribute" type="xs:string" />
-			&lt;xs:anyAttribute namespace="##targetNamespace" processContents="lax" />
-		&lt;/xs:complexType>
-	&lt;/xs:element>
-	&lt;xs:element name="attribute">
-		&lt;xs:annotation>
-			&lt;xs:appinfo>
-				&lt;xsd:schemaDoc>
-					&lt;xsd:parent uri="http://schemas.example.org/XSD0010#E/element"/>
-				&lt;/xsd:schemaDoc>
-			&lt;/xs:appinfo>
-		&lt;/xs:annotation>
-	&lt;/xs:element>
+      </content>
+    </section>
+    <section>
+      <title>Solution</title>
+      <content>
+        <para>
+          The solution is to make the element <codeInline>element</codeInline>
+          extensible by adding an <codeInline>xs:anyAttribute</codeInline>
+          child:
+        </para>
+        <code language="xml" xml:space="preserve">&lt ;xs:schema targetNamespace="http://schemas.example.org/XSD0010"
+           xmlns="http://schemas.example.org/XSD0010"
+           xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+           xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  &lt;xs:element name="element">
+    &lt;xs:complexType>
+      &lt;xs:attribute name="anAttribute" type="xs:string" />
+      &lt;xs:anyAttribute namespace="##targetNamespace" processContents="lax" />
+    &lt;/xs:complexType>
+  &lt;/xs:element>
+  &lt;xs:element name="attribute">
+    &lt;xs:annotation>
+      &lt;xs:appinfo>
+        &lt;xsd:schemaDoc>
+          &lt;xsd:parent uri="http://schemas.example.org/XSD0010#E/element"/>
+        &lt;/xsd:schemaDoc>
+      &lt;/xs:appinfo>
+    &lt;/xs:annotation>
+  &lt;/xs:element>
 &lt;/xs:schema></code>
-			</content>
-		</section>
-		<relatedTopics>
-			<link xlink:href="88d67097-41d0-4dd5-8317-e476b7dc6a56" />
-			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
-		</relatedTopics>
-	</developerConceptualDocument>
+      </content>
+    </section>
+    <relatedTopics>
+      <link xlink:href="88d67097-41d0-4dd5-8317-e476b7dc6a56" />
+      <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+    </relatedTopics>
+  </developerConceptualDocument>
 </topic>

@@ -1,23 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="TextElements"
-    targetNamespace="http://tempuri.org/TextElements.xsd"
-    elementFormDefault="qualified"
-    xmlns="http://tempuri.org/TextElements.xsd"
-    xmlns:mstns="http://tempuri.org/TextElements.xsd"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
->
+           targetNamespace="http://tempuri.org/TextElements.xsd"
+           elementFormDefault="qualified"
+           xmlns="http://tempuri.org/TextElements.xsd"
+           xmlns:mstns="http://tempuri.org/TextElements.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<xs:element name="string" type="xs:string" />
-	<xs:element name="any" />
-	<xs:element name="empty" type="empty" />
-	
-	<xs:complexType name="empty" />
-	
-	<xs:element name="mixed">
-		<xs:complexType mixed="true">
-			<xs:sequence>
-				<xs:element ref="mixed" maxOccurs="unbounded" />
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+  <xs:element name="string" type="xs:string" />
+  <xs:element name="any" />
+  <xs:element name="empty" type="empty" />
+
+  <xs:complexType name="empty" />
+
+  <xs:element name="mixed">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="mixed" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

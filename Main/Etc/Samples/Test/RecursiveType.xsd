@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema id="RecursiveType"
-    targetNamespace="http://tempuri.org/RecursiveType.xsd"
-    elementFormDefault="qualified"
-    xmlns="http://tempuri.org/RecursiveType.xsd"
-    xmlns:mstns="http://tempuri.org/RecursiveType.xsd"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
->
-	<xs:complexType name="RecursiveType">
-		<xs:sequence>
-			<xs:element name="rec" type="mstns:RecursiveType" />
-		</xs:sequence>
-	</xs:complexType>
+           targetNamespace="http://tempuri.org/RecursiveType.xsd"
+           elementFormDefault="qualified"
+           xmlns="http://tempuri.org/RecursiveType.xsd"
+           xmlns:mstns="http://tempuri.org/RecursiveType.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="RecursiveType">
+    <xs:sequence>
+      <xs:element name="rec" type="mstns:RecursiveType" />
+    </xs:sequence>
+  </xs:complexType>
 
-	<xs:element name="root" type="mstns:RecursiveType" />
-	
+  <xs:element name="root" type="mstns:RecursiveType" />
+
 </xs:schema>

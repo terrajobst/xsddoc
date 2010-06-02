@@ -815,7 +815,7 @@
                 <xs:annotation><xs:documentation>Use this to set whether the product code between the upgrade and target images match. See <a href="http://msdn2.microsoft.com/en-us/library/aa370890.aspx">AllowProductCodeMismatches</a> for more information.</xs:documentation></xs:annotation>
             </xs:attribute>
             <xs:attribute name="CleanWorkingFolder" type="YesNoType">
-                <xs:annotation><xs:documentation>Use this to set whether Patchwiz should clean the temp folder when finished. See <a href="http://msdn2.microsoft.com/en-us/library/aa370890.aspx">DontRemoveTempFolderWhenFinished</a> for more information.	</xs:documentation></xs:annotation>
+                <xs:annotation><xs:documentation>Use this to set whether Patchwiz should clean the temp folder when finished. See <a href="http://msdn2.microsoft.com/en-us/library/aa370890.aspx">DontRemoveTempFolderWhenFinished</a> for more information.</xs:documentation></xs:annotation>
             </xs:attribute>
             <xs:attribute name="Codepage" type="xs:string">
                 <xs:annotation><xs:documentation>The code page integer value or web name for the resulting PCP. See remarks for more information.</xs:documentation></xs:annotation>

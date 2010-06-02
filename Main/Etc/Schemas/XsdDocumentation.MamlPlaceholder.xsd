@@ -1,46 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema targetNamespace="http://ddue.schemas.microsoft.com/authoring/2003/5"
-		   elementFormDefault="qualified"
-		   xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
-		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+           elementFormDefault="qualified"
+           xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<xs:annotation>
-		<xs:documentation>
-			This file is a placholder for the Microsoft Assistance Markup Language (MAML)
-			schema. It is only used to allow the XSD schema to be documented.
-		</xs:documentation>
-	</xs:annotation>
+  <xs:annotation>
+    <xs:documentation>
+      This file is a placholder for the Microsoft Assistance Markup Language (MAML)
+      schema. It is only used to allow the XSD schema to be documented.
+    </xs:documentation>
+  </xs:annotation>
 
-	<xs:element name="summary">
-		<xs:annotation>
-			<xs:documentation>
-				This represents the MAML summary element.
-			</xs:documentation>
-		</xs:annotation>
-	</xs:element>
+  <xs:element name="summary">
+    <xs:annotation>
+      <xs:documentation>
+        This represents the MAML summary element.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
-	<xs:element name="remarks">
-		<xs:annotation>
-			<xs:documentation>
-				This represents the MAML remarks element.
-			</xs:documentation>
-		</xs:annotation>
-	</xs:element>
+  <xs:element name="remarks">
+    <xs:annotation>
+      <xs:documentation>
+        This represents the MAML remarks element.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
-	<xs:element name="relatedTopics">
-		<xs:annotation>
-			<xs:documentation>
-				This represents the MAML relatedTopics element.
-			</xs:documentation>
-		</xs:annotation>
-	</xs:element>
+  <xs:element name="relatedTopics">
+    <xs:annotation>
+      <xs:documentation>
+        This represents the MAML relatedTopics element.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
-	<xs:complexType name="namedSectionType">
-		<xs:annotation>
-			<xs:documentation>
-				This represents a named section in MAML.
-			</xs:documentation>
-		</xs:annotation>
-	</xs:complexType>
+  <xs:complexType name="namedSectionType">
+    <xs:annotation>
+      <xs:documentation>
+        This represents a named section in MAML.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:complexType>
 
 </xs:schema>

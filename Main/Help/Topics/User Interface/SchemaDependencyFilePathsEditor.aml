@@ -1,39 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <topic id="ee368f53-0c52-4f3e-a62a-9dd32dbf8fec" revisionNumber="1">
-	<developerUIReferenceDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
-								  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <developerUIReferenceDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+                                xmlns:xlink="http://www.w3.org/1999/xlink">
 
-		<introduction>
-			<para>
-				This dialog allows you to maintain the list of XML schema files that
-				are needed to build the internal schema set but you do not want being
-				documented.
-			</para>
-			<para>
-				<mediaLinkInline>
-					<image xlink:href="f4e01bc7-a30c-48c2-a6d6-26b95b0205e0"/>
-				</mediaLinkInline>
-			</para>
-		</introduction>
+    <introduction>
+      <para>
+        This dialog allows you to maintain the list of XML schema files that
+        are needed to build the internal schema set but you do not want being
+        documented.
+      </para>
+      <para>
+        <mediaLinkInline>
+          <image xlink:href="f4e01bc7-a30c-48c2-a6d6-26b95b0205e0"/>
+        </mediaLinkInline>
+      </para>
+    </introduction>
 
-		<taskList>
-			<content>
-				<alert class="tip">
-					<para>
-						You can also use wildcards to include a whole set of schema files. For example,
-						if you want to include all <localUri>.xsd</localUri> files in <localUri>C:\SchemaFiles</localUri>
-						you would add an entry whose file name is <localUri>*.xsd</localUri>. To add this entry,
-						select any file in the folder <localUri>C:\SchemaFiles</localUri> and change
-						the <ui>Path</ui> property to <localUri>C:\SchemaFiles\*.xsd</localUri>.
-					</para>
-				</alert>
-			</content>
-		</taskList>
+    <taskList>
+      <content>
+        <alert class="tip">
+          <para>
+            You can also use wildcards to include a whole set of schema files. For example,
+            if you want to include all <localUri>.xsd</localUri> files in <localUri>C:\SchemaFiles</localUri>
+            you would add an entry whose file name is <localUri>*.xsd</localUri>. To add this entry,
+            select any file in the folder <localUri>C:\SchemaFiles</localUri> and change
+            the <ui>Path</ui> property to <localUri>C:\SchemaFiles\*.xsd</localUri>.
+          </para>
+        </alert>
+      </content>
+    </taskList>
 
-		<relatedTopics>
-			<link xlink:href="fa65321c-0a9a-4c6f-8ab4-0fe5fbf970f3" />
-			<link xlink:href="fc1cae9c-fd54-4cb6-8f37-77530227132a" />
-			<link xlink:href="5f48da46-e525-48c8-8ec7-8cf497207b89" />
-		</relatedTopics>
-	</developerUIReferenceDocument>
+    <relatedTopics>
+      <link xlink:href="fa65321c-0a9a-4c6f-8ab4-0fe5fbf970f3" />
+      <link xlink:href="fc1cae9c-fd54-4cb6-8f37-77530227132a" />
+      <link xlink:href="5f48da46-e525-48c8-8ec7-8cf497207b89" />
+    </relatedTopics>
+  </developerUIReferenceDocument>
 </topic>

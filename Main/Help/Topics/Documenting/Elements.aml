@@ -1,112 +1,112 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <topic id="613da747-f812-4393-98b6-c764a105bdf1" revisionNumber="1">
-	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
-								 xmlns:xlink="http://www.w3.org/1999/xlink"
-								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
-		<introduction>
-			<para>
-				This topic will describe what elements you can use for documenting XML schemas.
-			</para>
-		</introduction>
-		<section address="summary">
-			<title>summary Element</title>
-			<content>
-				<para>
-					The <codeInline>summary</codeInline> element contains a summary, introduction, or short
-					description of the current item. This text typically appears in a topic and may also be
-					used as the description of the topic that appears in a jump table when the topic is being
-					linked to.
-				</para>
-				<alert class="note">
-					<para>
-						This is a standard element imported from the Microsoft Assistance Markup Language (MAML).
-						Please see the MAML documentation for details how to use this element.
-					</para>
-				</alert>
-			</content>
-		</section>
-		<section address="remarks">
-			<title>remarks Element</title>
-			<content>
-				<para>
-					The <codeInline>remarks</codeInline> element contains a detailed discussion of the current item.
-				</para>
-				<alert class="note">
-					<para>
-						This is a standard element imported from the Microsoft Assistance Markup Language (MAML).
-						Please see the MAML documentation for details how to use this element.
-					</para>
-				</alert>
-			</content>
-		</section>
-		<section address="examples">
-			<title>examples Element</title>
-			<content>
-				<para>
-					The <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/examples</xsd:xmlEntityReference>
-					element contains a discussion of an example for the current item.
-				</para>
-				<alert class="note">
-					<para>
-						Although this is not a standard element imported from the Microsoft Assistance Markup Language (MAML)
-						it is typed as a MAML section and therefore allows the same contents as the <codeInline>remarks</codeInline>
-						element. Please see the MAML documentation for details how to use sections.
-				</para>
-				</alert>
-			</content>
-		</section>
-		<section address="parent">
-			<title>parent Element</title>
-			<content>
-				<para>
-					The <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
-					element can be used to indicate that an element is meant to extend the set of possible children of another
-					element. The other element must explicitly allow the current element via XML schema's <codeInline>any</codeInline>
-					element.
-				</para>
-				<para>
-					This useful if you want to decouple schemas but document them as a single unit. For an example, please
-					have a look at the WiX example CHM file.
-				</para>
-			</content>
-		</section>
-		<section address="obsolete">
-			<title>obsolete Element</title>
-			<content>
-				<para>
-					The <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/obsolete</xsd:xmlEntityReference>
-					element can be used to indicate that the current XML entity has become obsolete and users of the schema
-					should stop using it.
-				</para>
-				<para>
-					In addition you can optionally provide a link to another XML entity that users are encouraged to
-					use instead. For an example, please have a look at the WiX example CHM file.
-				</para>
-			</content>
-		</section>
-		<section address="relatedTopics">
-			<title>relatedTopics Element</title>
-			<content>
-				<para>
-					The <codeInline>relatedTopicsLink </codeInline> is used to link to other topics that might be
-					interesting to the reader.
-				</para>
-				<alert class="note">
-					<para>
-						This is a standard element imported from the Microsoft Assistance Markup Language (MAML).
-						Please see the MAML documentation for details how to use this element.
-					</para>
-				</alert>
-			</content>
-		</section>
-		<relatedTopics>
-			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/examples</xsd:xmlEntityReference>
-			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
-			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/obsolete</xsd:xmlEntityReference>
-			<xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
-			<link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f" />
-			<link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3" />
-			<link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" />
-		</relatedTopics>
-	</developerConceptualDocument>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+                               xmlns:xlink="http://www.w3.org/1999/xlink"
+                               xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
+    <introduction>
+      <para>
+        This topic will describe what elements you can use for documenting XML schemas.
+      </para>
+    </introduction>
+    <section address="summary">
+      <title>summary Element</title>
+      <content>
+        <para>
+          The <codeInline>summary</codeInline> element contains a summary, introduction, or short
+          description of the current item. This text typically appears in a topic and may also be
+          used as the description of the topic that appears in a jump table when the topic is being
+          linked to.
+        </para>
+        <alert class="note">
+          <para>
+            This is a standard element imported from the Microsoft Assistance Markup Language (MAML).
+            Please see the MAML documentation for details how to use this element.
+          </para>
+        </alert>
+      </content>
+    </section>
+    <section address="remarks">
+      <title>remarks Element</title>
+      <content>
+        <para>
+          The <codeInline>remarks</codeInline> element contains a detailed discussion of the current item.
+        </para>
+        <alert class="note">
+          <para>
+            This is a standard element imported from the Microsoft Assistance Markup Language (MAML).
+            Please see the MAML documentation for details how to use this element.
+          </para>
+        </alert>
+      </content>
+    </section>
+    <section address="examples">
+      <title>examples Element</title>
+      <content>
+        <para>
+          The <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/examples</xsd:xmlEntityReference>
+          element contains a discussion of an example for the current item.
+        </para>
+        <alert class="note">
+          <para>
+            Although this is not a standard element imported from the Microsoft Assistance Markup Language (MAML)
+            it is typed as a MAML section and therefore allows the same contents as the <codeInline>remarks</codeInline>
+            element. Please see the MAML documentation for details how to use sections.
+          </para>
+        </alert>
+      </content>
+    </section>
+    <section address="parent">
+      <title>parent Element</title>
+      <content>
+        <para>
+          The <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+          element can be used to indicate that an element is meant to extend the set of possible children of another
+          element. The other element must explicitly allow the current element via XML schema's <codeInline>any</codeInline>
+          element.
+        </para>
+        <para>
+          This useful if you want to decouple schemas but document them as a single unit. For an example, please
+          have a look at the WiX example CHM file.
+        </para>
+      </content>
+    </section>
+    <section address="obsolete">
+      <title>obsolete Element</title>
+      <content>
+        <para>
+          The <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/obsolete</xsd:xmlEntityReference>
+          element can be used to indicate that the current XML entity has become obsolete and users of the schema
+          should stop using it.
+        </para>
+        <para>
+          In addition you can optionally provide a link to another XML entity that users are encouraged to
+          use instead. For an example, please have a look at the WiX example CHM file.
+        </para>
+      </content>
+    </section>
+    <section address="relatedTopics">
+      <title>relatedTopics Element</title>
+      <content>
+        <para>
+          The <codeInline>relatedTopicsLink </codeInline> is used to link to other topics that might be
+          interesting to the reader.
+        </para>
+        <alert class="note">
+          <para>
+            This is a standard element imported from the Microsoft Assistance Markup Language (MAML).
+            Please see the MAML documentation for details how to use this element.
+          </para>
+        </alert>
+      </content>
+    </section>
+    <relatedTopics>
+      <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/examples</xsd:xmlEntityReference>
+      <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/parent</xsd:xmlEntityReference>
+      <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#T/schemaDocType/obsolete</xsd:xmlEntityReference>
+      <xsd:xmlEntityReference>http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3#E/xmlEntityReference</xsd:xmlEntityReference>
+      <link xlink:href="2d68098a-2601-4468-a0e0-7718f995414f" />
+      <link xlink:href="fb47fb06-5700-4502-be2c-2975dd68cae3" />
+      <link xlink:href="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" />
+    </relatedTopics>
+  </developerConceptualDocument>
 </topic>

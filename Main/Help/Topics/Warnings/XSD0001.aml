@@ -1,65 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <topic id="87285acd-59db-4734-adca-17c228a15e52" revisionNumber="1">
-	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
-								 xmlns:xlink="http://www.w3.org/1999/xlink"
-								 xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
-		<introduction>
-			<para>
-				The external doc file '<placeholder>filename</placeholder>' contains a member URI with a value of
-				'##Namespace' although the doc file was marked as documenting the schema set.
-			</para>
-		</introduction>
-		<section address="cause">
-			<title>Cause</title>
-			<content>
-				<para>
-					The error is caused if an external documentation file was marked as documenting the whole
-					schema set but then used the specical value <codeInline>##Namespace</codeInline> as a member
-					URI:
-				</para>
-				<code language="xml" xml:space="preserve">&lt;doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
-	 xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
-	&lt;namespace>
-		&lt;name>##SchemaSet&lt;/name>
-	&lt;/namespace>
-	&lt;members>
-		&lt;member uri="##Namespace">
-			&lt;ddue:summary>
-				&lt;ddue:para>
-					The namespace.
-				&lt;/ddue:para>
-			&lt;/ddue:summary>
-		&lt;/member>
-	&lt;/members>
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+                               xmlns:xlink="http://www.w3.org/1999/xlink"
+                               xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3">
+    <introduction>
+      <para>
+        The external doc file '<placeholder>filename</placeholder>' contains a member URI with a value of
+        '##Namespace' although the doc file was marked as documenting the schema set.
+      </para>
+    </introduction>
+    <section address="cause">
+      <title>Cause</title>
+      <content>
+        <para>
+          The error is caused if an external documentation file was marked as documenting the whole
+          schema set but then used the specical value <codeInline>##Namespace</codeInline> as a member
+          URI:
+        </para>
+        <code language="xml" xml:space="preserve">&lt;doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+     xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+  &lt;namespace>
+    &lt;name>##SchemaSet&lt;/name>
+  &lt;/namespace>
+  &lt;members>
+    &lt;member uri="##Namespace">
+      &lt;ddue:summary>
+        &lt;ddue:para>
+          The namespace.
+        &lt;/ddue:para>
+      &lt;/ddue:summary>
+    &lt;/member>
+  &lt;/members>
 &lt;/doc></code>
-			</content>
-		</section>
-		<section>
-			<title>Solution</title>
-			<content>
-				<para>
-					Instead of using the <codeInline>##Namespace</codeInline> you can expand it to the actual
-					namespace URI:
-				</para>
-				<code language="xml" xml:space="preserve">&lt;doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
-	 xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
-	&lt;namespace>
-		&lt;name>##SchemaSet&lt;/name>
-	&lt;/namespace>
-	&lt;members>
-		&lt;member uri="http://schemas.example.org/MyNamespace">
-			&lt;ddue:summary>
-				&lt;ddue:para>
-					The namespace.
-				&lt;/ddue:para>
-			&lt;/ddue:summary>
-		&lt;/member>
-	&lt;/members>
+      </content>
+    </section>
+    <section>
+      <title>Solution</title>
+      <content>
+        <para>
+          Instead of using the <codeInline>##Namespace</codeInline> you can expand it to the actual
+          namespace URI:
+        </para>
+        <code language="xml" xml:space="preserve">&lt;doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
+     xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+  &lt;namespace>
+    &lt;name>##SchemaSet&lt;/name>
+  &lt;/namespace>
+  &lt;members>
+    &lt;member uri="http://schemas.example.org/MyNamespace">
+      &lt;ddue:summary>
+        &lt;ddue:para>
+          The namespace.
+        &lt;/ddue:para>
+      &lt;/ddue:summary>
+    &lt;/member>
+  &lt;/members>
 &lt;/doc></code>
-			</content>
-		</section>
-		<relatedTopics>
-			<link xlink:href="88d67097-41d0-4dd5-8317-e476b7dc6a56" />
-		</relatedTopics>
-	</developerConceptualDocument>
+      </content>
+    </section>
+    <relatedTopics>
+      <link xlink:href="88d67097-41d0-4dd5-8317-e476b7dc6a56" />
+    </relatedTopics>
+  </developerConceptualDocument>
 </topic>

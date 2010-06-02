@@ -1,43 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <doc xmlns="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
-	 xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
-	<namespace>
-		<name>##SchemaSet</name>
-	</namespace>
-	<members>
-		<member uri="##SchemaSet">
-			<ddue:summary>
-				<ddue:para>
-					The clone report XML schema can be used to exchange clone detective results
-					between different tools.
-				</ddue:para>
-			</ddue:summary>
-			<ddue:remarks>
-				<ddue:content>
-					<ddue:para>
-						Currently, the XML schema is used by the following list of tools:
-					</ddue:para>
-					<ddue:definitionTable>
-						<ddue:definedTerm>
-							Clone Inspector
-						</ddue:definedTerm>
-						<ddue:definition>
-							<ddue:para>
-								An eclipse based tool to analyze a clone report.
-							</ddue:para>
-						</ddue:definition>
-						<ddue:definedTerm>
-							Clone Detective for Visual Studio
-						</ddue:definedTerm>
-						<ddue:definition>
-							<ddue:para>
-								A Visual Studio based solution that can be used to trigger a clone
-								detection as well analyzing a clone report.
-							</ddue:para>
-						</ddue:definition>
-					</ddue:definitionTable>
-				</ddue:content>
-			</ddue:remarks>
-		</member>
-	</members>
+     xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+  <namespace>
+    <name>##SchemaSet</name>
+  </namespace>
+  <members>
+    <member uri="##SchemaSet">
+      <ddue:summary>
+        <ddue:para>
+          The clone report XML schema can be used to exchange clone detective results
+          between different tools.
+        </ddue:para>
+      </ddue:summary>
+      <ddue:remarks>
+        <ddue:content>
+          <ddue:para>
+            Currently, the XML schema is used by the following list of tools:
+          </ddue:para>
+          <ddue:definitionTable>
+            <ddue:definedTerm>
+              Clone Inspector
+            </ddue:definedTerm>
+            <ddue:definition>
+              <ddue:para>
+                An eclipse based tool to analyze a clone report.
+              </ddue:para>
+            </ddue:definition>
+            <ddue:definedTerm>
+              Clone Detective for Visual Studio
+            </ddue:definedTerm>
+            <ddue:definition>
+              <ddue:para>
+                A Visual Studio based solution that can be used to trigger a clone
+                detection as well analyzing a clone report.
+              </ddue:para>
+            </ddue:definition>
+          </ddue:definitionTable>
+        </ddue:content>
+      </ddue:remarks>
+    </member>
+  </members>
 </doc>
