@@ -132,6 +132,7 @@ namespace XsdDocumentation.Markup
             writer.StartMarkup();
             writer.WriteRaw("<b>Namespace:</b> ");
             writer.WriteHtmlNamespaceLink(context, targetNamespace);
+            writer.WriteRaw("<br/>");
             writer.WriteRaw("<b>Schema:</b> ");
             writer.WriteHtmlSchemaLink(context, obj);
             writer.WriteRaw("<br/>");
