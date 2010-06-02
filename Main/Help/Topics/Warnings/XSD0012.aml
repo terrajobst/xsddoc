@@ -53,8 +53,7 @@
           extensible by adding an <codeInline>xs:anyAttribute</codeInline>
           child:
         </para>
-        <code language="xml" xml:space="preserve">&lt
-;xs:schema targetNamespace="http://schemas.example.org/XSD0012"
+        <code language="xml" xml:space="preserve">&lt;xs:schema targetNamespace="http://schemas.example.org/XSD0012"
            xmlns="http://schemas.example.org/XSD0012"
            xmlns:xsd="http://schemas.xsddoc.codeplex.com/schemaDoc/2009/3"
            xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5"
