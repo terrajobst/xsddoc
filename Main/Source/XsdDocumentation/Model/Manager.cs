@@ -2,17 +2,17 @@ using System;
 
 namespace XsdDocumentation.Model
 {
-	internal abstract class Manager
-	{
-		protected Manager(Context context)
-		{
-			Context = context;
-		}
+    internal abstract class Manager
+    {
+        protected Manager(Context context)
+        {
+            Context = context;
+        }
 
-		public virtual void Initialize()
-		{
-		}
+        public virtual void Initialize()
+        {
+        }
 
-		public Context Context { get; private set; }
-	}
+        public Context Context { get; private set; }
+    }
 }

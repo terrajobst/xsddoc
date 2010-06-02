@@ -2,8 +2,8 @@ using System;
 
 namespace XsdDocumentation.Markup
 {
-	public enum AlertClass
-	{
-		Note
-	}
+    public enum AlertClass
+    {
+        Note
+    }
 }

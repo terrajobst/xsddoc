@@ -6,255 +6,255 @@ using XsdDocumentation.Model;
 
 namespace XsdDocumentation.Markup
 {
-	internal static class SimpleTypeStructureMamlWriterExtensions
-	{
-		public static void WriteSimpleTypeStrucure(this MamlWriter writer, Context context, SimpleTypeStructureNode root)
-		{
-			if (root == null || root.Children.Count == 0)
-				return;
+    internal static class SimpleTypeStructureMamlWriterExtensions
+    {
+        public static void WriteSimpleTypeStrucure(this MamlWriter writer, Context context, SimpleTypeStructureNode root)
+        {
+            if (root == null || root.Children.Count == 0)
+                return;
 
-			if (root.Children.Count == 1)
-			{
-				var node = root.Children[0];
-				var isSingleRow = GetIsSingleRow(node);
-				if (isSingleRow)
-				{
-					writer.WriteSingle(context.TopicManager, node);
-					return;
-				}
-			}
+            if (root.Children.Count == 1)
+            {
+                var node = root.Children[0];
+                var isSingleRow = GetIsSingleRow(node);
+                if (isSingleRow)
+                {
+                    writer.WriteSingle(context.TopicManager, node);
+                    return;
+                }
+            }
 
-			writer.StartTable();
+            writer.StartTable();
 
-			writer.StartTableHeader();
-			writer.StartTableRow();
+            writer.StartTableHeader();
+            writer.StartTableRow();
 
-			writer.StartTableRowEntry();
-			writer.WriteString("Item");
-			writer.EndTableRowEntry();
+            writer.StartTableRowEntry();
+            writer.WriteString("Item");
+            writer.EndTableRowEntry();
 
-			writer.StartTableRowEntry();
-			writer.WriteString("Facet Value");
-			writer.EndTableRowEntry();
+            writer.StartTableRowEntry();
+            writer.WriteString("Facet Value");
+            writer.EndTableRowEntry();
 
-			writer.StartTableRowEntry();
-			writer.WriteString("Description");
-			writer.EndTableRowEntry();
+            writer.StartTableRowEntry();
+            writer.WriteString("Description");
+            writer.EndTableRowEntry();
 
-			writer.EndTableRow();
-			writer.EndTableHeader();
+            writer.EndTableRow();
+            writer.EndTableHeader();
 
-			writer.WriteNodes(context, root.Children, 0);
+            writer.WriteNodes(context, root.Children, 0);
 
-			writer.EndTable();
-		}
+            writer.EndTable();
+        }
 
-		private static void WriteNodes(this MamlWriter writer, Context context, IEnumerable<SimpleTypeStructureNode> children, int level)
-		{
-			foreach (var childEntry in children)
-			{
-				if (childEntry.NodeType == SimpleTypeStructureNodeType.NamedType)
-					continue;
+        private static void WriteNodes(this MamlWriter writer, Context context, IEnumerable<SimpleTypeStructureNode> children, int level)
+        {
+            foreach (var childEntry in children)
+            {
+                if (childEntry.NodeType == SimpleTypeStructureNodeType.NamedType)
+                    continue;
 
-				writer.StartTableRow();
+                writer.StartTableRow();
 
-				var isSingleRow = GetIsSingleRow(childEntry);
-				if (isSingleRow)
-					writer.WriteSingleItemAndFacet(level, context.TopicManager, childEntry);
-				else
-					writer.WriteConstructorItemAndFacet(level, context.TopicManager, childEntry);
+                var isSingleRow = GetIsSingleRow(childEntry);
+                if (isSingleRow)
+                    writer.WriteSingleItemAndFacet(level, context.TopicManager, childEntry);
+                else
+                    writer.WriteConstructorItemAndFacet(level, context.TopicManager, childEntry);
 
-				writer.StartTableRowEntry();
-				writer.WriteSummaryForObject(context, childEntry.Node);
-				writer.EndTableRowEntry();
+                writer.StartTableRowEntry();
+                writer.WriteSummaryForObject(context, childEntry.Node);
+                writer.EndTableRowEntry();
 
-				writer.EndTableRow();
+                writer.EndTableRow();
 
-				if (!isSingleRow)
-					writer.WriteNodes(context, childEntry.Children, level + 1);
-			}
-		}
+                if (!isSingleRow)
+                    writer.WriteNodes(context, childEntry.Children, level + 1);
+            }
+        }
 
-		private static bool GetIsSingleRow(SimpleTypeStructureNode node)
-		{
-			switch (node.NodeType)
-			{
-				case SimpleTypeStructureNodeType.Any:
-				case SimpleTypeStructureNodeType.Mixed:
-				case SimpleTypeStructureNodeType.NamedType:
-				case SimpleTypeStructureNodeType.List:
-				case SimpleTypeStructureNodeType.Union:
-					break;
-				default:
-					return false;
-			}
-			foreach (var child in node.Children)
-			{
-				switch (child.NodeType)
-				{
-					case SimpleTypeStructureNodeType.Union:
-					case SimpleTypeStructureNodeType.List:
-					case SimpleTypeStructureNodeType.Restriction:
-						return false;
-				}
-			}
+        private static bool GetIsSingleRow(SimpleTypeStructureNode node)
+        {
+            switch (node.NodeType)
+            {
+                case SimpleTypeStructureNodeType.Any:
+                case SimpleTypeStructureNodeType.Mixed:
+                case SimpleTypeStructureNodeType.NamedType:
+                case SimpleTypeStructureNodeType.List:
+                case SimpleTypeStructureNodeType.Union:
+                    break;
+                default:
+                    return false;
+            }
+            foreach (var child in node.Children)
+            {
+                switch (child.NodeType)
+                {
+                    case SimpleTypeStructureNodeType.Union:
+                    case SimpleTypeStructureNodeType.List:
+                    case SimpleTypeStructureNodeType.Restriction:
+                        return false;
+                }
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-		private static void WriteSingle(this MamlWriter writer, TopicManager topicManager, SimpleTypeStructureNode node)
-		{
-			switch (node.NodeType)
-			{
-				case SimpleTypeStructureNodeType.Any:
-					writer.WriteString("Any");
-					break;
-				case SimpleTypeStructureNodeType.Mixed:
-					writer.WriteString("Mixed");
-					break;
-				case SimpleTypeStructureNodeType.NamedType:
-					writer.WriteTypeName(topicManager, (XmlSchemaType)node.Node);
-					break;
-				case SimpleTypeStructureNodeType.List:
-					writer.StartHtmlArtItem(ArtItem.List);
-					writer.WriteTypeNamesMarkup(topicManager, node.Children);
-					writer.EndHtmlArtItem();
-					break;
-				case SimpleTypeStructureNodeType.Union:
-					writer.StartHtmlArtItem(ArtItem.Union);
-					writer.WriteTypeNamesMarkup(topicManager, node.Children);
-					writer.EndHtmlArtItem();
-					break;
-				default:
-					throw ExceptionBuilder.UnhandledCaseLabel(node.NodeType);
-			}
-		}
+        private static void WriteSingle(this MamlWriter writer, TopicManager topicManager, SimpleTypeStructureNode node)
+        {
+            switch (node.NodeType)
+            {
+                case SimpleTypeStructureNodeType.Any:
+                    writer.WriteString("Any");
+                    break;
+                case SimpleTypeStructureNodeType.Mixed:
+                    writer.WriteString("Mixed");
+                    break;
+                case SimpleTypeStructureNodeType.NamedType:
+                    writer.WriteTypeName(topicManager, (XmlSchemaType)node.Node);
+                    break;
+                case SimpleTypeStructureNodeType.List:
+                    writer.StartHtmlArtItem(ArtItem.List);
+                    writer.WriteTypeNamesMarkup(topicManager, node.Children);
+                    writer.EndHtmlArtItem();
+                    break;
+                case SimpleTypeStructureNodeType.Union:
+                    writer.StartHtmlArtItem(ArtItem.Union);
+                    writer.WriteTypeNamesMarkup(topicManager, node.Children);
+                    writer.EndHtmlArtItem();
+                    break;
+                default:
+                    throw ExceptionBuilder.UnhandledCaseLabel(node.NodeType);
+            }
+        }
 
-		private static void WriteSingleItemAndFacet(this MamlWriter writer, int level, TopicManager topicManager, SimpleTypeStructureNode node)
-		{
-			writer.StartTableRowEntry();
-			writer.WriteHtmlIndent(level);
-			writer.WriteSingle(topicManager, node);
-			writer.EndTableRowEntry();
-			writer.StartTableRowEntry();
-			writer.EndTableRowEntry();
-		}
+        private static void WriteSingleItemAndFacet(this MamlWriter writer, int level, TopicManager topicManager, SimpleTypeStructureNode node)
+        {
+            writer.StartTableRowEntry();
+            writer.WriteHtmlIndent(level);
+            writer.WriteSingle(topicManager, node);
+            writer.EndTableRowEntry();
+            writer.StartTableRowEntry();
+            writer.EndTableRowEntry();
+        }
 
-		private static void WriteTypeNamesMarkup(this MamlWriter writer, TopicManager topicManager, IEnumerable<SimpleTypeStructureNode> children)
-		{
-			var isFirst = true;
-			foreach (var node in children)
-			{
-				if (node.NodeType != SimpleTypeStructureNodeType.NamedType)
-					continue;
+        private static void WriteTypeNamesMarkup(this MamlWriter writer, TopicManager topicManager, IEnumerable<SimpleTypeStructureNode> children)
+        {
+            var isFirst = true;
+            foreach (var node in children)
+            {
+                if (node.NodeType != SimpleTypeStructureNodeType.NamedType)
+                    continue;
 
-				if (isFirst)
-					isFirst = false;
-				else
-					writer.WriteString(", ");
+                if (isFirst)
+                    isFirst = false;
+                else
+                    writer.WriteString(", ");
 
-				var simpleType = (XmlSchemaSimpleType) node.Node;
-				var topic = topicManager.GetTopic(simpleType);
-					
-				if (topic != null)
-					writer.WriteHtmlTopicLink(topic);
-				else
-					writer.WriteString(simpleType.QualifiedName.Name);
-			}
-		}
+                var simpleType = (XmlSchemaSimpleType)node.Node;
+                var topic = topicManager.GetTopic(simpleType);
 
-		private static void WriteConstructorItemAndFacet(this MamlWriter writer, int level, TopicManager topicManager, SimpleTypeStructureNode node)
-		{
-			switch (node.NodeType)
-			{
-				case SimpleTypeStructureNodeType.Restriction:
-					writer.WriteConstructor(level, topicManager, node, ArtItem.Restriction, "Restriction");
-					break;
-				case SimpleTypeStructureNodeType.List:
-					writer.WriteConstructor(level, topicManager, node, ArtItem.List, "List");
-					break;
-				case SimpleTypeStructureNodeType.Union:
-					writer.WriteConstructor(level, topicManager, node, ArtItem.Union, "Union");
-					break;
-				case SimpleTypeStructureNodeType.FacetEnumeration:
-					writer.WriteFacet(level, node, "Enumeration");
-					break;
-				case SimpleTypeStructureNodeType.FacetMaxExclusive:
-					writer.WriteFacet(level, node, "Max Exclusive");
-					break;
-				case SimpleTypeStructureNodeType.FacetMaxInclusive:
-					writer.WriteFacet(level, node, "Max Inclusive");
-					break;
-				case SimpleTypeStructureNodeType.FacetMinExclusive:
-					writer.WriteFacet(level, node, "Min Exclusive");
-					break;
-				case SimpleTypeStructureNodeType.FacetMinInclusive:
-					writer.WriteFacet(level, node, "Min Inclusive");
-					break;
-				case SimpleTypeStructureNodeType.FacetFractionDigits:
-					writer.WriteFacet(level, node, "Fraction Digits");
-					break;
-				case SimpleTypeStructureNodeType.FacetLength:
-					writer.WriteFacet(level, node, "Length");
-					break;
-				case SimpleTypeStructureNodeType.FacetMaxLength:
-					writer.WriteFacet(level, node, "Max Length");
-					break;
-				case SimpleTypeStructureNodeType.FacetMinLength:
-					writer.WriteFacet(level, node, "Min Length");
-					break;
-				case SimpleTypeStructureNodeType.FacetTotalDigits:
-					writer.WriteFacet(level, node, "Total Digits");
-					break;
-				case SimpleTypeStructureNodeType.FacetPattern:
-					writer.WriteFacet(level, node, "Pattern");
-					break;
-				case SimpleTypeStructureNodeType.FacetWhiteSpace:
-					writer.WriteFacet(level, node, "White Space");
-					break;
-				default:
-					throw ExceptionBuilder.UnhandledCaseLabel(node.NodeType);
-			}
-		}
+                if (topic != null)
+                    writer.WriteHtmlTopicLink(topic);
+                else
+                    writer.WriteString(simpleType.QualifiedName.Name);
+            }
+        }
 
-		private static void WriteConstructor(this MamlWriter writer, int level, TopicManager topicManager, SimpleTypeStructureNode node, ArtItem constructionArtItem, string constructName)
-		{
-			writer.StartTableRowEntry();
-			writer.WriteHtmlIndent(level);
-			writer.StartHtmlArtItem(constructionArtItem);
-			if (ContainsNamedTypes(node.Children))
-				writer.WriteTypeNamesMarkup(topicManager, node.Children);
-			else
-				writer.WriteString(constructName);
-			writer.EndHtmlArtItem();
-			writer.EndTableRowEntry();
-			writer.StartTableRowEntry();
-			writer.EndTableRowEntry();
-		}
+        private static void WriteConstructorItemAndFacet(this MamlWriter writer, int level, TopicManager topicManager, SimpleTypeStructureNode node)
+        {
+            switch (node.NodeType)
+            {
+                case SimpleTypeStructureNodeType.Restriction:
+                    writer.WriteConstructor(level, topicManager, node, ArtItem.Restriction, "Restriction");
+                    break;
+                case SimpleTypeStructureNodeType.List:
+                    writer.WriteConstructor(level, topicManager, node, ArtItem.List, "List");
+                    break;
+                case SimpleTypeStructureNodeType.Union:
+                    writer.WriteConstructor(level, topicManager, node, ArtItem.Union, "Union");
+                    break;
+                case SimpleTypeStructureNodeType.FacetEnumeration:
+                    writer.WriteFacet(level, node, "Enumeration");
+                    break;
+                case SimpleTypeStructureNodeType.FacetMaxExclusive:
+                    writer.WriteFacet(level, node, "Max Exclusive");
+                    break;
+                case SimpleTypeStructureNodeType.FacetMaxInclusive:
+                    writer.WriteFacet(level, node, "Max Inclusive");
+                    break;
+                case SimpleTypeStructureNodeType.FacetMinExclusive:
+                    writer.WriteFacet(level, node, "Min Exclusive");
+                    break;
+                case SimpleTypeStructureNodeType.FacetMinInclusive:
+                    writer.WriteFacet(level, node, "Min Inclusive");
+                    break;
+                case SimpleTypeStructureNodeType.FacetFractionDigits:
+                    writer.WriteFacet(level, node, "Fraction Digits");
+                    break;
+                case SimpleTypeStructureNodeType.FacetLength:
+                    writer.WriteFacet(level, node, "Length");
+                    break;
+                case SimpleTypeStructureNodeType.FacetMaxLength:
+                    writer.WriteFacet(level, node, "Max Length");
+                    break;
+                case SimpleTypeStructureNodeType.FacetMinLength:
+                    writer.WriteFacet(level, node, "Min Length");
+                    break;
+                case SimpleTypeStructureNodeType.FacetTotalDigits:
+                    writer.WriteFacet(level, node, "Total Digits");
+                    break;
+                case SimpleTypeStructureNodeType.FacetPattern:
+                    writer.WriteFacet(level, node, "Pattern");
+                    break;
+                case SimpleTypeStructureNodeType.FacetWhiteSpace:
+                    writer.WriteFacet(level, node, "White Space");
+                    break;
+                default:
+                    throw ExceptionBuilder.UnhandledCaseLabel(node.NodeType);
+            }
+        }
 
-		private static bool ContainsNamedTypes(IEnumerable<SimpleTypeStructureNode> nodes)
-		{
-			foreach (var node in nodes)
-			{
-				if (node.NodeType == SimpleTypeStructureNodeType.NamedType)
-					return true;
-			}
+        private static void WriteConstructor(this MamlWriter writer, int level, TopicManager topicManager, SimpleTypeStructureNode node, ArtItem constructionArtItem, string constructName)
+        {
+            writer.StartTableRowEntry();
+            writer.WriteHtmlIndent(level);
+            writer.StartHtmlArtItem(constructionArtItem);
+            if (ContainsNamedTypes(node.Children))
+                writer.WriteTypeNamesMarkup(topicManager, node.Children);
+            else
+                writer.WriteString(constructName);
+            writer.EndHtmlArtItem();
+            writer.EndTableRowEntry();
+            writer.StartTableRowEntry();
+            writer.EndTableRowEntry();
+        }
 
-			return false;
-		}
+        private static bool ContainsNamedTypes(IEnumerable<SimpleTypeStructureNode> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                if (node.NodeType == SimpleTypeStructureNodeType.NamedType)
+                    return true;
+            }
 
-		private static void WriteFacet(this MamlWriter writer, int level, SimpleTypeStructureNode node, string facetType)
-		{
-			var facetValue = ((XmlSchemaFacet) node.Node).Value;
+            return false;
+        }
 
-			writer.StartTableRowEntry();
-			writer.WriteHtmlIndent(level);
-			writer.WriteHtmlArtItemWithText(ArtItem.Facet, facetType);
-			writer.EndTableRowEntry();
+        private static void WriteFacet(this MamlWriter writer, int level, SimpleTypeStructureNode node, string facetType)
+        {
+            var facetValue = ((XmlSchemaFacet)node.Node).Value;
 
-			writer.StartTableRowEntry();
-			writer.WriteString(facetValue);
-			writer.EndTableRowEntry();
-		}
-	}
+            writer.StartTableRowEntry();
+            writer.WriteHtmlIndent(level);
+            writer.WriteHtmlArtItemWithText(ArtItem.Facet, facetType);
+            writer.EndTableRowEntry();
+
+            writer.StartTableRowEntry();
+            writer.WriteString(facetValue);
+            writer.EndTableRowEntry();
+        }
+    }
 }
