@@ -20,6 +20,8 @@ namespace XsdDocumentation.PlugIn
             DocumentConstraints = other.DocumentConstraints;
             DocumentSchemas = other.DocumentSchemas;
             DocumentSyntax = other.DocumentSyntax;
+            UseTypeDocumentationForUndocumentedAttributes = other.UseTypeDocumentationForUndocumentedAttributes;
+            UseTypeDocumentationForUndocumentedElements = other.UseTypeDocumentationForUndocumentedElements;
             SchemaSetContainer = other.SchemaSetContainer;
             SchemaSetTitle = other.SchemaSetTitle;
             NamespaceContainer = other.NamespaceContainer;
@@ -39,6 +41,8 @@ namespace XsdDocumentation.PlugIn
             DocumentConstraints = GetBoolean(navigator, "configuration/document/@constraints", true);
             DocumentSchemas = GetBoolean(navigator, "configuration/document/@schemas", true);
             DocumentSyntax = GetBoolean(navigator, "configuration/document/@syntax", true);
+            UseTypeDocumentationForUndocumentedAttributes = GetBoolean(navigator, "configuration/useTypeDocumentation/@forUndocumentedAttributes", true);
+            UseTypeDocumentationForUndocumentedElements = GetBoolean(navigator, "configuration/useTypeDocumentation/@forUndocumentedElements", true);
             SchemaSetContainer = GetBoolean(navigator, "configuration/schemaSet/@container", false);
             SchemaSetTitle = GetString(navigator, "configuration/schemaSet/@title", string.Empty);
             NamespaceContainer = GetBoolean(navigator, "configuration/namespace/@container", true);
@@ -77,6 +81,16 @@ namespace XsdDocumentation.PlugIn
         [LocalizableDescription("ConfigDescriptionDocumentSyntax")]
         [DefaultValue(true)]
         public bool DocumentSyntax { get; set; }
+
+        [LocalizableCategory("ConfigCategoryAppearance")]
+        [LocalizableDescription("ConfigDescriptionUseTypeDocumentationForUndocumentedAttributes")]
+        [DefaultValue(true)]
+        public bool UseTypeDocumentationForUndocumentedAttributes { get; set; }
+
+        [LocalizableCategory("ConfigCategoryAppearance")]
+        [LocalizableDescription("ConfigDescriptionUseTypeDocumentationForUndocumentedElements")]
+        [DefaultValue(true)]
+        public bool UseTypeDocumentationForUndocumentedElements { get; set; }
 
         [LocalizableCategory("ConfigCategoryAppearance")]
         [LocalizableDescription("ConfigDescriptionSchemaSetContainer")]
@@ -217,6 +231,11 @@ namespace XsdDocumentation.PlugIn
             documentNode.SetAttribute("schemas", XmlConvert.ToString(configuration.DocumentSchemas));
             documentNode.SetAttribute("syntax", XmlConvert.ToString(configuration.DocumentSyntax));
             configurationNode.AppendChild(documentNode);
+
+            var useTypeDocumentationNode = doc.CreateElement("useTypeDocumentation");
+            useTypeDocumentationNode.SetAttribute("forUndocumentedAttributes", XmlConvert.ToString(configuration.UseTypeDocumentationForUndocumentedAttributes));
+            useTypeDocumentationNode.SetAttribute("forUndocumentedElements", XmlConvert.ToString(configuration.UseTypeDocumentationForUndocumentedElements));
+            configurationNode.AppendChild(useTypeDocumentationNode);
 
             var schemaSetNode = doc.CreateElement("schemaSet");
             schemaSetNode.SetAttribute("container", XmlConvert.ToString(configuration.SchemaSetContainer));

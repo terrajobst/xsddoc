@@ -18,6 +18,8 @@ namespace XsdDocumentation.Model
         public bool DocumentConstraints { get; set; }
         public bool DocumentSchemas { get; set; }
         public bool DocumentSyntax { get; set; }
+        public bool UseTypeDocumentationForUndocumentedAttributes { get; set; }
+        public bool UseTypeDocumentationForUndocumentedElements { get; set; }
         public bool SchemaSetContainer { get; set; }
         public string SchemaSetTitle { get; set; }
         public bool NamespaceContainer { get; set; }

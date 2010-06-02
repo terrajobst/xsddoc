@@ -214,6 +214,24 @@ namespace XsdDocumentation.PlugIn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If true, attributes without documentation inherit the documentation from the associated simple type..
+        /// </summary>
+        internal static string ConfigDescriptionUseTypeDocumentationForUndocumentedAttributes {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionUseTypeDocumentationForUndocumentedAttributes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If true, elements without documentation inherit the documentation from the associated simple type or complex type..
+        /// </summary>
+        internal static string ConfigDescriptionUseTypeDocumentationForUndocumentedElements {
+            get {
+                return ResourceManager.GetString("ConfigDescriptionUseTypeDocumentationForUndocumentedElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documentation Files (*.xml)|*.xml|All Files (*.*)|*.*.
         /// </summary>
         internal static string DocFilePathsEditorFilter {

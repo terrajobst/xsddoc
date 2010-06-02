@@ -168,6 +168,12 @@
   <data name="ConfigDescriptionSortOrder" xml:space="preserve">
     <value>This defines the sort order for merging the XML schema topics with the main help file.</value>
   </data>
+  <data name="ConfigDescriptionUseTypeDocumentationForUndocumentedAttributes" xml:space="preserve">
+    <value>If true, attributes without documentation inherit the documentation from the associated simple type.</value>
+  </data>
+  <data name="ConfigDescriptionUseTypeDocumentationForUndocumentedElements" xml:space="preserve">
+    <value>If true, elements without documentation inherit the documentation from the associated simple type or complex type.</value>
+  </data>
   <data name="DocFilePathsEditorFilter" xml:space="preserve">
     <value>Documentation Files (*.xml)|*.xml|All Files (*.*)|*.*</value>
   </data>

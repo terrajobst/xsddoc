@@ -315,13 +315,24 @@ namespace XsdDocumentation.Model
                 return documentationInfo;
 
             XmlSchemaElement element;
+            if (Casting.TryCast(obj, out element))
+            {
+                if (!element.RefName.IsEmpty)
+                    return GetObjectDocumentationInfo(Context.SchemaSetManager.SchemaSet.GlobalElements[element.RefName]);
+
+                if (element.ElementSchemaType != null && Context.Configuration.UseTypeDocumentationForUndocumentedElements)
+                    return GetObjectDocumentationInfo(element.ElementSchemaType);
+            }
+
             XmlSchemaAttribute attribute;
+            if (Casting.TryCast(obj, out attribute))
+            {
+                if (!attribute.RefName.IsEmpty)
+                    return GetObjectDocumentationInfo(Context.SchemaSetManager.SchemaSet.GlobalAttributes[attribute.RefName]);
 
-            if (Casting.TryCast(obj, out element) && !element.RefName.IsEmpty)
-                return InternalGetDocumentationInfo(Context.SchemaSetManager.SchemaSet.GlobalElements[element.RefName]);
-
-            if (Casting.TryCast(obj, out attribute) && !attribute.RefName.IsEmpty)
-                return InternalGetDocumentationInfo(Context.SchemaSetManager.SchemaSet.GlobalAttributes[attribute.RefName]);
+                if (attribute.AttributeSchemaType != null && Context.Configuration.UseTypeDocumentationForUndocumentedAttributes)
+                    return GetObjectDocumentationInfo(attribute.AttributeSchemaType);
+            }
 
             return null;
         }

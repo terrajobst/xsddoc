@@ -158,6 +158,8 @@ namespace XsdDocumentation.PlugIn
                                     DocumentConstraints = _configuration.DocumentConstraints,
                                     DocumentSchemas = _configuration.DocumentSchemas,
                                     DocumentSyntax = _configuration.DocumentSyntax,
+                                    UseTypeDocumentationForUndocumentedAttributes = _configuration.UseTypeDocumentationForUndocumentedAttributes,
+                                    UseTypeDocumentationForUndocumentedElements = _configuration.UseTypeDocumentationForUndocumentedElements,
                                     SchemaSetContainer = _configuration.SchemaSetContainer,
                                     SchemaSetTitle = _configuration.SchemaSetTitle,
                                     NamespaceContainer = _configuration.NamespaceContainer,

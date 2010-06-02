@@ -163,6 +163,20 @@
 							</para>
 						</alert>
 					</definition>
+					<definedTerm>UseTypeDocumentationForUndocumentedAttributes</definedTerm>
+					<definition>
+						<para>
+							If <codeInline>true</codeInline>, attributes without documentation inherit the documentation from
+							the associated simple type.
+						</para>
+					</definition>
+					<definedTerm>UseTypeDocumentationForUndocumentedElements</definedTerm>
+					<definition>
+						<para>
+							If <codeInline>true</codeInline>, elements without documentation inherit the documentation from
+							the associated simple type or complex type.
+						</para>
+					</definition>
 				</definitionTable>
 			</content>
 		</section>
