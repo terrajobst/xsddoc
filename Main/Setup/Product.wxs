@@ -39,7 +39,7 @@
       Privileged
     </Condition>
 
-    <Condition Message="[ProductName] requires Sandcastle Help File Builder 1.8.0.3 or higher. If you just installed it, please make sure to reboot your machine. Otherwise certain required environment variables will not be visible.&#13;&#10;&#13;&#10;Visit http://shfb.codeplex.com/ to download the latest stable release.">
+    <Condition Message="[ProductName] requires Sandcastle Help File Builder 1.8.0.3 or higher. If you just installed it, please reboot in order to ensure required environment variables can be accessed.&#13;&#10;&#13;&#10;You can download it from http://shfb.codeplex.com/.">
       Installed OR SHFB_EXISTS
     </Condition>
 
