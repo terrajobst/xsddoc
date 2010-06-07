@@ -35,15 +35,27 @@
     </ComponentGroup>
   </Fragment>
 
-  <Fragment Id="Schemas">
+  <Fragment Id="VS2008_Schemas">
     <DirectoryRef Id="VS90_SCHEMAS_DIR">
-      <Component Id="XsdDocumentation.xsd" Guid="{8D7753F8-9588-46CA-89F9-88908A3741C9}">
-          <File KeyPath="yes" Source="$(var.EtcFolder)\Schemas\XsdDocumentation.xsd" />
+      <Component Id="VS2008_XsdDocumentation.xsd" Guid="{8D7753F8-9588-46CA-89F9-88908A3741C9}">
+          <File Id="VS2008_XsdDocumentation.xsd" Name="XsdDocumentation2008.xsd" KeyPath="yes" Source="$(var.EtcFolder)\Schemas\XsdDocumentation.xsd" />
       </Component>
     </DirectoryRef>
 
-    <ComponentGroup Id="Schemas">
-      <ComponentRef Id="XsdDocumentation.xsd"/>
+    <ComponentGroup Id="VS2008_Schemas">
+      <ComponentRef Id="VS2008_XsdDocumentation.xsd"/>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment Id="VS2010_Schemas">
+    <DirectoryRef Id="VS2010_SCHEMAS_DIR">
+      <Component Id="VS2010_XsdDocumentation.xsd" Guid="{FB6C7068-B75C-43B5-BCF8-D7E0194F9A2E}">
+        <File Id="VS2010_XsdDocumentation.xsd" Name="XsdDocumentation2010.xsd" KeyPath="yes" Source="$(var.EtcFolder)\Schemas\XsdDocumentation.xsd" />
+      </Component>
+    </DirectoryRef>
+
+    <ComponentGroup Id="VS2010_Schemas">
+      <ComponentRef Id="VS2010_XsdDocumentation.xsd"/>
     </ComponentGroup>
   </Fragment>
 
@@ -55,10 +67,18 @@
       <ComponentGroupRef Id="XsdDocMedia"/>
     </Feature>
 
-    <Feature Id="Schemas" Level="1" AllowAdvertise="no"
-             Title="IntelliSense Support"
-             Description="Integrates [ProductName] schema files into Visual Studio IntelliSense.">
-      <ComponentGroupRef Id="Schemas"/>
+    <Feature Id="VS2008_Schemas" Level="1" AllowAdvertise="no"
+             Title="VS 2008 IntelliSense Support"
+             Description="Integrates [ProductName] schema files into Visual Studio 2008 IntelliSense.">
+      <Condition Level="0">NOT VS90_SCHEMAS_DIR</Condition>
+      <ComponentGroupRef Id="VS2008_Schemas"/>
+    </Feature>
+
+    <Feature Id="VS2010_Schemas" Level="1" AllowAdvertise="no"
+             Title="VS 2010 IntelliSense Support"
+             Description="Integrates [ProductName] schema files into Visual Studio 2010 IntelliSense.">
+      <Condition Level="0">NOT VS2010_SCHEMAS_DIR</Condition>
+      <ComponentGroupRef Id="VS2010_Schemas"/>
     </Feature>
   </Fragment>
 </Wix>
