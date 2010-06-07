@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup", "Setup.wixproj", "{F6B9D931-C86B-4446-A295-2B1688D10127}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56EAD672-CBAC-4523-9BDE-161069A52E86}"
+	ProjectSection(SolutionItems) = preProject
+		..\Todos.txt = ..\Todos.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 2
