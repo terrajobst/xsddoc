@@ -136,8 +136,8 @@
   <Target Name="GenerateHelp" DependsOnTargets="GetVersion;BootstrapXsdDoc">
 
     <!-- Here we use our boostrapped version of SHFB with XsdDoc.
-         Unfortunately, we cannot use the MSBuild task as SHFB can only the project when called
-         from the .NET 3.5 toolset.
+         Unfortunately, we cannot use the MSBuild task as SHFB can only build the
+         project when called from the .NET 3.5 toolset.
 
     <MSBuild Projects="$(HelpDir)Help.shfbproj"
              Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
