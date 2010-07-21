@@ -20,7 +20,6 @@
     <GeneratedSourceCode>$(OutputDir)Source\</GeneratedSourceCode>
     <GeneratedSamples>$(OutputDir)Samples\</GeneratedSamples>
     <GeneratedRelease>$(OutputDir)Release\</GeneratedRelease>
-    <BootstrappedShfb>$(OutputDir)SHFB\</BootstrappedShfb>
     <Configuration>Release</Configuration>
   </PropertyGroup>
 
@@ -29,7 +28,8 @@
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
 
   <!-- External Tasks -->
-
+  
+  <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.SetEnvVar" />
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.RemoveTfsBindings" />
 
@@ -113,36 +113,19 @@
     </GetFileVersionInfo>
   </Target>
 
-  <!-- BootstrapXsdDoc -->
-
-  <Target Name="BootstrapXsdDoc">
-    <!-- We copy the complete SHFB installation to the output folder in order
-         to bootstrap XSDDoc since we need ourself to generate documenation for
-         our schemas.
-    -->
-    <ItemGroup>
-      <ShfbFiles Include="$(SHFBROOT)**\*.*" />
-      <XsdFiles Include="$(GeneratedBinaries)**\*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(ShfbFiles)" DestinationFolder="$(BootstrappedShfb)%(RecursiveDir)" />
-    <Copy SourceFiles="@(XsdFiles)" DestinationFolder="$(BootstrappedShfb)XsdDoc\%(RecursiveDir)" />
-    <!-- Now we can run SHFB from our output folder. This is done by providing overriding
-         the SHFBROOT property
-    -->
-  </Target>
-
   <!-- Generate Help -->
 
-  <Target Name="GenerateHelp" DependsOnTargets="GetVersion;BootstrapXsdDoc">
+  <Target Name="GenerateHelp" DependsOnTargets="GetVersion">
 
-    <!-- Here we use our boostrapped version of SHFB with XsdDoc.
+    <!-- Here we use our boostrapped version of XsdDoc.
          Unfortunately, we cannot use the MSBuild task as SHFB can only build the
          project when called from the .NET 3.5 toolset.
 
     <MSBuild Projects="$(HelpDir)Help.shfbproj"
-             Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
+             Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
     -->
-    <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;$(HelpDir)Help.shfbproj&quot; /p:SHFBROOT=&quot;$(BootstrappedShfb)\&quot; /p:OutputPath=&quot;$(GeneratedHelp)\&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot; /p:CopyrightText=&quot;[v{%40HelpFileVersion}] $(XsdDocCopyright)&quot;" />
+    <SetEnvVar Variable="SHFBCOMPONENTROOT" Value="$(GeneratedBinaries)"/>
+    <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;$(HelpDir)Help.shfbproj&quot; /p:OutputPath=&quot;$(GeneratedHelp)\&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot; /p:CopyrightText=&quot;[v{%40HelpFileVersion}] $(XsdDocCopyright)&quot;" />
   </Target>
 
   <!-- Generate Setup -->
@@ -177,7 +160,7 @@
 
   <!-- Generate Samples -->
 
-  <Target Name="GenerateSamples" DependsOnTargets="GetVersion;BootstrapXsdDoc">
+  <Target Name="GenerateSamples" DependsOnTargets="GetVersion">
     <RemoveDir Directories="$(GeneratedSamples)" />
 
     <!-- Sample projects files -->
@@ -188,20 +171,21 @@
       <SampleProjectXml Include="$(SamplesDir)Xml\Help.shfbproj" />
     </ItemGroup>
 
-    <!-- Here we use our boostrapped version of SHFB with XsdDoc.
+    <!-- Here we use our boostrapped version of XsdDoc.
          Same as in GenerateHelp target: we cannot use the MSBuild task to
          create the documentation.
 
     <MSBuild Projects="@(SampleProjectCloneDetective)"
-             Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)CloneDetective;HelpFileVersion=$(XsdDocVersion)" />
+             Properties="OutputPath=$(GeneratedSamples)CloneDetective;HelpFileVersion=$(XsdDocVersion)" />
     <MSBuild Projects="@(SampleProjectWiX)"
-             Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)WiX;HelpFileVersion=$(XsdDocVersion)" />
+             Properties="OutputPath=$(GeneratedSamples)WiX;HelpFileVersion=$(XsdDocVersion)" />
     <MSBuild Projects="@(SampleProjectXml)"
-             Properties="SHFBROOT=$(BootstrappedShfb);OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />
+             Properties="OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />
     -->
-    <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectCloneDetective)&quot; /p:SHFBROOT=&quot;$(BootstrappedShfb)\&quot; /p:OutputPath=&quot;$(GeneratedSamples)CloneDetective&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
-    <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectWiX)&quot; /p:SHFBROOT=&quot;$(BootstrappedShfb)\&quot; /p:OutputPath=&quot;$(GeneratedSamples)WiX&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
-    <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectXml)&quot; /p:SHFBROOT=&quot;$(BootstrappedShfb)\&quot; /p:OutputPath=&quot;$(GeneratedSamples)Xml&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
+    <SetEnvVar Variable="SHFBCOMPONENTROOT" Value="$(GeneratedBinaries)"/>
+    <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectCloneDetective)&quot; /p:OutputPath=&quot;$(GeneratedSamples)CloneDetective&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
+    <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectWiX)&quot; /p:OutputPath=&quot;$(GeneratedSamples)WiX&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
+    <Exec Command="&quot;$(windir)\Microsoft.NET\Framework\v3.5\MSBuild.exe&quot; &quot;@(SampleProjectXml)&quot; /p:OutputPath=&quot;$(GeneratedSamples)Xml&quot; /p:HelpFileVersion=&quot;$(XsdDocVersion)&quot;" />
 
     <!-- Delete all non CHM files -->
 
