@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Topics defaultTopic="42bd9c99-dc34-45db-8893-987907c83684">
-  <Topic id="42bd9c99-dc34-45db-8893-987907c83684" visible="True" title="Welcome" />
+<Topics>
+  <Topic id="42bd9c99-dc34-45db-8893-987907c83684" visible="True" isDefault="true" title="Welcome" />
   <Topic id="b624c91b-e17c-4c4e-958c-f764dc5eafb9" visible="True" title="Documenting">
     <Topic id="2d68098a-2601-4468-a0e0-7718f995414f" visible="True" title="Inline Documentation" />
     <Topic id="fb47fb06-5700-4502-be2c-2975dd68cae3" visible="True" title="External Documentation" />
