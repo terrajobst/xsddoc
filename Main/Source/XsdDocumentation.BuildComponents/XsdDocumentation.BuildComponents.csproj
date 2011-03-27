@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BuildAssemblerLibrary, Version=2.4.10520.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="BuildAssemblerLibrary">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Sandcastle\ProductionTools\BuildAssemblerLibrary.dll</HintPath>
       <Private>False</Private>

@@ -7,14 +7,17 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.XPath;
 
-using Microsoft.Build.BuildEngine;
+using Microsoft.Build.Evaluation;
 
 using SandcastleBuilder.Utils;
 using SandcastleBuilder.Utils.BuildEngine;
+using SandcastleBuilder.Utils.ConceptualContent;
 using SandcastleBuilder.Utils.PlugIn;
 
 using XsdDocumentation.Model;
 using XsdDocumentation.PlugIn.Properties;
+
+using System.Linq;
 
 namespace XsdDocumentation.PlugIn
 {
@@ -23,6 +26,7 @@ namespace XsdDocumentation.PlugIn
         private ExecutionPointCollection _executionPoints;
         private BuildProcess _buildProcess;
         private XsdPlugInConfiguration _configuration;
+        //private ContentGenerator _contentGenerator;
 
         public static string GetHelpFilePath()
         {
@@ -101,7 +105,39 @@ namespace XsdDocumentation.PlugIn
                 return _executionPoints ?? (_executionPoints = new ExecutionPointCollection
                                                                    {
                                                                        new ExecutionPoint(BuildStep.FindingTools,
-                                                                                          ExecutionBehaviors.After)
+                                                                                          ExecutionBehaviors.After),
+
+                                                                       //new ExecutionPoint(BuildStep.Initializing, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.ClearWorkFolder, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.FindingTools, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CopyConceptualContent, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateSharedContent, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateApiFilter, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateReflectionInfo, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateNamespaceSummaries, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.ApplyVisibilityProperties, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateInheritedDocumentation, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.TransformReflectionInfo, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.ModifyHelpTopicFilenames, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CopyStandardContent, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CopyConceptualContent, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CreateConceptualTopicConfigs, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CopyAdditionalContent, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.MergeTablesOfContents, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateIntermediateTableOfContents, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CreateBuildAssemblerConfigs, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.MergeCustomConfigs, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.BuildConceptualTopics, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.BuildReferenceTopics, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CombiningIntermediateTocFiles, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.ExtractingHtmlInfo, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateHelpFormatTableOfContents, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateHelpFileIndex, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateHelpProject, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CompilingHelpFile, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.GenerateFullTextIndex, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CopyingWebsiteFiles, ExecutionBehaviors.Before),
+                                                                       //new ExecutionPoint(BuildStep.CleanIntermediates, ExecutionBehaviors.Before)
                                                                    });
             }
         }
@@ -148,6 +184,31 @@ namespace XsdDocumentation.PlugIn
         /// <param name="executionContext">The current execution context</param>
         public void Execute(ExecutionContext executionContext)
         {
+            //if (executionContext.BuildStep == BuildStep.CopyConceptualContent)
+            //{
+            //    _buildProcess.ReportProgress("Adding XSD topic files...");
+
+            //    var myContentFile = _buildProcess.ConceptualContent.ContentLayoutFiles.Last();
+            //    _buildProcess.ReportProgress("XSD: Using content file " + myContentFile.FullPath);
+
+            //    var collection = new TopicCollection(myContentFile);
+            //    foreach (var fileName in contentGenerator.TopicFiles)
+            //    {
+            //        var fileItem = _buildProcess.CurrentProject.AddFileToProject(fileName, fileName);
+            //        var topicFile = new TopicFile(fileItem);
+            //        var topic = new Topic { TopicFile = topicFile };
+            //        collection.Add(topic);
+            //    }
+
+            //    return;
+            //}
+
+            //_buildProcess.ReportProgress("****** XSD DOC");
+            //_buildProcess.ReportProgress(executionContext.BuildStep.ToString());
+            //_buildProcess.ReportProgress("_buildProcess.ConceptualContent == null --- " + (_buildProcess.ConceptualContent == null));
+            //_buildProcess.ReportProgress("****** XSD DOC");
+            //return;
+
             _buildProcess.ReportProgress(Resources.PlugInBuildProgress);
             var messageReporter = new MessageReporter(_buildProcess);
             var configuration = new Configuration
@@ -174,20 +235,45 @@ namespace XsdDocumentation.PlugIn
             contentGenerator.Generate();
 
             var contentLayoutItem = AddLinkedItem(BuildAction.ContentLayout, contentGenerator.ContentFile);
-            contentLayoutItem.SetMetadata("SortOrder", Convert.ToString(_configuration.SortOrder, CultureInfo.InvariantCulture));
+            contentLayoutItem.SetMetadataValue("SortOrder", Convert.ToString(_configuration.SortOrder, CultureInfo.InvariantCulture));
+
+            //var contentLayoutFile = _buildProcess.CurrentProject.AddFileToProject(contentGenerator.ContentFile, contentGenerator.ContentFile);
+            //contentLayoutFile.SortOrder = _configuration.SortOrder;
+            //_buildProcess.ConceptualContent.ContentLayoutFiles.Add(contentLayoutFile);
 
             foreach (var topicFileName in contentGenerator.TopicFiles)
                 AddLinkedItem(BuildAction.None, topicFileName);
 
+            //foreach (var topicFile in _contentGenerator.TopicFiles)
+            //{
+            //    var file = _buildProcess.CurrentProject.AddFileToProject(topicFile, topicFile);
+            //    var topicCollection = new TopicCollection(file);
+            //    _buildProcess.ConceptualContent.Topics.Add(topicCollection);
+            //}
+
             foreach (var mediaItem in contentGenerator.MediaItems)
             {
                 var mediaFileItem = AddLinkedItem(BuildAction.Image, mediaItem.FileName);
-                mediaFileItem.SetMetadata("ImageId", mediaItem.ArtItem.Id);
-                mediaFileItem.SetMetadata("AlternateText", mediaItem.ArtItem.AlternateText);
+                mediaFileItem.SetMetadataValue("ImageId", mediaItem.ArtItem.Id);
+                mediaFileItem.SetMetadataValue("AlternateText", mediaItem.ArtItem.AlternateText);
             }
+
+            //foreach (var mediaItem in contentGenerator.MediaItems)
+            //{
+            //    var file = _buildProcess.CurrentProject.AddFileToProject(mediaItem.FileName, mediaItem.FileName);
+            //    var imageReference = new ImageReference(file)
+            //                             {
+            //                                 Id = mediaItem.ArtItem.Id,
+            //                                 AlternateText = mediaItem.ArtItem.AlternateText
+            //                             };
+            //    _buildProcess.ConceptualContent.ImageFiles.Add(imageReference);
+            //}
 
             var componentConfig = GetComponentConfiguration(contentGenerator.IndexFile);
             _buildProcess.CurrentProject.ComponentConfigurations.Add(GetComponentId(), true, componentConfig);
+
+            //_buildProcess.CurrentProject.MSBuildProject.Save(@"P:\Test.proj");
+            _buildProcess.CurrentProject.MSBuildProject.ReevaluateIfNecessary();
         }
 
         private static List<string> ExpandFiles(IEnumerable<FilePath> filePaths)
@@ -210,13 +296,13 @@ namespace XsdDocumentation.PlugIn
             return result;
         }
 
-        private BuildItem AddLinkedItem(BuildAction buildAction, string fileName)
+        private ProjectItem AddLinkedItem(BuildAction buildAction, string fileName)
         {
             var project = _buildProcess.CurrentProject.MSBuildProject;
             var itemName = buildAction.ToString();
-            var buildItem = project.AddNewItem(itemName, fileName);
-            buildItem.SetMetadata("Link", fileName);
-            return buildItem;
+            var buildItems = project.AddItem(itemName, fileName, new[] { new KeyValuePair<string, string>("Link", fileName) });
+            Debug.Assert(buildItems.Count == 1);
+            return buildItems[0];
         }
 
         private static string GetComponentId()

@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <!--
 			The configuration and platform will be used to determine which
@@ -9,7 +10,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6136e592-5d7b-47df-af9b-b123a3d52d0a</ProjectGuid>
-    <SHFBSchemaVersion>1.8.0.0</SHFBSchemaVersion>
+    <SHFBSchemaVersion>1.9.3.0</SHFBSchemaVersion>
     <!--
 			AssemblyName, Name, and RootNamespace are not used by SHFB but Visual Studio
 			adds them anyway
@@ -54,7 +55,10 @@
           </docFiles>
         </configuration>
       </PlugInConfig>
-<PlugInConfig id="Additional Content Only" enabled="True"><configuration /></PlugInConfig></PlugInConfigurations>
+      <PlugInConfig id="Additional Content Only" enabled="True">
+        <configuration />
+      </PlugInConfig>
+    </PlugInConfigurations>
     <DocumentationSources>
     </DocumentationSources>
     <BuildLogFile>
@@ -75,6 +79,7 @@
     <ComponentConfigurations>
     </ComponentConfigurations>
     <CleanIntermediates>False</CleanIntermediates>
+    <FrameworkVersion>.NET 4.0.30319</FrameworkVersion>
   </PropertyGroup>
   <!--
 		There are no properties for these two groups but they need to appear in order for
