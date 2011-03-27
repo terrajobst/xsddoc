@@ -40,11 +40,11 @@ namespace XsdDocumentation.Model
             foreach (var schema in topLevelSchemas)
             {
                 var allItems = schema.Elements.Values.Cast<XmlSchemaObject>()
-                    .Union(schema.Attributes.Values.Cast<XmlSchemaObject>())
-                    .Union(schema.Groups.Values.Cast<XmlSchemaObject>())
-                    .Union(schema.AttributeGroups.Values.Cast<XmlSchemaObject>())
-                    .Union(schema.SchemaTypes.Values.Cast<XmlSchemaObject>())
-                    .Union(schema.Notations.Values.Cast<XmlSchemaObject>());
+                       .Concat(schema.Attributes.Values.Cast<XmlSchemaObject>())
+                       .Concat(schema.Groups.Values.Cast<XmlSchemaObject>())
+                       .Concat(schema.AttributeGroups.Values.Cast<XmlSchemaObject>())
+                       .Concat(schema.SchemaTypes.Values.Cast<XmlSchemaObject>())
+                       .Concat(schema.Notations.Values.Cast<XmlSchemaObject>());
 
                 foreach (var item in allItems)
                 {
