@@ -28,7 +28,7 @@ namespace XsdDocumentation.Model
         {
             var schemaFileNames = Context.Configuration.SchemaFileNames;
             var schemaDependencyFileNames = Context.Configuration.SchemaDependencyFileNames;
-            var allFileNames = schemaFileNames.Union(schemaDependencyFileNames);
+            var allFileNames = schemaFileNames.Union(schemaDependencyFileNames, StringComparer.OrdinalIgnoreCase);
 
             try
             {
