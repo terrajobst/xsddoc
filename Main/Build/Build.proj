@@ -119,11 +119,7 @@
     <SetEnvVar Variable="SHFBCOMPONENTROOT" Value="$(GeneratedBinaries)"/>    
         
     <MSBuild Projects="$(HelpDir)Help.shfbproj"
-             Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />   
-    
-    <!-- Work around bug in SHFB that causes property overrides to be ignored. -->
-    <!-- BUGBUG: What about HelpFileVersion, CopyrightText? -->
-    <Copy SourceFiles="$(HelpDir)Help\Help.chm" DestinationFolder="$(GeneratedHelp)" />
+             Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
   </Target>
 
   <!-- Generate Setup -->
@@ -179,12 +175,6 @@
              Properties="OutputPath=$(GeneratedSamples)WiX;HelpFileVersion=$(XsdDocVersion)" />
     <MSBuild Projects="@(SampleProjectXml)"
              Properties="OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />
-        
-    <!-- Work around bug in SHFB that causes property overrides to be ignored. -->
-    <!-- BUGBUG: What about HelpFileVersion -->
-    <Copy SourceFiles="$(SamplesDir)CloneDetective\Help\CloneDetective.chm" DestinationFolder="$(GeneratedSamples)CloneDetective" />
-    <Copy SourceFiles="$(SamplesDir)WiX\Help\WiX.chm" DestinationFolder="$(GeneratedSamples)Wix" />
-    <Copy SourceFiles="$(SamplesDir)Xml\Help\Xml.chm" DestinationFolder="$(GeneratedSamples)Xml" />
 
     <!-- Delete all non CHM files -->
 
