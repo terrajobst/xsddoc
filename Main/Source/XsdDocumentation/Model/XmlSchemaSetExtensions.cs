@@ -12,9 +12,9 @@ namespace XsdDocumentation.Model
         {
             // The method XmlSchemaSet.Schemas() will only include all schemas
             // directly added to th schema set, it does not contain any schema
-            // that is only indiretcly included or imported.
+            // that is only indirectly included or imported.
             //
-            // So the first thing is to recursive process all schemas and add
+            // So the first thing is to recursively process all schemas and add
             // all schemas included or imported.
 
             var schemas = new HashSet<XmlSchema>();
@@ -24,12 +24,12 @@ namespace XsdDocumentation.Model
                 AddIncludedSchemas(schemas, schema);
             }
 
-            // However, now there are still schemas missing: the chameleon
-            // schema. A chameleon schema is a schema that does not declare
+            // However, now there are still schemas missing: so-called chameleon
+            // schemas. A chameleon schema is a schema that does not declare
             // a target namespace. If such a schema is included into another
             // schema that declares a target namespace the included schema
             // "inherits" that target namespace. System.Xml.Schema accomplishes
-            // that by cloning the schema object and updating the all the
+            // that by cloning the schema object and updating all the
             // namespaces. The problem is that we don't find such a schema
             // via XmlSchemaSet.Schemas() or schema.Includes. Instead we have
             // to look at every declared entity and search up their parents
