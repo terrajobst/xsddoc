@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfigCategoryAppearance" xml:space="preserve">
     <value>Appearance</value>
@@ -196,7 +196,8 @@
     <value>XML Schema Documenter</value>
   </data>
   <data name="PlugInVersionFormatted" xml:space="preserve">
-    <value>{0} Version {1}\r\n{2}\r\n</value>
+    <value>{0} Version {1}
+{2}</value>
   </data>
   <data name="SchemaDependencyFilePathsEditorFilter" xml:space="preserve">
     <value>XML Schema Files (*.xsd)|*.xsd|All Files (*.*)|*.*</value>

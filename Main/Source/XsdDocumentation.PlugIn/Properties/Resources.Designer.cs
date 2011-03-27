@@ -295,7 +295,8 @@ namespace XsdDocumentation.PlugIn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Version {1}\r\n{2}\r\n.
+        ///   Looks up a localized string similar to {0} Version {1}
+        ///{2}.
         /// </summary>
         internal static string PlugInVersionFormatted {
             get {
