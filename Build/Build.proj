@@ -4,9 +4,10 @@
   <!-- Build Settings -->
 
   <PropertyGroup>
+  
     <BuildDir>$(MSBuildProjectDirectory)\</BuildDir>
-    <CustomTasksDir>$(BuildDir)Custom Tasks\</CustomTasksDir>
-    <ProjectDir>$(BuildDir)..\</ProjectDir>
+    <CustomTasksDir>$(BuildDir)CustomTasks\</CustomTasksDir>
+    <ProjectDir>$([System.IO.Path]::GetFullPath("$(BuildDir).."))\</ProjectDir>
     <SourceDir>$(ProjectDir)Source\</SourceDir>
     <SetupDir>$(ProjectDir)Setup\</SetupDir>
     <EtcDir>$(ProjectDir)Etc\</EtcDir>
@@ -27,7 +28,6 @@
   
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.SetEnvVar" />
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
-  <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.RemoveTfsBindings" />
   <UsingTask AssemblyFile="$(LibDir)MSBuildCommunityTasks\MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.Zip" />
 
   <!-- Build -->
@@ -131,25 +131,19 @@
 
   <!-- Generate Source Code -->
 
-  <Target Name="GenerateSourceCode" DependsOnTargets="CompileBuildTasks">
+  <Target Name="GenerateSourceCode">
     <ItemGroup>
       <SourceCodeFiles Include="$(ProjectDir)**\*.*"
-                       Exclude="$(OutputDir)**;$(LibDir)**;$(HelpDir)Help\**\*.*;$(SamplesDir)*\Help\**\*.*;$(ProjectDir)**\bin\**;$(ProjectDir)**\obj\**;$(ProjectDir)**\*.scc;$(ProjectDir)**\*.vssscc;$(ProjectDir)**\*.vspscc;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
+                       Exclude="$(ProjectDir).hg\**\*.*;$(ProjectDir).hg*;$(OutputDir)**;$(LibDir)**;$(HelpDir)Help\**\*.*;$(SamplesDir)*\Help\**\*.*;$(ProjectDir)**\bin\**;$(ProjectDir)**\obj\**;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
     </ItemGroup>
 
     <Copy SourceFiles="@(SourceCodeFiles)" DestinationFolder="$(GeneratedSourceCode)%(RecursiveDir)" />
-    <Exec Command="attrib -r -h /s" WorkingDirectory="$(GeneratedSourceCode)" />
 
     <!-- For some strange reason, excluding $(CustomTasksDir)**\*.* does not work. I assume there are some weird issues
          in MSBuild that causes currently opened/locked files not being added correctly to the list of exclusions.
     -->
     <RemoveDir Directories="$(GeneratedSourceCode)\Build\Custom Tasks" />
 
-    <ItemGroup>
-      <SolutionFiles Include="$(GeneratedSourceCode)Source\XsdDocumentation.sln" />
-      <SolutionFiles Include="$(GeneratedSourceCode)Setup\Setup.sln" />
-    </ItemGroup>
-    <RemoveTfsBindings SolutionFiles="@(SolutionFiles)" />
   </Target>
 
   <!-- Generate Samples -->
