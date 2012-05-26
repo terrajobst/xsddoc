@@ -113,11 +113,6 @@
   <!-- Generate Help -->
 
   <Target Name="GenerateHelp" DependsOnTargets="GetVersion">
-
-    <!-- Here we use our boostrapped version of XsdDoc. -->
-    
-    <SetEnvVar Variable="SHFBCOMPONENTROOT" Value="$(GeneratedBinaries)"/>    
-        
     <MSBuild Projects="$(HelpDir)Help.shfbproj"
              Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
   </Target>
