@@ -26,7 +26,6 @@
 
   <!-- External Tasks -->
   
-  <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.SetEnvVar" />
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
   <UsingTask AssemblyFile="$(LibDir)MSBuildCommunityTasks\MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.Zip" />
 
@@ -153,10 +152,6 @@
       <SampleProjectWiX Include="$(SamplesDir)WiX\Help.shfbproj" />
       <SampleProjectXml Include="$(SamplesDir)Xml\Help.shfbproj" />
     </ItemGroup>
-
-    <!-- Here we use our boostrapped version of XsdDoc. -->
-    
-    <SetEnvVar Variable="SHFBCOMPONENTROOT" Value="$(GeneratedBinaries)"/>
 
     <MSBuild Projects="@(SampleProjectCloneDetective)"
              Properties="OutputPath=$(GeneratedSamples)CloneDetective;HelpFileVersion=$(XsdDocVersion)" />
