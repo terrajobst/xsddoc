@@ -14,7 +14,8 @@ namespace XsdDocumentation.Model
 
         public void Traverse(XmlSchemaObject obj)
         {
-            Visit(obj);
+            if (obj != null)
+                Visit(obj);
         }
 
         public void Traverse(XmlSchemaObjectCollection objects)
