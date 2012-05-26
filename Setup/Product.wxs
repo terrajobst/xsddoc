@@ -56,6 +56,7 @@
 
     <PropertyRef Id="VS90_SCHEMAS_DIR" />
     <PropertyRef Id="VS2010_SCHEMAS_DIR" />
+    <PropertyRef Id="VS11_SCHEMAS_DIR" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="CommonAppDataFolder">
@@ -71,6 +72,7 @@
       </Directory>
       <Directory Id="VS90_SCHEMAS_DIR" />
       <Directory Id="VS2010_SCHEMAS_DIR" />
+      <Directory Id="VS11_SCHEMAS_DIR" />
     </Directory>
 
     <!-- Features -->

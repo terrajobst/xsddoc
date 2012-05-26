@@ -59,6 +59,18 @@
     </ComponentGroup>
   </Fragment>
 
+  <Fragment Id="VS11_Schemas">
+    <DirectoryRef Id="VS11_SCHEMAS_DIR">
+      <Component Id="VS11_XsdDocumentation.xsd"  Guid="{FB3FACB7-F20F-4092-9E7A-AC493693847D}">
+        <File Id="VS11_XsdDocumentation.xsd" Name="XsdDocumentation11.xsd" KeyPath="yes" Source="$(var.EtcFolder)\Schemas\XsdDocumentation.xsd" />
+      </Component>
+    </DirectoryRef>
+
+    <ComponentGroup Id="VS11_Schemas">
+      <ComponentRef Id="VS11_XsdDocumentation.xsd"/>
+    </ComponentGroup>
+  </Fragment>
+
   <Fragment>
     <Feature Id="Binaries" Level="1" Absent="disallow" AllowAdvertise="no"
              Title="SHFB Integration"
@@ -79,6 +91,13 @@
              Description="Integrates [ProductName] schema files into Visual Studio 2010 IntelliSense.">
       <Condition Level="0">NOT VS2010_SCHEMAS_DIR</Condition>
       <ComponentGroupRef Id="VS2010_Schemas"/>
+    </Feature>
+
+    <Feature Id="VS11_Schemas" Level="1" AllowAdvertise="no"
+             Title="VS 11 IntelliSense Support"
+             Description="Integrates [ProductName] schema files into Visual Studio 11 IntelliSense.">
+      <Condition Level="0">NOT VS11_SCHEMAS_DIR</Condition>
+      <ComponentGroupRef Id="VS11_Schemas"/>
     </Feature>
   </Fragment>
 </Wix>
