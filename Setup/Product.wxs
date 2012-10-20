@@ -29,8 +29,8 @@
     <Property Id="SHFB_EXISTS" Secure="yes">
       <DirectorySearch Id="ShfbRootSearch" Path="[%SHFBROOT]">
         <!-- We must set the minimum version number one lower than the actual file we are looking for. -->
-        <FileSearch Name="SandcastleBuilderGUI.exe" MinVersion="1.9.3.0"
-                                                    MaxVersion="1.9.4.0"/>
+        <FileSearch Name="SandcastleBuilderGUI.exe" MinVersion="1.9.4.0"
+                                                    MaxVersion="1.9.5.0"/>
       </DirectorySearch>
     </Property>
 
