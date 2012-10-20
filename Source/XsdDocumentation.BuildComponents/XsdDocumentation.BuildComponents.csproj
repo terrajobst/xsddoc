@@ -36,7 +36,7 @@
   <ItemGroup>
     <Reference Include="BuildAssemblerLibrary">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Sandcastle\ProductionTools\BuildAssemblerLibrary.dll</HintPath>
+      <HintPath>$(DXROOT)\ProductionTools\BuildAssemblerLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
