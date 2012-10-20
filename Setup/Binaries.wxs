@@ -94,7 +94,7 @@
     </Feature>
 
     <Feature Id="VS11_Schemas" Level="1" AllowAdvertise="no"
-             Title="VS 11 IntelliSense Support"
+             Title="VS 2012 IntelliSense Support"
              Description="Integrates [ProductName] schema files into Visual Studio 11 IntelliSense.">
       <Condition Level="0">NOT VS11_SCHEMAS_DIR</Condition>
       <ComponentGroupRef Id="VS11_Schemas"/>
