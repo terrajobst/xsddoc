@@ -6,6 +6,7 @@
     <Topic id="fb47fb06-5700-4502-be2c-2975dd68cae3" visible="True" title="External Documentation" />
     <Topic id="613da747-f812-4393-98b6-c764a105bdf1" visible="True" title="Elements" />
     <Topic id="1509f2a0-e092-4c7a-a43f-f3e28e2a9a1e" visible="True" title="Linking" />
+    <Topic id="8e67152c-fbd7-4724-b2ff-c4b41b01e2ee" visible="True" title="Keyword Generation" />
   </Topic>
   <Topic id="729458f6-ef03-4247-a0c4-73dd59a93a0e" visible="True" title="User Interface">
     <Topic id="fa65321c-0a9a-4c6f-8ab4-0fe5fbf970f3" visible="True" title="Plug-In Configuration Dialog">

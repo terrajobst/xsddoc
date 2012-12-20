@@ -67,6 +67,9 @@
               Specifies whether XML entity links such as <fictitiousUri>http://schemas.example.org#E/myElement/@myAttribute</fictitiousUri>
               are included in the K keyword index.
             </para>
+            <para>
+              See <link xlink:href="8e67152c-fbd7-4724-b2ff-c4b41b01e2ee" /> for details on how to put this setting to use.
+            </para>
           </definition>
         </definitionTable>
       </content>

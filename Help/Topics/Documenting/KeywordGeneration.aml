@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="8e67152c-fbd7-4724-b2ff-c4b41b01e2ee" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+                               xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        Once you have generated the help file based on a schema you might want to find the help topic
+        based on a given XML schema element or attribute. This topic explains how you can accomplish this.
+      </para>
+    </introduction>
+    <section>
+      <title>Producing a Help Keyword</title>
+      <content>
+        <para>
+          First, make sure that your help file adds keyword for elements and attributes. This in controlled
+          by the setting <ui>IncludeLinkUriInKeywordK</ui>. See <link xlink:href="fa65321c-0a9a-4c6f-8ab4-0fe5fbf970f3" />
+          for details on how to enable this property.
+        </para>
+        <para>
+          Second, you need a little bit of code that can produce a help keyword based on a given XmlElement or
+          XmlAttribute:
+        </para>
+        <code source=".\Topics\Documenting\XmlSchemaHelpKeywordExtensions.cs" />
+        <para>
+          Once you have that type added to your project, you can use it like this:
+        </para>
+        <code source=".\Topics\Documenting\XmlSchemaHelpKeywordExtensionsUsage.cs" region="Invoke Help" />
+      </content>
+    </section>
+    <relatedTopics>
+      <link xlink:href="fa65321c-0a9a-4c6f-8ab4-0fe5fbf970f3" />
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>
