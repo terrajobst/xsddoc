@@ -138,8 +138,8 @@
   <Target Name="GenerateSourceCode">
     <ItemGroup>
       <SourceCodeFiles Include="$(ProjectDir)**\*.*"
-                       Exclude="$(ProjectDir).hg\**\*.*;
-                                $(ProjectDir).hg*;
+                       Exclude="$(ProjectDir).git\**\*.*;
+                                $(ProjectDir).git*;
                                 $(OutputDir)**;
                                 $(LibDir)**;
                                 $(HelpDir)Help\**\*.*;
