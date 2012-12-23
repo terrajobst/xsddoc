@@ -100,8 +100,8 @@ namespace XsdDocumentation.PlugIn
             {
                 return _executionPoints ?? (_executionPoints = new ExecutionPointCollection
                                                                    {
-                                                                       new ExecutionPoint(BuildStep.FindingTools,
-                                                                                          ExecutionBehaviors.After)
+                                                                       new ExecutionPoint(BuildStep.GenerateSharedContent,
+                                                                                          ExecutionBehaviors.Before)
                                                                    });
             }
         }
