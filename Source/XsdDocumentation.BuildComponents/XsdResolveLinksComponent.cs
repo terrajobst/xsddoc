@@ -53,7 +53,7 @@ namespace XsdDocumentation.BuildComponents
                 if (entry == null)
                 {
                     var message = string.Format(CultureInfo.CurrentCulture, Resources.CouldNotResolveXmlEntity, uri);
-                    BuildAssembler.MessageHandler(GetType(), MessageLevel.Warn, message);
+                    BuildAssembler.MessageHandler(GetType(), MessageLevel.Warn, "XSDDOC", message);
                 }
                 else
                 {
