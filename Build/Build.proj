@@ -121,7 +121,8 @@
     <MSBuild Projects="$(HelpDir)Help.shfbproj"
              Properties="OutputPath=$(GeneratedHelp);
                          HelpFileVersion=$(XsdDocVersion);
-                         CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright); />
+                         CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright);
+                         SHFBCOMPONENTROOT=$(GeneratedBinaries)" />
   </Target>
 
   <!-- Generate Setup -->
@@ -176,13 +177,16 @@
 
     <MSBuild Projects="@(SampleProjectCloneDetective)"
              Properties="OutputPath=$(GeneratedSamples)CloneDetective;
-                         HelpFileVersion=$(XsdDocVersion);" />
+                         HelpFileVersion=$(XsdDocVersion);
+                         SHFBCOMPONENTROOT=$(GeneratedBinaries)" />
     <MSBuild Projects="@(SampleProjectWiX)"
              Properties="OutputPath=$(GeneratedSamples)WiX;
-                         HelpFileVersion=$(XsdDocVersion);" />
+                         HelpFileVersion=$(XsdDocVersion);
+                         SHFBCOMPONENTROOT=$(GeneratedBinaries)" />
     <MSBuild Projects="@(SampleProjectXml)"
              Properties="OutputPath=$(GeneratedSamples)Xml;
-                         HelpFileVersion=$(XsdDocVersion);" />
+                         HelpFileVersion=$(XsdDocVersion);
+                         SHFBCOMPONENTROOT=$(GeneratedBinaries)" />
 
     <!-- Delete all non CHM files -->
 
