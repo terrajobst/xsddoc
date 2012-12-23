@@ -4,7 +4,6 @@
   <!-- Build Settings -->
 
   <PropertyGroup>
-  
     <BuildDir>$(MSBuildProjectDirectory)\</BuildDir>
     <CustomTasksDir>$(BuildDir)CustomTasks\</CustomTasksDir>
     <ProjectDir>$([System.IO.Path]::GetFullPath("$(BuildDir).."))\</ProjectDir>
@@ -26,8 +25,10 @@
 
   <!-- External Tasks -->
   
-  <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll" TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
-  <UsingTask AssemblyFile="$(LibDir)MSBuildCommunityTasks\MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.Zip" />
+  <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll"
+             TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
+  <UsingTask AssemblyFile="$(LibDir)MSBuildCommunityTasks\MSBuild.Community.Tasks.dll"
+             TaskName="MSBuild.Community.Tasks.Zip" />
 
   <!-- Build -->
 
@@ -50,7 +51,8 @@
       <CompilationFiles Include="$(ProjectDir)**\bin\**\*.*" />
       <CompilationFiles Include="$(ProjectDir)**\obj\**\*.*" />
     </ItemGroup>
-    <MSBuild Projects="@(AllSolutionFiles)" Targets="Clean" />
+    <MSBuild Projects="@(AllSolutionFiles)"
+             Targets="Clean" />
     <Delete Files="@(CompilationFiles)" />
     <RemoveDir Directories="$(CustomTasksDir)" />
     <RemoveDir Directories="$(OutputDir)" />
@@ -63,7 +65,8 @@
       <CustomBuildProjects Include="$(SourceDir)XsdDocumentation.Build\XsdDocumentation.Build.csproj" />
     </ItemGroup>
     <MSBuild Projects="@(CustomBuildProjects)"
-             Properties="Configuration=$(Configuration);OutDir=$(CustomTasksDir)" />
+             Properties="Configuration=$(Configuration);
+                         OutDir=$(CustomTasksDir)" />
   </Target>
 
   <!-- Compile -->
@@ -72,7 +75,8 @@
     <!-- First we have to compile our projects. -->
     <MSBuild Projects="$(SourceDir)XsdDocumentation.sln"
              Targets="XsdDocumentation_PlugIn;XsdDocumentation_BuildComponents"
-             Properties="Configuration=$(Configuration);OutDir=$(GeneratedBinaries)" />
+             Properties="Configuration=$(Configuration);
+                         OutDir=$(GeneratedBinaries)" />
 
     <!-- Rename build component file -->
     <Copy SourceFiles="$(GeneratedBinaries)XsdDocumentation.BuildComponents.dll.config"
@@ -94,8 +98,10 @@
     <ItemGroup>
       <MediaFiles Include="$(EtcDir)Media\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(MediaFiles)" DestinationFolder="$(GeneratedBinaries)Media\%(RecursiveDir)" />
-    <Copy SourceFiles="$(EtcDir)Schemas\AnnotationTranform.xslt" DestinationFolder="$(GeneratedBinaries)" />
+    <Copy SourceFiles="@(MediaFiles)"
+          DestinationFolder="$(GeneratedBinaries)Media\%(RecursiveDir)" />
+    <Copy SourceFiles="$(EtcDir)Schemas\AnnotationTranform.xslt"
+          DestinationFolder="$(GeneratedBinaries)" />
   </Target>
 
   <!-- Get Version -->
@@ -113,14 +119,17 @@
 
   <Target Name="GenerateHelp" DependsOnTargets="GetVersion">
     <MSBuild Projects="$(HelpDir)Help.shfbproj"
-             Properties="OutputPath=$(GeneratedHelp);HelpFileVersion=$(XsdDocVersion);CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright)" />
+             Properties="OutputPath=$(GeneratedHelp);
+                         HelpFileVersion=$(XsdDocVersion);
+                         CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright); />
   </Target>
 
   <!-- Generate Setup -->
 
   <Target Name="GenerateSetup">
     <MSBuild Projects="$(SetupDir)Setup.sln"
-             Properties="Configuration=$(Configuration);OutDir=$(GeneratedSetup)" />
+             Properties="Configuration=$(Configuration);
+                         OutDir=$(GeneratedSetup)" />
   </Target>
 
   <!-- Generate Source Code -->
@@ -128,10 +137,22 @@
   <Target Name="GenerateSourceCode">
     <ItemGroup>
       <SourceCodeFiles Include="$(ProjectDir)**\*.*"
-                       Exclude="$(ProjectDir).hg\**\*.*;$(ProjectDir).hg*;$(OutputDir)**;$(LibDir)**;$(HelpDir)Help\**\*.*;$(SamplesDir)*\Help\**\*.*;$(ProjectDir)**\bin\**;$(ProjectDir)**\obj\**;$(ProjectDir)**\*.suo;$(ProjectDir)**\*.cache;$(ProjectDir)**\*.user;$(ProjectDir)**\*.resharper" />
+                       Exclude="$(ProjectDir).hg\**\*.*;
+                                $(ProjectDir).hg*;
+                                $(OutputDir)**;
+                                $(LibDir)**;
+                                $(HelpDir)Help\**\*.*;
+                                $(SamplesDir)*\Help\**\*.*;
+                                $(ProjectDir)**\bin\**;
+                                $(ProjectDir)**\obj\**;
+                                $(ProjectDir)**\*.suo;
+                                $(ProjectDir)**\*.cache;
+                                $(ProjectDir)**\*.user;
+                                $(ProjectDir)**\*.resharper" />
     </ItemGroup>
 
-    <Copy SourceFiles="@(SourceCodeFiles)" DestinationFolder="$(GeneratedSourceCode)%(RecursiveDir)" />
+    <Copy SourceFiles="@(SourceCodeFiles)"
+          DestinationFolder="$(GeneratedSourceCode)%(RecursiveDir)" />
 
     <!-- For some strange reason, excluding $(CustomTasksDir)**\*.* does not work. I assume there are some weird issues
          in MSBuild that causes currently opened/locked files not being added correctly to the list of exclusions.
@@ -154,11 +175,14 @@
     </ItemGroup>
 
     <MSBuild Projects="@(SampleProjectCloneDetective)"
-             Properties="OutputPath=$(GeneratedSamples)CloneDetective;HelpFileVersion=$(XsdDocVersion)" />
+             Properties="OutputPath=$(GeneratedSamples)CloneDetective;
+                         HelpFileVersion=$(XsdDocVersion);" />
     <MSBuild Projects="@(SampleProjectWiX)"
-             Properties="OutputPath=$(GeneratedSamples)WiX;HelpFileVersion=$(XsdDocVersion)" />
+             Properties="OutputPath=$(GeneratedSamples)WiX;
+                         HelpFileVersion=$(XsdDocVersion);" />
     <MSBuild Projects="@(SampleProjectXml)"
-             Properties="OutputPath=$(GeneratedSamples)Xml;HelpFileVersion=$(XsdDocVersion)" />
+             Properties="OutputPath=$(GeneratedSamples)Xml;
+                         HelpFileVersion=$(XsdDocVersion);" />
 
     <!-- Delete all non CHM files -->
 
@@ -171,15 +195,22 @@
     <!-- Copy sample source code -->
 
     <ItemGroup>
-      <SampleSourceCloneDetective Include="$(SamplesDir)CloneDetective\**\*.*" Exclude="$(SamplesDir)CloneDetective\Help\**\*.*" />
-      <SampleSourceWiX Include="$(SamplesDir)WiX\**\*.*" Exclude="$(SamplesDir)WiX\Help\**\*.*" />
-      <SampleSourceXml Include="$(SamplesDir)Xml\**\*.*" Exclude="$(SamplesDir)Xml\Help\**\*.*" />
+      <SampleSourceCloneDetective Include="$(SamplesDir)CloneDetective\**\*.*"
+                                  Exclude="$(SamplesDir)CloneDetective\Help\**\*.*" />
+      <SampleSourceWiX Include="$(SamplesDir)WiX\**\*.*"
+                       Exclude="$(SamplesDir)WiX\Help\**\*.*" />
+      <SampleSourceXml Include="$(SamplesDir)Xml\**\*.*"
+                       Exclude="$(SamplesDir)Xml\Help\**\*.*" />
     </ItemGroup>
 
-    <Copy SourceFiles="@(SampleSourceCloneDetective)" DestinationFolder="$(GeneratedSamples)CloneDetective\Source\%(RecursiveDir)" />
-    <Copy SourceFiles="@(SampleSourceWiX)" DestinationFolder="$(GeneratedSamples)WiX\Source\%(RecursiveDir)" />
-    <Copy SourceFiles="@(SampleSourceXml)" DestinationFolder="$(GeneratedSamples)Xml\Source\%(RecursiveDir)" />
-    <Exec Command="attrib -r -h /s" WorkingDirectory="$(GeneratedSamples)" />
+    <Copy SourceFiles="@(SampleSourceCloneDetective)"
+          DestinationFolder="$(GeneratedSamples)CloneDetective\Source\%(RecursiveDir)" />
+    <Copy SourceFiles="@(SampleSourceWiX)"
+          DestinationFolder="$(GeneratedSamples)WiX\Source\%(RecursiveDir)" />
+    <Copy SourceFiles="@(SampleSourceXml)"
+          DestinationFolder="$(GeneratedSamples)Xml\Source\%(RecursiveDir)" />
+    <Exec Command="attrib -r -h /s"
+          WorkingDirectory="$(GeneratedSamples)" />
   </Target>
 
   <!-- Generate Release -->
@@ -194,9 +225,18 @@
 
     <RemoveDir Directories="$(GeneratedRelease)" />
     <MakeDir Directories="$(GeneratedRelease)" />
-    <Zip WorkingDirectory="$(GeneratedBinaries)" Files="@(GeneratedBuildServerFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_BuildServer.zip" />
-    <Zip WorkingDirectory="$(GeneratedSourceCode)" Files="@(GeneratedSourceCodeFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Source.zip" />
-    <Zip WorkingDirectory="$(GeneratedSetup)" Files="@(GeneratedSetupFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Setup.zip" />
-    <Zip WorkingDirectory="$(GeneratedSamples)" Files="@(GeneratedSampleFiles)" ZipFileName="$(GeneratedRelease)XsdDoc_Samples.zip" />
+
+    <Zip WorkingDirectory="$(GeneratedBinaries)"
+         Files="@(GeneratedBuildServerFiles)"
+         ZipFileName="$(GeneratedRelease)XsdDoc_BuildServer.zip" />
+    <Zip WorkingDirectory="$(GeneratedSourceCode)"
+         Files="@(GeneratedSourceCodeFiles)"
+         ZipFileName="$(GeneratedRelease)XsdDoc_Source.zip" />
+    <Zip WorkingDirectory="$(GeneratedSetup)"
+         Files="@(GeneratedSetupFiles)"
+         ZipFileName="$(GeneratedRelease)XsdDoc_Setup.zip" />
+    <Zip WorkingDirectory="$(GeneratedSamples)"
+         Files="@(GeneratedSampleFiles)"
+         ZipFileName="$(GeneratedRelease)XsdDoc_Samples.zip" />
   </Target>
 </Project>
