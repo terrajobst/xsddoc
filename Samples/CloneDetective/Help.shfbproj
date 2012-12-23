@@ -67,7 +67,7 @@
     </FeedbackEMailLinkText>
     <ComponentConfigurations>
     </ComponentConfigurations>
-    <CleanIntermediates>False</CleanIntermediates>
+    <CleanIntermediates>True</CleanIntermediates>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <FrameworkVersion>.NET 4.0.30319</FrameworkVersion>
   </PropertyGroup>
