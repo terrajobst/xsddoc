@@ -88,12 +88,6 @@
           DestinationFiles="$(GeneratedBinaries)XsdDocumentation.PlugIn.plugins" />
     <Delete Files="$(GeneratedBinaries)XsdDocumentation.PlugIn.dll" />
 
-    <!-- Delete all files that are already part of SHFB. -->
-    <ItemGroup>
-      <ShfbFiles Include="$(SHFBROOT)\*.*" />
-    </ItemGroup>
-    <Delete Files="@(ShfbFiles->'$(GeneratedBinaries)%(filename)%(extension)')" />
-
     <!-- Copy in required runtime files. -->
     <ItemGroup>
       <MediaFiles Include="$(EtcDir)Media\**\*.*" />

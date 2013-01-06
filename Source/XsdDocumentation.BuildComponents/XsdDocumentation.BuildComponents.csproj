@@ -34,9 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BuildAssemblerLibrary">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(DXROOT)\ProductionTools\BuildAssemblerLibrary.dll</HintPath>
+    <Reference Include="$(DXROOT)\ProductionTools\BuildAssemblerLibrary.dll">
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
