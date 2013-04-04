@@ -23,6 +23,7 @@ namespace XsdDocumentation.PlugIn
         private ExecutionPointCollection _executionPoints;
         private BuildProcess _buildProcess;
         private XsdPlugInConfiguration _configuration;
+        private SandcastleProject tempProject;
 
         public static string GetHelpFilePath()
         {
@@ -106,6 +107,12 @@ namespace XsdDocumentation.PlugIn
             }
         }
 
+        /// <inheritdoc />
+        public bool SupportsConfiguration
+        {
+            get { return true; }
+        }
+
         /// <summary>
         /// This method is used by the Sandcastle Help File Builder to let the
         /// plug-in perform its own configuration.
@@ -140,6 +147,7 @@ namespace XsdDocumentation.PlugIn
             _configuration = XsdPlugInConfiguration.FromXml(buildProcess.CurrentProject, configuration);
             _buildProcess = buildProcess;
             _buildProcess.ReportProgress(Resources.PlugInVersionFormatted, Name, Version, Copyright);
+            tempProject = new SandcastleProject(Path.Combine(_buildProcess.WorkingFolder, "XSDTemp.shfbproj"), false);
         }
 
         /// <summary>
@@ -190,7 +198,10 @@ namespace XsdDocumentation.PlugIn
             _buildProcess.CurrentProject.ComponentConfigurations.Add(GetComponentId(), true, componentConfig);
 
             // Needed so that all links are properly evaluated before processed by SHFB.
-            _buildProcess.CurrentProject.MSBuildProject.ReevaluateIfNecessary();
+            tempProject.MSBuildProject.ReevaluateIfNecessary();
+
+            // Add the items to the conceptual content settings
+            _buildProcess.ConceptualContent.MergeContentFrom(tempProject);
         }
 
         private static List<string> ExpandFiles(IEnumerable<FilePath> filePaths)
@@ -215,7 +226,7 @@ namespace XsdDocumentation.PlugIn
 
         private ProjectItem AddLinkedItem(BuildAction buildAction, string fileName)
         {
-            var project = _buildProcess.CurrentProject.MSBuildProject;
+            var project = tempProject.MSBuildProject;
             var itemName = buildAction.ToString();
             var buildItems = project.AddItem(itemName, fileName, new[] { new KeyValuePair<string, string>("Link", fileName) });
             Debug.Assert(buildItems.Count == 1);
@@ -245,6 +256,8 @@ namespace XsdDocumentation.PlugIn
         /// <overloads>There are two overloads for this method.</overloads>
         public void Dispose()
         {
+            if(tempProject != null)
+                tempProject.Dispose();
         }
     }
 }

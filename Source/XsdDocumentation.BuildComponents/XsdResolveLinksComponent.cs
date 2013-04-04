@@ -51,10 +51,7 @@ namespace XsdDocumentation.BuildComponents
 
                 var entry = _topicIndex.FindEntry(uri);
                 if (entry == null)
-                {
-                    var message = string.Format(CultureInfo.CurrentCulture, Resources.CouldNotResolveXmlEntity, uri);
-                    BuildAssembler.MessageHandler(GetType(), MessageLevel.Warn, "XSDDOC", message);
-                }
+                    base.WriteMessage(MessageLevel.Warn, Resources.CouldNotResolveXmlEntity, uri);
                 else
                 {
                     var linkElement = document.CreateElement("ddue", "link", Namespaces.Maml);
