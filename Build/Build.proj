@@ -27,8 +27,8 @@
   
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll"
              TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
-  <UsingTask AssemblyFile="$(LibDir)MSBuildCommunityTasks\MSBuild.Community.Tasks.dll"
-             TaskName="MSBuild.Community.Tasks.Zip" />
+  <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll"
+             TaskName="XsdDocumentation.Build.Zip" />
 
   <!-- Build -->
 
@@ -213,7 +213,7 @@
 
   <!-- Generate Release -->
 
-  <Target Name="GenerateRelease">
+  <Target Name="GenerateRelease" DependsOnTargets="CompileBuildTasks">
     <ItemGroup>
       <GeneratedBuildServerFiles Include="$(GeneratedBinaries)\**\*.*" />
       <GeneratedSourceCodeFiles Include="$(GeneratedSourceCode)\**\*.*" />
