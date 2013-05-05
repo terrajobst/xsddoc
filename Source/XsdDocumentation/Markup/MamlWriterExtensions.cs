@@ -22,7 +22,14 @@ namespace XsdDocumentation.Markup
 
         public static void WriteHtmlTopicLink(this MamlWriter writer, Topic topic)
         {
-            var url = String.Format(CultureInfo.InvariantCulture, "/html/{0}.htm", topic.Id);
+            // Don't use the HTML prefix (/html/) because that would break website builds.
+            //
+            // The topic that uses the HTML based topic links are generated; the topics
+            // it points to are generated as well. That means source and target must be
+            // in the same folder anywyas.
+
+            var url = String.Format(CultureInfo.InvariantCulture, "{0}.htm", topic.Id);
+
             writer.WriteStartElement("a", Namespaces.Maml);
             writer.WriteAttributeString("href", url);
             writer.WriteString(topic.LinkTitle);
