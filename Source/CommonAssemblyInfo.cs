@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCopyright("Copyright © 2009-2011 Immo Landwerth")]
+[assembly: AssemblyCopyright("Copyright © 2009-2014 Immo Landwerth")]
 [assembly: AssemblyCompany("Immo Landwerth")]
 [assembly: AssemblyProduct("XML Schema Documenter")]
 
