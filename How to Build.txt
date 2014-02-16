@@ -18,9 +18,9 @@ Prerequisites
    After the installtion, you need to reboot the machine
    to make sure the new environment variables become
    available
-   
-3. Windows Installer XML (WiX) toolset Version 3.7
-   https://wix.codeplex.com/releases/view/99514
+
+3. Windows Installer XML (WiX) toolset Version 3.8
+   http://wix.codeplex.com/releases/view/115492
 
 Building
 --------
