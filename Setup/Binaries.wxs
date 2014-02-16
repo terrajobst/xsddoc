@@ -71,6 +71,18 @@
     </ComponentGroup>
   </Fragment>
 
+  <Fragment Id="VS2013_Schemas">
+    <DirectoryRef Id="VS2013_SCHEMAS_DIR">
+      <Component Id="VS2013_XsdDocumentation.xsd" Guid="{2F7D6B15-6731-4477-9F7C-ACE03EDC5906}">
+        <File Id="VS2013_XsdDocumentation.xsd" Name="XsdDocumentation2013.xsd" KeyPath="yes" Source="$(var.EtcFolder)\Schemas\XsdDocumentation.xsd" />
+      </Component>
+    </DirectoryRef>
+
+    <ComponentGroup Id="VS2013_Schemas">
+      <ComponentRef Id="VS2013_XsdDocumentation.xsd"/>
+    </ComponentGroup>
+  </Fragment>
+
   <Fragment>
     <Feature Id="Binaries" Level="1" Absent="disallow" AllowAdvertise="no"
              Title="SHFB Integration"
@@ -99,5 +111,13 @@
       <Condition Level="0">NOT VS11_SCHEMAS_DIR</Condition>
       <ComponentGroupRef Id="VS11_Schemas"/>
     </Feature>
+
+    <Feature Id="VS2013_Schemas" Level="1" AllowAdvertise="no"
+             Title="VS 2013 IntelliSense Support"
+             Description="Integrates [ProductName] schema files into Visual Studio 2013 IntelliSense.">
+      <Condition Level="0">NOT VS2013_SCHEMAS_DIR</Condition>
+      <ComponentGroupRef Id="VS2013_Schemas"/>
+    </Feature>
+
   </Fragment>
 </Wix>
