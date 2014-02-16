@@ -61,7 +61,7 @@
 
   <Fragment Id="VS11_Schemas">
     <DirectoryRef Id="VS11_SCHEMAS_DIR">
-      <Component Id="VS11_XsdDocumentation.xsd"  Guid="{FB3FACB7-F20F-4092-9E7A-AC493693847D}">
+      <Component Id="VS11_XsdDocumentation.xsd" Guid="{FB3FACB7-F20F-4092-9E7A-AC493693847D}">
         <File Id="VS11_XsdDocumentation.xsd" Name="XsdDocumentation11.xsd" KeyPath="yes" Source="$(var.EtcFolder)\Schemas\XsdDocumentation.xsd" />
       </Component>
     </DirectoryRef>

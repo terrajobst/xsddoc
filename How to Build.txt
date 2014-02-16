@@ -14,7 +14,7 @@ Prerequisites
    - Sandcastle
    - Sandcastle Style Patch
    - Sandcastle Help File Builder (SHFB)
-   
+
    After the installtion, you need to reboot the machine
    to make sure the new environment variables become
    available
