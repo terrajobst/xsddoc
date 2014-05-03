@@ -1,11 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 11
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FD46872A-763A-4F8D-B5C3-6832C47A5360}"
-	ProjectSection(SolutionItems) = preProject
-		..\Todos.txt = ..\Todos.txt
-	EndProjectSection
-EndProject
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XsdDocumentation", "XsdDocumentation\XsdDocumentation.csproj", "{31429526-548B-4F1F-9F68-E22EF9D92658}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XsdDocumentation.PlugIn", "XsdDocumentation.PlugIn\XsdDocumentation.PlugIn.csproj", "{F45D967E-3967-4EA0-A0BD-0B500BB99719}"
@@ -27,6 +24,12 @@ Global
 		{31429526-548B-4F1F-9F68-E22EF9D92658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31429526-548B-4F1F-9F68-E22EF9D92658}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31429526-548B-4F1F-9F68-E22EF9D92658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Code Analysis|Any CPU.ActiveCfg = Release|Any CPU
+		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Code Analysis|Any CPU.Build.0 = Release|Any CPU
+		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Code Analysis|Any CPU.ActiveCfg = Release|Any CPU
 		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Code Analysis|Any CPU.Build.0 = Release|Any CPU
 		{42E53F36-76D8-410C-B5C5-4E5F1288CEA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,12 +42,6 @@ Global
 		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED78F5C6-3DC4-4ADD-8FC6-DDBA5138D88A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Code Analysis|Any CPU.ActiveCfg = Release|Any CPU
-		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Code Analysis|Any CPU.Build.0 = Release|Any CPU
-		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F45D967E-3967-4EA0-A0BD-0B500BB99719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

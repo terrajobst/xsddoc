@@ -42,3 +42,11 @@
 [docs]: http://xsddoc.codeplex.com/documentation
 [vs]: http://msdn.microsoft.com/en-us/vstudio/default.aspx
 [wix]: http://wix.codeplex.com/releases/view/115492
+
+## To be done
+
+- xmlEntityLink: should render bold when the target is the current topic.
+- Investigate how we can use shared content for localization
+- Consider qualifying names within parents/usages so that they are unqiue.
+- Redefinition?
+- Substitution groups?

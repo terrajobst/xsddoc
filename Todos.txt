@@ -1,7 +1,0 @@
-Todos
------
-- xmlEntityLink: should render bold when the target is the current topic.
-- Investigate how we can use shared content for localization
-- Consider qualifying names within parents/usages so that they are unqiue.
-- Redefinition?
-- Substitution groups?
