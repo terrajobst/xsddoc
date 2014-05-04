@@ -22,15 +22,15 @@
   
 ## Building
 
-1. Run `Build\Build.bat`
+1. Run `build.cmd`
 
-2. The folder `Output` will now contain the following subfolders:
-   - `Bin`. Contains the binaries (compiled in `Release` configuration).
-   - `Help`. Contains the  help file.
-   - `Release`. Contains the zipped setup, samples, and source code.
-   - `Setup`. Contains the setup.   
-   - `Samples`. Contains several sample .chm files.
-   - `Source`. Contains the complete source code.
+2. The folder `bin` will now contain the following subfolders:
+   - `help`. Contains the  help file.
+   - `raw`. Contains the binaries (compiled in `Release` configuration).
+   - `release`. Contains the zipped setup, samples, and source code.
+   - `samples`. Contains several sample .chm files.
+   - `setup`. Contains the setup.   
+   - `src`. Contains the complete source code.
 
 [shfb]: http://shfb.codeplex.com/releases
 [xsddoc]: http://xsddoc.codeplex.com/releases
