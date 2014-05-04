@@ -64,7 +64,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
   </PropertyGroup>
   <ItemGroup>
-    <ContentLayout Include="Help.content" />
+    <ContentLayout Include="XsdDoc.Help.content" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Topics\Documenting\KeywordGeneration.aml" />
@@ -112,7 +112,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Tokens Include="Help.tokens" />
+    <Tokens Include="XsdDoc.Help.tokens" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Media\SchemaDependencyFilePathsEditor.png">

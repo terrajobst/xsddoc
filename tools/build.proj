@@ -102,7 +102,7 @@
   <!-- Generate Help -->
 
   <Target Name="GenerateHelp" DependsOnTargets="GetVersion">
-    <MSBuild Projects="$(HelpDir)Help.shfbproj"
+    <MSBuild Projects="$(HelpDir)XsdDoc.Help.shfbproj"
              Properties="OutputPath=$(GeneratedHelp);
                          HelpFileVersion=$(XsdDocVersion);
                          CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright);
