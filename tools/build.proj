@@ -73,7 +73,7 @@
 
   <Target Name="Compile">
     <!-- First we have to compile our projects. -->
-    <MSBuild Projects="$(SourceDir)XsdDocumentation.sln"
+    <MSBuild Projects="$(SourceDir)XsdDoc.sln"
              Targets="XsdDocumentation_PlugIn;XsdDocumentation_BuildComponents"
              Properties="Configuration=$(Configuration);
                          OutDir=$(GeneratedBinaries)" />
