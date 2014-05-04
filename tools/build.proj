@@ -207,8 +207,6 @@
           DestinationFolder="$(GeneratedSamples)WiX\Source\%(RecursiveDir)" />
     <Copy SourceFiles="@(SampleSourceXml)"
           DestinationFolder="$(GeneratedSamples)Xml\Source\%(RecursiveDir)" />
-    <Exec Command="attrib -r -h /s"
-          WorkingDirectory="$(GeneratedSamples)" />
   </Target>
 
   <!-- Generate Release -->
