@@ -7,19 +7,19 @@
     <BuildDir>$(MSBuildThisFileDirectory)\</BuildDir>
     <CustomTasksDir>$(BuildDir)CustomTasks\</CustomTasksDir>
     <ProjectDir>$([System.IO.Path]::GetFullPath("$(BuildDir).."))\</ProjectDir>
-    <SourceDir>$(ProjectDir)Source\</SourceDir>
-    <SetupDir>$(ProjectDir)Setup\</SetupDir>
-    <EtcDir>$(ProjectDir)Etc\</EtcDir>
-    <LibDir>$(ProjectDir)Lib\</LibDir>
-    <HelpDir>$(ProjectDir)Help\</HelpDir>
-    <SamplesDir>$(ProjectDir)Samples\</SamplesDir>
-    <OutputDir>$(ProjectDir)Output\</OutputDir>
-    <GeneratedBinaries>$(OutputDir)Bin\</GeneratedBinaries>
-    <GeneratedHelp>$(OutputDir)Help\</GeneratedHelp>
-    <GeneratedSetup>$(OutputDir)Setup\</GeneratedSetup>
-    <GeneratedSourceCode>$(OutputDir)Source\</GeneratedSourceCode>
-    <GeneratedSamples>$(OutputDir)Samples\</GeneratedSamples>
-    <GeneratedRelease>$(OutputDir)Release\</GeneratedRelease>
+    <SourceDir>$(ProjectDir)src\</SourceDir>
+    <SetupDir>$(ProjectDir)setup\</SetupDir>
+    <EtcDir>$(ProjectDir)etc\</EtcDir>
+    <LibDir>$(ProjectDir)lib\</LibDir>
+    <HelpDir>$(ProjectDir)help\</HelpDir>
+    <SamplesDir>$(ProjectDir)samples\</SamplesDir>
+    <OutputDir>$(ProjectDir)bin\</OutputDir>
+    <GeneratedBinaries>$(OutputDir)raw\</GeneratedBinaries>
+    <GeneratedHelp>$(OutputDir)help\</GeneratedHelp>
+    <GeneratedSetup>$(OutputDir)setup\</GeneratedSetup>
+    <GeneratedSourceCode>$(OutputDir)src\</GeneratedSourceCode>
+    <GeneratedSamples>$(OutputDir)samples\</GeneratedSamples>
+    <GeneratedRelease>$(OutputDir)release\</GeneratedRelease>
     <Configuration>Release</Configuration>
   </PropertyGroup>
 
