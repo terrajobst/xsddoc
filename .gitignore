@@ -5,5 +5,6 @@ bin
 obj
 Output
 CustomTasks
+msbuild.log
 /Help/Help
 /Help/Help.shfbproj_*
