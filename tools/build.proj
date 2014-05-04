@@ -122,7 +122,7 @@
   <!-- Generate Setup -->
 
   <Target Name="GenerateSetup">
-    <MSBuild Projects="$(SetupDir)Setup.sln"
+    <MSBuild Projects="$(SetupDir)XsdDoc.Setup.sln"
              Properties="Configuration=$(Configuration);
                          OutDir=$(GeneratedSetup)" />
   </Target>

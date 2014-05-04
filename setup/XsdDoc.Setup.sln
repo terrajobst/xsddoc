@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup", "Setup.wixproj", "{F6B9D931-C86B-4446-A295-2B1688D10127}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "XsdDoc.Setup", "XsdDoc.Setup.wixproj", "{F6B9D931-C86B-4446-A295-2B1688D10127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
