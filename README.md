@@ -1,17 +1,12 @@
 # Usage
 
- 1. Install [Sandcastle Help File Builder (SHFB) Version 1.9.8][shfb]
-   
-    Please make sure you install the following components:
-     - Sandcastle
-     - Sandcastle Style Patch
-     - Sandcastle Help File Builder (SHFB)
+ 1. Install [Sandcastle Help File Builder (SHFB)][shfb]
 
     After the installation, you need to reboot the machine
     to make sure the new environment variables become
     available
 
- 2. Install [XML Schema Documenter (XsdDoc) Version 1.9.8][xsddoc]
+ 2. Install [XML Schema Documenter (XsdDoc)][xsddoc]
 
  3. Read the [documentation][docs]
 
@@ -19,9 +14,9 @@
 
 ## Prerequisites
 
- 1. [Microsoft Visual Studio 2013 (Professional, Premium or Ultimate)][vs].  
+ 1. [Microsoft Visual Studio 2013 (Professional, Premium or Ultimate)][vs].
 
- 2. [Sandcastle Help File Builder (SHFB) Version 1.9.8][shfb]
+ 2. [Sandcastle Help File Builder (SHFB)][shfb]
    
  3. [Windows Installer XML (WiX) toolset Version 3.8][wix]
   
@@ -37,7 +32,7 @@
    - `Samples`. Contains several sample .chm files.
    - `Source`. Contains the complete source code.
 
-[shfb]: http://shfb.codeplex.com/releases/view/105809
+[shfb]: http://shfb.codeplex.com/releases
 [xsddoc]: http://xsddoc.codeplex.com/releases
 [docs]: http://xsddoc.codeplex.com/documentation
 [vs]: http://msdn.microsoft.com/en-us/vstudio/default.aspx
