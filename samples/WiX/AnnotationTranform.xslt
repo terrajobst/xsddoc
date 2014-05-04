@@ -51,7 +51,7 @@
                 <xsl:attribute name="uri" xml:space="preserve"><xsl:value-of select="$parentItemUri"/>/@<xsl:value-of select="$deprecated/@ref"/></xsl:attribute>
               </xsl:when>
               <xsl:when test="$currentItemType='element'">
-                <xsl:attribute name="uri" xml:space="preserve">http://schemas.microsoft.com/wix/2006/wi#E/<xsl:value-of select="$deprecated/@ref"/></xsl:attribute>
+                <xsl:attribute name="uri" xml:space="preserve"><xsl:value-of select="$currentItemNamespace"/>#E/<xsl:value-of select="$deprecated/@ref"/></xsl:attribute>
               </xsl:when>
             </xsl:choose>
           </xsl:if>
@@ -107,7 +107,7 @@
   </xsl:template>
 
   <xsl:template match="xse:seeAlso">
-    <xsd:xmlEntityReference xml:space="preserve">http://schemas.microsoft.com/wix/2006/wi#E/<xsl:value-of select="@ref"/></xsd:xmlEntityReference>
+    <xsd:xmlEntityReference xml:space="preserve"><xsl:value-of select="$currentItemNamespace"/>#E/<xsl:value-of select="@ref"/></xsd:xmlEntityReference>
   </xsl:template>
 
   <xsl:template match="xse:msiRef">
