@@ -9,13 +9,10 @@
         <File Source="$(var.BinFolder)XsdDocumentation.dll" />
       </Component>
       <Component>
-        <File Source="$(var.BinFolder)XsdDocumentation.PlugIn.plugins" />
+        <File Source="$(var.BinFolder)XsdDocumentation.PlugIn.dll" />
       </Component>
       <Component>
         <File Source="$(var.BinFolder)XsdDocumentation.BuildComponents.dll" />
-      </Component>
-      <Component>
-        <File Source="$(var.BinFolder)XsdDocumentation.BuildComponents.components" />
       </Component>
       <Component>
         <File Source="$(var.BinFolder)AnnotationTranform.xslt" />
@@ -27,9 +24,8 @@
 
     <ComponentGroup Id="XsdDocComponentsAndPlugIns">
       <ComponentRef Id="XsdDocumentation.dll"/>
-      <ComponentRef Id="XsdDocumentation.PlugIn.plugins"/>
+      <ComponentRef Id="XsdDocumentation.PlugIn.dll"/>
       <ComponentRef Id="XsdDocumentation.BuildComponents.dll"/>
-      <ComponentRef Id="XsdDocumentation.BuildComponents.components"/>
       <ComponentRef Id="AnnotationTranform.xslt"/>
       <ComponentRef Id="Help.chm"/>
     </ComponentGroup>

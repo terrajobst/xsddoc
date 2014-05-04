@@ -78,16 +78,6 @@
              Properties="Configuration=$(Configuration);
                          OutDir=$(GeneratedBinaries)" />
 
-    <!-- Rename build component file -->
-    <Copy SourceFiles="$(GeneratedBinaries)XsdDocumentation.BuildComponents.dll.config"
-          DestinationFiles="$(GeneratedBinaries)XsdDocumentation.BuildComponents.components" />
-    <Delete Files="$(GeneratedBinaries)XsdDocumentation.BuildComponents.dll.config" />
-
-    <!-- Rename plugin file -->
-    <Copy SourceFiles="$(GeneratedBinaries)XsdDocumentation.PlugIn.dll"
-          DestinationFiles="$(GeneratedBinaries)XsdDocumentation.PlugIn.plugins" />
-    <Delete Files="$(GeneratedBinaries)XsdDocumentation.PlugIn.dll" />
-
     <!-- Copy in required runtime files. -->
     <ItemGroup>
       <MediaFiles Include="$(EtcDir)Media\**\*.*" />
@@ -116,7 +106,7 @@
              Properties="OutputPath=$(GeneratedHelp);
                          HelpFileVersion=$(XsdDocVersion);
                          CopyrightText=[v{%40HelpFileVersion}] $(XsdDocCopyright);
-                         SHFBCOMPONENTROOT=$(GeneratedBinaries)" />
+                         ComponentPath=$(GeneratedBinaries)" />
   </Target>
 
   <!-- Generate Setup -->
@@ -172,15 +162,15 @@
     <MSBuild Projects="@(SampleProjectCloneDetective)"
              Properties="OutputPath=$(GeneratedSamples)CloneDetective;
                          HelpFileVersion=$(XsdDocVersion);
-                         SHFBCOMPONENTROOT=$(GeneratedBinaries)" />
+                         ComponentPath=$(GeneratedBinaries)" />
     <MSBuild Projects="@(SampleProjectWiX)"
              Properties="OutputPath=$(GeneratedSamples)WiX;
                          HelpFileVersion=$(XsdDocVersion);
-                         SHFBCOMPONENTROOT=$(GeneratedBinaries)" />
+                         ComponentPath=$(GeneratedBinaries)" />
     <MSBuild Projects="@(SampleProjectXml)"
              Properties="OutputPath=$(GeneratedSamples)Xml;
                          HelpFileVersion=$(XsdDocVersion);
-                         SHFBCOMPONENTROOT=$(GeneratedBinaries)" />
+                         ComponentPath=$(GeneratedBinaries)" />
 
     <!-- Delete all non CHM files -->
 

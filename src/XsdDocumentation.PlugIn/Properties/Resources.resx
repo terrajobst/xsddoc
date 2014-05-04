@@ -189,9 +189,6 @@
   <data name="PlugInBuildProgress" xml:space="preserve">
     <value>Creating XML documentation...</value>
   </data>
-  <data name="PlugInDescription" xml:space="preserve">
-    <value>This plug-in creates reference documentation for an XML schema set.</value>
-  </data>
   <data name="PlugInName" xml:space="preserve">
     <value>XML Schema Documenter</value>
   </data>

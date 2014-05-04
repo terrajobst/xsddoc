@@ -10,20 +10,27 @@ using System.Xml.XPath;
 using Microsoft.Build.Evaluation;
 
 using SandcastleBuilder.Utils;
+using SandcastleBuilder.Utils.BuildComponent;
 using SandcastleBuilder.Utils.BuildEngine;
-using SandcastleBuilder.Utils.PlugIn;
 
 using XsdDocumentation.Model;
 using XsdDocumentation.PlugIn.Properties;
 
 namespace XsdDocumentation.PlugIn
 {
+    [HelpFileBuilderPlugInExport(
+        "XML Schema Documenter",
+        Copyright = XsdDocMetadata.Copyright,
+        Description = "This plug-in creates reference documentation for an XML schema set.",
+        IsConfigurable = true,
+        RunsInPartialBuild = false,
+        Version = XsdDocMetadata.Version)]
     public sealed class XsdPlugIn : IPlugIn
     {
-        private ExecutionPointCollection _executionPoints;
+        private ExecutionPoint[] _executionPoints;
         private BuildProcess _buildProcess;
         private XsdPlugInConfiguration _configuration;
-        private SandcastleProject tempProject;
+        private SandcastleProject _tempProject;
 
         public static string GetHelpFilePath()
         {
@@ -33,84 +40,13 @@ namespace XsdDocumentation.PlugIn
         }
 
         /// <summary>
-        /// This read-only property returns a friendly name for the plug-in
-        /// </summary>
-        public string Name
-        {
-            get { return Resources.PlugInName; }
-        }
-
-        /// <summary>
-        /// This read-only property returns the version of the plug-in
-        /// </summary>
-        public Version Version
-        {
-            get
-            {
-                // Use the assembly version
-                var asm = Assembly.GetExecutingAssembly();
-                Debug.Assert(asm.Location != null);
-                var fvi = FileVersionInfo.GetVersionInfo(asm.Location);
-
-                return new Version(fvi.ProductVersion);
-            }
-        }
-
-        /// <summary>
-        /// This read-only property returns the copyright information for the
-        /// plug-in.
-        /// </summary>
-        public string Copyright
-        {
-            get
-            {
-                // Use the assembly copyright
-                var asm = Assembly.GetExecutingAssembly();
-                var copyright = (AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(asm, typeof(AssemblyCopyrightAttribute));
-                return copyright.Copyright;
-            }
-        }
-
-        /// <summary>
-        /// This read-only property returns a brief description of the plug-in
-        /// </summary>
-        public string Description
-        {
-            get { return Resources.PlugInDescription; }
-        }
-
-        /// <summary>
-        /// This read-only property returns true if the plug-in should run in
-        /// a partial build or false if it should not.
-        /// </summary>
-        /// <value>If this returns false, the plug-in will not be loaded when
-        /// a partial build is performed.</value>
-        public bool RunsInPartialBuild
-        {
-            get { return false; }
-        }
-
-        /// <summary>
         /// This read-only property returns a collection of execution points
         /// that define when the plug-in should be invoked during the build
         /// process.
         /// </summary>
-        public ExecutionPointCollection ExecutionPoints
+        public IEnumerable<ExecutionPoint> ExecutionPoints
         {
-            get
-            {
-                return _executionPoints ?? (_executionPoints = new ExecutionPointCollection
-                                                                   {
-                                                                       new ExecutionPoint(BuildStep.GenerateSharedContent,
-                                                                                          ExecutionBehaviors.Before)
-                                                                   });
-            }
-        }
-
-        /// <inheritdoc />
-        public bool SupportsConfiguration
-        {
-            get { return true; }
+            get { return _executionPoints ?? (_executionPoints = new[] {new ExecutionPoint(BuildStep.GenerateSharedContent, ExecutionBehaviors.Before)}); }
         }
 
         /// <summary>
@@ -146,8 +82,8 @@ namespace XsdDocumentation.PlugIn
         {
             _configuration = XsdPlugInConfiguration.FromXml(buildProcess.CurrentProject, configuration);
             _buildProcess = buildProcess;
-            _buildProcess.ReportProgress(Resources.PlugInVersionFormatted, Name, Version, Copyright);
-            tempProject = new SandcastleProject(Path.Combine(_buildProcess.WorkingFolder, "XSDTemp.shfbproj"), false);
+            _buildProcess.ReportProgress(Resources.PlugInVersionFormatted, Resources.PlugInName, XsdDocMetadata.Version, XsdDocMetadata.Copyright);
+            _tempProject = new SandcastleProject(Path.Combine(_buildProcess.WorkingFolder, "XSDTemp.shfbproj"), false);
         }
 
         /// <summary>
@@ -195,13 +131,14 @@ namespace XsdDocumentation.PlugIn
             }
 
             var componentConfig = GetComponentConfiguration(contentGenerator.IndexFile);
+
             _buildProcess.CurrentProject.ComponentConfigurations.Add(GetComponentId(), true, componentConfig);
 
             // Needed so that all links are properly evaluated before processed by SHFB.
-            tempProject.MSBuildProject.ReevaluateIfNecessary();
+            _tempProject.MSBuildProject.ReevaluateIfNecessary();
 
             // Add the items to the conceptual content settings
-            _buildProcess.ConceptualContent.MergeContentFrom(tempProject);
+            _buildProcess.ConceptualContent.MergeContentFrom(_tempProject);
         }
 
         private static List<string> ExpandFiles(IEnumerable<FilePath> filePaths)
@@ -226,7 +163,7 @@ namespace XsdDocumentation.PlugIn
 
         private ProjectItem AddLinkedItem(BuildAction buildAction, string fileName)
         {
-            var project = tempProject.MSBuildProject;
+            var project = _tempProject.MSBuildProject;
             var itemName = buildAction.ToString();
             var buildItems = project.AddItem(itemName, fileName, new[] { new KeyValuePair<string, string>("Link", fileName) });
             Debug.Assert(buildItems.Count == 1);
@@ -241,12 +178,7 @@ namespace XsdDocumentation.PlugIn
         private static string GetComponentConfiguration(string indexFileName)
         {
             var id = GetComponentId();
-            const string name = @"XsdDocumentation.BuildComponents.XsdResolveLinksComponent";
-            const string componentDllName = "XsdDocumentation.BuildComponents.dll";
-            var plugInDirectoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var componentPath = Path.Combine(plugInDirectoryPath, componentDllName);
-            var componentConfig = string.Format(@"<component id=""{0}"" type=""{1}"" assembly=""{2}""><indexFile location=""{3}"" /></component>", id, name, componentPath, indexFileName);
-            return componentConfig;
+            return string.Format(@"<component id=""{0}""><indexFile location=""{1}"" /></component>", id, indexFileName);
         }
 
         /// <summary>
@@ -256,8 +188,8 @@ namespace XsdDocumentation.PlugIn
         /// <overloads>There are two overloads for this method.</overloads>
         public void Dispose()
         {
-            if(tempProject != null)
-                tempProject.Dispose();
+            if(_tempProject != null)
+                _tempProject.Dispose();
         }
     }
 }

@@ -35,10 +35,11 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="$(DXROOT)\ProductionTools\BuildAssemblerLibrary.dll">
+    <Reference Include="$(SHFBROOT)\Sandcastle.Core.dll">
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -59,10 +60,6 @@
       <Project>{31429526-548B-4F1F-9F68-E22EF9D92658}</Project>
       <Name>XsdDocumentation</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

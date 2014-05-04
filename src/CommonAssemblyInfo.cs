@@ -1,9 +1,10 @@
 using System;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Resources;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCopyright("Copyright © 2009-2014 Immo Landwerth")]
+[assembly: AssemblyCopyright(XsdDocMetadata.Copyright)]
 [assembly: AssemblyCompany("Immo Landwerth")]
 [assembly: AssemblyProduct("XML Schema Documenter")]
 
@@ -11,5 +12,11 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguage("en-US")]
 
-[assembly: AssemblyVersion("1.9.8.0")]
-[assembly: AssemblyFileVersion("1.9.8.0")]
+[assembly: AssemblyVersion(XsdDocMetadata.Version)]
+[assembly: AssemblyFileVersion(XsdDocMetadata.Version)]
+
+internal static class XsdDocMetadata
+{
+    public const string Version = "14.4.22.0";
+    public const string Copyright = "Copyright © 2009-2014 Immo Landwerth";
+}
