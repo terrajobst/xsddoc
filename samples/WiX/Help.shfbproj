@@ -35,19 +35,8 @@
           <includeLinkUriInKeywordK>false</includeLinkUriInKeywordK>
           <annotationTransformFile path="AnnotationTranform.xslt" />
           <schemaFiles>
-            <schemaFile path="Schemas\complus.xsd" />
-            <schemaFile path="Schemas\difxapp.xsd" />
-            <schemaFile path="Schemas\firewall.xsd" />
-            <schemaFile path="Schemas\gaming.xsd" />
-            <schemaFile path="Schemas\iis.xsd" />
-            <schemaFile path="Schemas\msmq.xsd" />
-            <schemaFile path="Schemas\netfx.xsd" />
-            <schemaFile path="Schemas\ps.xsd" />
-            <schemaFile path="Schemas\sql.xsd" />
             <schemaFile path="Schemas\util.xsd" />
-            <schemaFile path="Schemas\vs.xsd" />
             <schemaFile path="Schemas\wix.xsd" />
-            <schemaFile path="Schemas\wixloc.xsd" />
           </schemaFiles>
           <dependencyFiles />
           <docFiles>
