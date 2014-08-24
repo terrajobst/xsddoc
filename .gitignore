@@ -6,5 +6,6 @@ obj
 Output
 CustomTasks
 msbuild.log
+packages
 /Help/Help
 /Help/Help.shfbproj_*

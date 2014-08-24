@@ -14,6 +14,11 @@
     <HelpDir>$(ProjectDir)help\</HelpDir>
     <SamplesDir>$(ProjectDir)samples\</SamplesDir>
     <OutputDir>$(ProjectDir)bin\</OutputDir>
+    <PackagesDir>$(SourceDir)packages\</PackagesDir>
+    <NuGetToolPath>$(OutputDir)NuGet.exe</NuGetToolPath>
+    <WixToolPath>$(SourceDir)\packages\WiX.Toolset.3.8.1128.0\tools\wix\</WixToolPath>
+    <WixTargetsPath>$(WixToolPath)Wix.targets</WixTargetsPath>
+    <WixTasksPath>$(WixToolPath)wixtasks.dll</WixTasksPath>
     <GeneratedBinaries>$(OutputDir)raw\</GeneratedBinaries>
     <GeneratedHelp>$(OutputDir)help\</GeneratedHelp>
     <GeneratedSetup>$(OutputDir)setup\</GeneratedSetup>
@@ -21,6 +26,12 @@
     <GeneratedSamples>$(OutputDir)samples\</GeneratedSamples>
     <GeneratedRelease>$(OutputDir)release\</GeneratedRelease>
     <Configuration>Release</Configuration>
+    <ProjectProperties>
+      Configuration=$(Configuration);
+      WixToolPath=$(WixToolPath);
+      WixTargetsPath=$(WixTargetsPath);
+      WixTasksPath=$(WixTasksPath);
+    </ProjectProperties>
   </PropertyGroup>
 
   <!-- External Tasks -->
@@ -29,6 +40,42 @@
              TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll"
              TaskName="XsdDocumentation.Build.Zip" />
+
+  <UsingTask TaskName="DownloadFile"
+             TaskFactory="CodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <Address ParameterType="System.String"
+               Required="true"/>
+      <FileName ParameterType="System.String"
+                Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System" />
+      <Code Type="Fragment"
+            Language="cs">
+        <![CDATA[
+           var directory = System.IO.Path.GetDirectoryName(FileName);
+           System.IO.Directory.CreateDirectory(directory);
+           new System.Net.WebClient().DownloadFile(Address, FileName);
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <!-- Package Restore -->
+
+  <Target Name="Restore">
+    <DownloadFile Condition="!Exists($(NuGetToolPath))"
+                  Address="http://nuget.org/nuget.exe"
+                  FileName="$(NuGetToolPath)" />
+    <ItemGroup>
+      <Package Include="$(SourceDir)*\packages.config" />
+    </ItemGroup>
+    <MakeDir Directories="$(PackagesDir)" />
+    <Exec Command="$(NuGetToolPath) install &quot;%(Package.FullPath)&quot; -o &quot;$(PackagesDir)\&quot;" />
+  </Target>
+
 
   <!-- Build -->
 
@@ -44,7 +91,7 @@
 
   <!-- Clean -->
 
-  <Target Name="Clean">
+  <Target Name="Clean" DependsOnTargets="Restore">
     <ItemGroup>
       <AllSolutionFiles Include="$(SourceDir)**\*.sln" />
       <AllSolutionFiles Include="$(SetupDir)**\*.sln" />
@@ -52,7 +99,8 @@
       <CompilationFiles Include="$(ProjectDir)**\obj\**\*.*" />
     </ItemGroup>
     <MSBuild Projects="@(AllSolutionFiles)"
-             Targets="Clean" />
+             Targets="Clean"
+             Properties="$(ProjectProperties)" />
     <Delete Files="@(CompilationFiles)" />
     <RemoveDir Directories="$(CustomTasksDir)" />
     <RemoveDir Directories="$(OutputDir)" />
@@ -60,22 +108,22 @@
 
   <!-- Compile MSBuild tasks needed by the build process itself -->
 
-  <Target Name="CompileBuildTasks">
+  <Target Name="CompileBuildTasks" DependsOnTargets="Restore">
     <ItemGroup>
       <CustomBuildProjects Include="$(SourceDir)XsdDocumentation.Build\XsdDocumentation.Build.csproj" />
     </ItemGroup>
     <MSBuild Projects="@(CustomBuildProjects)"
-             Properties="Configuration=$(Configuration);
+             Properties="$(ProjectProperties);
                          OutDir=$(CustomTasksDir)" />
   </Target>
 
   <!-- Compile -->
 
-  <Target Name="Compile">
+  <Target Name="Compile" DependsOnTargets="Restore">
     <!-- First we have to compile our projects. -->
     <MSBuild Projects="$(SourceDir)XsdDoc.sln"
              Targets="XsdDocumentation_PlugIn;XsdDocumentation_BuildComponents"
-             Properties="Configuration=$(Configuration);
+             Properties="$(ProjectProperties);
                          OutDir=$(GeneratedBinaries)" />
 
     <!-- Copy in required runtime files. -->
@@ -111,10 +159,13 @@
 
   <!-- Generate Setup -->
 
-  <Target Name="GenerateSetup">
+  <Target Name="GenerateSetup" DependsOnTargets="Restore">
     <MSBuild Projects="$(SetupDir)XsdDoc.Setup.sln"
              Properties="Configuration=$(Configuration);
-                         OutDir=$(GeneratedSetup)" />
+                         OutDir=$(GeneratedSetup);
+                         WixToolPath=$(WixToolPath);
+                         WixTargetsPath=$(WixTargetsPath);
+                         WixTasksPath=$(WixTasksPath)" />
   </Target>
 
   <!-- Generate Source Code -->

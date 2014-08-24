@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>3.5</ProductVersion>
+    <ProductVersion>3.7</ProductVersion>
     <ProjectGuid>{f6b9d931-c86b-4446-a295-2b1688d10127}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>XsdDocumenter</OutputName>
