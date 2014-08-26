@@ -22,7 +22,6 @@
     <GeneratedBinaries>$(OutputDir)raw\</GeneratedBinaries>
     <GeneratedHelp>$(OutputDir)help\</GeneratedHelp>
     <GeneratedSetup>$(OutputDir)setup\</GeneratedSetup>
-    <GeneratedSourceCode>$(OutputDir)src\</GeneratedSourceCode>
     <GeneratedSamples>$(OutputDir)samples\</GeneratedSamples>
     <GeneratedRelease>$(OutputDir)release\</GeneratedRelease>
     <Configuration>Release</Configuration>
@@ -84,7 +83,6 @@
     <CallTarget Targets="Compile" />
     <CallTarget Targets="GenerateHelp" />
     <CallTarget Targets="GenerateSetup" />
-    <CallTarget Targets="GenerateSourceCode" />
     <CallTarget Targets="GenerateSamples" />
     <CallTarget Targets="GenerateRelease" />
   </Target>
@@ -166,35 +164,6 @@
                          WixToolPath=$(WixToolPath);
                          WixTargetsPath=$(WixTargetsPath);
                          WixTasksPath=$(WixTasksPath)" />
-  </Target>
-
-  <!-- Generate Source Code -->
-
-  <Target Name="GenerateSourceCode">
-    <ItemGroup>
-      <SourceCodeFiles Include="$(ProjectDir)**\*.*"
-                       Exclude="$(ProjectDir).git\**\*.*;
-                                $(ProjectDir).git*;
-                                $(OutputDir)**;
-                                $(LibDir)**;
-                                $(HelpDir)Help\**\*.*;
-                                $(SamplesDir)*\Help\**\*.*;
-                                $(ProjectDir)**\bin\**;
-                                $(ProjectDir)**\obj\**;
-                                $(ProjectDir)**\*.suo;
-                                $(ProjectDir)**\*.cache;
-                                $(ProjectDir)**\*.user;
-                                $(ProjectDir)**\*.resharper" />
-    </ItemGroup>
-
-    <Copy SourceFiles="@(SourceCodeFiles)"
-          DestinationFolder="$(GeneratedSourceCode)%(RecursiveDir)" />
-
-    <!-- For some strange reason, excluding $(CustomTasksDir)**\*.* does not work. I assume there are some weird issues
-         in MSBuild that causes currently opened/locked files not being added correctly to the list of exclusions.
-    -->
-    <RemoveDir Directories="$(GeneratedSourceCode)\Build\Custom Tasks" />
-
   </Target>
 
   <!-- Generate Samples -->
