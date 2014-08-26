@@ -12,6 +12,13 @@ namespace XsdDocumentation.Markup
         private const string NonBlockingSpaceEntityName = "&#160;";
         private const string XmlTopicType = "3272D745-2FFC-48C4-9E9D-CF2B2B784D5F";
 
+        public static void WriteNonBlockingSpace(this MamlWriter writer)
+        {
+            writer.StartMarkup();
+            writer.WriteRaw(NonBlockingSpaceEntityName);
+            writer.EndMarkup();
+        }
+
         public static void WriteHtmlIndent(this MamlWriter writer, int level)
         {
             writer.StartMarkup();
@@ -39,7 +46,19 @@ namespace XsdDocumentation.Markup
         public static void StartHtmlArtItem(this MamlWriter writer, ArtItem artItem)
         {
             writer.StartMarkup();
-            writer.WriteStartElement("nobr", String.Empty);
+
+            // Emitting a <nobr> tag breaks the Open XML output. I'm pretty
+            // sure that I've added this originally in order to avoid weird
+            // breaks between the icon and whatever comes after (usually a
+            // link or text). However, after visual inspection, I can't find
+            // any cases where this can actually occur.
+            //
+            // If we need to add this back, we should probably either special
+            // case the output type and suppress <nobr> for Open XML or find a
+            // MAML way of doing it (which doesn't exist today).
+            //
+            // writer.WriteStartElement("nobr", String.Empty);
+
             writer.WriteStartElement("artLink");
             writer.WriteAttributeString("target", artItem.Id);
             writer.WriteEndElement();
@@ -48,7 +67,10 @@ namespace XsdDocumentation.Markup
 
         public static void EndHtmlArtItem(this MamlWriter writer)
         {
-            writer.WriteEndElement(); // nobr
+            // See comments about <nobr> in StartHtmlArtItem().
+            //
+            // writer.WriteEndElement(); // nobr
+
             writer.EndMarkup();
         }
 
@@ -66,24 +88,6 @@ namespace XsdDocumentation.Markup
             writer.EndHtmlArtItem();
         }
 
-        private static void WriteHtmlNamespaceLink(this MamlWriter writer, Context context, string namespaceUri)
-        {
-            var topic = context.TopicManager.GetNamespaceTopic(namespaceUri);
-            if (topic == null)
-                writer.WriteString(namespaceUri ?? "Empty");
-            else
-                writer.WriteHtmlTopicLink(topic);
-        }
-
-        private static void WriteHtmlSchemaLink(this MamlWriter writer, Context context, XmlSchemaObject obj)
-        {
-            var topic = context.TopicManager.GetTopic(obj.GetSchema());
-            if (topic == null)
-                writer.WriteString(obj.GetSchemaName());
-            else
-                writer.WriteHtmlTopicLink(topic);
-        }
-
         public static void WriteArtItemInline(this MamlWriter writer, ArtItem artItem)
         {
             writer.WriteMediaLinkInline(artItem.Id);
@@ -97,6 +101,15 @@ namespace XsdDocumentation.Markup
         private static void WriteTopicLinkWithReferenceMarker(this MamlWriter writer, Topic rootItemTopic)
         {
             writer.WriteLink(rootItemTopic.Id, rootItemTopic.LinkTitle, XmlTopicType);
+        }
+
+        public static void WriteSchemaLink(this MamlWriter writer, Context context, XmlSchemaObject obj)
+        {
+            var topic = context.TopicManager.GetTopic(obj.GetSchema());
+            if (topic == null)
+                writer.WriteString("Empty");
+            else
+                writer.WriteTopicLink(topic);
         }
 
         public static void WriteNamespaceLink(this MamlWriter writer, Context context, string namespaceUri)
@@ -123,11 +136,11 @@ namespace XsdDocumentation.Markup
         public static void WriteNamespaceInfo(this MamlWriter writer, Context context, string namespaceUri)
         {
             writer.StartParagraph();
-            writer.StartMarkup();
-            writer.WriteRaw("<b>Namespace:</b> ");
-            writer.WriteHtmlNamespaceLink(context, namespaceUri);
-            writer.WriteRaw("<br/>");
-            writer.EndMarkup();
+            writer.StartBold();
+            writer.WriteString("Namespace:");
+            writer.EndBold();
+            writer.WriteNonBlockingSpace();
+            writer.WriteNamespaceLink(context, namespaceUri);
             writer.EndParagraph();
         }
 
@@ -135,15 +148,14 @@ namespace XsdDocumentation.Markup
         {
             var targetNamespace = obj.GetSchema().TargetNamespace;
 
+            writer.WriteNamespaceInfo(context, targetNamespace);
+
             writer.StartParagraph();
-            writer.StartMarkup();
-            writer.WriteRaw("<b>Namespace:</b> ");
-            writer.WriteHtmlNamespaceLink(context, targetNamespace);
-            writer.WriteRaw("<br/>");
-            writer.WriteRaw("<b>Schema:</b> ");
-            writer.WriteHtmlSchemaLink(context, obj);
-            writer.WriteRaw("<br/>");
-            writer.EndMarkup();
+            writer.StartBold();
+            writer.WriteString("Schema:");
+            writer.EndBold();
+            writer.WriteNonBlockingSpace();
+            writer.WriteSchemaLink(context, obj);
             writer.EndParagraph();
         }
 

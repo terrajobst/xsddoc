@@ -227,6 +227,20 @@ namespace XsdDocumentation.Markup
 
         #endregion
 
+        #region Bold
+
+        public void StartBold()
+        {
+            _xmlWriter.WriteStartElement("legacyBold", Namespaces.Maml);
+        }
+
+        public void EndBold()
+        {
+            _xmlWriter.WriteEndElement(); // legacyBold
+        }
+
+        #endregion
+
         #region Markup
 
         public void StartMarkup()
