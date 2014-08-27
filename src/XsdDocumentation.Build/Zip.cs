@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
@@ -11,23 +10,19 @@ namespace XsdDocumentation.Build
 {
     public sealed class Zip : Task
     {
-        public ITaskItem WorkingDirectory { get; set; }
+        public string WorkingDirectory { get; set; }
 
         [Required]
-        public ITaskItem ZipFileName { get; set; }
+        public string ZipFileName { get; set; }
 
         [Required]
-        public ITaskItem[] Files { get; set; }
+        public string[] Files { get; set; }
 
         public override bool Execute()
         {
             try
             {
-                var workingDirectory = WorkingDirectory.ItemSpec;
-                var zipFileName = ZipFileName.ItemSpec;
-                var fileNames = Files.Select(f => f.ItemSpec);
-                CreateZipArchive(workingDirectory, zipFileName, fileNames);
-
+                CreateZipArchive(WorkingDirectory, ZipFileName, Files);
             }
             catch (Exception ex)
             {
