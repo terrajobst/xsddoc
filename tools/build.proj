@@ -235,9 +235,6 @@
     <Zip WorkingDirectory="$(GeneratedBinaries)"
          Files="@(GeneratedBuildServerFiles)"
          ZipFileName="$(GeneratedRelease)XsdDoc_BuildServer.zip" />
-    <Zip WorkingDirectory="$(GeneratedSourceCode)"
-         Files="@(GeneratedSourceCodeFiles)"
-         ZipFileName="$(GeneratedRelease)XsdDoc_Source.zip" />
     <Zip WorkingDirectory="$(GeneratedSetup)"
          Files="@(GeneratedSetupFiles)"
          ZipFileName="$(GeneratedRelease)XsdDoc_Setup.zip" />
