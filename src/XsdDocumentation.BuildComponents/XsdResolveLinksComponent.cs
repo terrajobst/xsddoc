@@ -67,7 +67,7 @@ namespace XsdDocumentation.BuildComponents
             if (nodes == null)
                 return;
 
-            foreach (XmlNode node in nodes)
+            foreach (XmlElement node in nodes)
             {
                 var parentNode = node.ParentNode;
                 var uri = node.InnerText;
@@ -82,8 +82,11 @@ namespace XsdDocumentation.BuildComponents
                     var linkElement = document.CreateElement("ddue", "link", Namespaces.Maml);
                     linkElement.SetAttribute("href", Namespaces.XLink, entry.TopicId);
                     linkElement.SetAttribute("topicType_id", "3272D745-2FFC-48C4-9E9D-CF2B2B784D5F");
-                    linkElement.InnerText = entry.LinkTitle;
-                    parentNode.ReplaceChild(linkElement, node);
+					if (node.HasAttribute("linkText"))
+						linkElement.InnerText = node.GetAttribute("linkText");
+					else
+						linkElement.InnerText = entry.LinkTitle;
+					parentNode.ReplaceChild(linkElement, node);
                 }
             }
         }
