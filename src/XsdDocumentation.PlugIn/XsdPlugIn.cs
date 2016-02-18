@@ -18,6 +18,8 @@ using XsdDocumentation.PlugIn.Properties;
 
 namespace XsdDocumentation.PlugIn
 {
+    using SandcastleBuilder.Utils.ConceptualContent;
+
     [HelpFileBuilderPlugInExport(
         "XML Schema Documenter",
         Copyright = XsdDocMetadata.Copyright,
@@ -30,7 +32,6 @@ namespace XsdDocumentation.PlugIn
         private ExecutionPoint[] _executionPoints;
         private BuildProcess _buildProcess;
         private XsdPlugInConfiguration _configuration;
-        private SandcastleProject _tempProject;
 
         public static string GetHelpFilePath()
         {
@@ -83,7 +84,6 @@ namespace XsdDocumentation.PlugIn
             _configuration = XsdPlugInConfiguration.FromXml(buildProcess.CurrentProject, configuration);
             _buildProcess = buildProcess;
             _buildProcess.ReportProgress(Resources.PlugInVersionFormatted, Resources.PlugInName, XsdDocMetadata.Version, XsdDocMetadata.Copyright);
-            _tempProject = new SandcastleProject(Path.Combine(_buildProcess.WorkingFolder, "XSDTemp.shfbproj"), false);
         }
 
         /// <summary>
@@ -117,28 +117,27 @@ namespace XsdDocumentation.PlugIn
             var contentGenerator = new ContentGenerator(messageReporter, configuration);
             contentGenerator.Generate();
 
-            var contentLayoutItem = AddLinkedItem(BuildAction.ContentLayout, contentGenerator.ContentFile);
-            contentLayoutItem.SetMetadataValue("SortOrder", Convert.ToString(_configuration.SortOrder, CultureInfo.InvariantCulture));
+            var contentFileProfider = new ContentFileProvider(_buildProcess.CurrentProject);
+
+            var contentLayoutFile = contentFileProfider.Add(BuildAction.ContentLayout, contentGenerator.ContentFile);
+            contentLayoutFile.SortOrder = _configuration.SortOrder;
+            _buildProcess.ConceptualContent.ContentLayoutFiles.Add(contentLayoutFile);
 
             foreach (var topicFileName in contentGenerator.TopicFiles)
-                AddLinkedItem(BuildAction.None, topicFileName);
+                contentFileProfider.Add(BuildAction.None, topicFileName);
+
+            _buildProcess.ConceptualContent.Topics.Add(new TopicCollection(contentLayoutFile));
 
             foreach (var mediaItem in contentGenerator.MediaItems)
             {
-                var mediaFileItem = AddLinkedItem(BuildAction.Image, mediaItem.FileName);
-                mediaFileItem.SetMetadataValue("ImageId", mediaItem.ArtItem.Id);
-                mediaFileItem.SetMetadataValue("AlternateText", mediaItem.ArtItem.AlternateText);
+                var imageFilePath = new FilePath(mediaItem.FileName, _buildProcess.CurrentProject);
+                var imageReference = new ImageReference(imageFilePath, mediaItem.ArtItem.Id) { AlternateText = mediaItem.ArtItem.AlternateText };
+                _buildProcess.ConceptualContent.ImageFiles.Add(imageReference);
             }
 
             var componentConfig = GetComponentConfiguration(contentGenerator.IndexFile);
 
             _buildProcess.CurrentProject.ComponentConfigurations.Add(GetComponentId(), true, componentConfig);
-
-            // Needed so that all links are properly evaluated before processed by SHFB.
-            _tempProject.MSBuildProject.ReevaluateIfNecessary();
-
-            // Add the items to the conceptual content settings
-            _buildProcess.ConceptualContent.MergeContentFrom(_tempProject);
         }
 
         private static List<string> ExpandFiles(IEnumerable<FilePath> filePaths)
@@ -161,15 +160,6 @@ namespace XsdDocumentation.PlugIn
             return result;
         }
 
-        private ProjectItem AddLinkedItem(BuildAction buildAction, string fileName)
-        {
-            var project = _tempProject.MSBuildProject;
-            var itemName = buildAction.ToString();
-            var buildItems = project.AddItem(itemName, fileName, new[] { new KeyValuePair<string, string>("Link", fileName) });
-            Debug.Assert(buildItems.Count == 1);
-            return buildItems[0];
-        }
-
         private static string GetComponentId()
         {
             return @"XsdResolveLinks";
@@ -188,8 +178,50 @@ namespace XsdDocumentation.PlugIn
         /// <overloads>There are two overloads for this method.</overloads>
         public void Dispose()
         {
-            if(_tempProject != null)
-                _tempProject.Dispose();
+        }
+
+        /// <summary>
+        /// This replaces the temporary project file.
+        /// </summary>
+        private class ContentFileProvider : IContentFileProvider
+        {
+            private readonly IBasePathProvider basePathProvider;
+
+            private readonly Dictionary<BuildAction, List<ContentFile>> data = new Dictionary<BuildAction, List<ContentFile>>();
+
+            public ContentFileProvider(IBasePathProvider basePathProvider)
+            {
+                this.basePathProvider = basePathProvider;
+            }
+
+            public IEnumerable<ContentFile> ContentFiles(BuildAction buildAction)
+            {
+                return this.data[buildAction];
+            }
+
+            public ContentFile Add(BuildAction buildAction, string fileName)
+            {
+                List<ContentFile> itemsForAction;
+                if (!this.data.TryGetValue(buildAction, out itemsForAction))
+                {
+                    itemsForAction = new List<ContentFile>();
+                    this.data.Add(buildAction, itemsForAction);
+                }
+
+                var contenFile = this.CreateContentFile(fileName);
+
+                itemsForAction.Add(contenFile);
+                return contenFile;
+            }
+
+            private ContentFile CreateContentFile(string fileName)
+            {
+                var filePath = new FilePath(fileName, this.basePathProvider);
+                var contentFile = new ContentFile(filePath);
+                contentFile.LinkPath = filePath; // TODO: do we need this?
+                contentFile.ContentFileProvider = this;
+                return contentFile;
+            }
         }
     }
 }
