@@ -75,6 +75,17 @@
     <Exec Command="$(NuGetToolPath) install &quot;%(Package.FullPath)&quot; -o &quot;$(PackagesDir)\&quot;" />
   </Target>
 
+  <!-- Clean -->
+
+  <Target Name="Clean" DependsOnTargets="Restore">
+    <ItemGroup>
+      <AllSolutionFiles Include="$(SourceDir)**\*.sln" />
+      <AllSolutionFiles Include="$(SetupDir)**\*.sln" />
+    </ItemGroup>
+    <MSBuild Projects="@(AllSolutionFiles)"
+             Targets="Clean"
+             Properties="$(ProjectProperties)" />
+  </Target>
 
   <!-- Build -->
 
@@ -86,19 +97,10 @@
     <CallTarget Targets="GenerateRelease" />
   </Target>
 
-  <!-- Clean -->
+  <!-- Rebuild -->
 
-  <Target Name="Clean" DependsOnTargets="Restore">
-    <ItemGroup>
-      <AllSolutionFiles Include="$(SourceDir)**\*.sln" />
-      <AllSolutionFiles Include="$(SetupDir)**\*.sln" />
-      <CompilationFiles Include="$(ProjectDir)**\bin\**\*.*" />
-      <CompilationFiles Include="$(ProjectDir)**\obj\**\*.*" />
-    </ItemGroup>
-    <MSBuild Projects="@(AllSolutionFiles)"
-             Targets="Clean"
-             Properties="$(ProjectProperties)" />
-  </Target>
+  <Target Name="Rebuild"
+          DependsOnTargets="Clean;Build" />
 
   <!-- Compile MSBuild tasks needed by the build process itself -->
 
