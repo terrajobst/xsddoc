@@ -34,7 +34,7 @@
   </PropertyGroup>
 
   <!-- External Tasks -->
-  
+
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll"
              TaskName="XsdDocumentation.Build.GetFileVersionInfo" />
   <UsingTask AssemblyFile="$(CustomTasksDir)XsdDocumentation.Build.dll"
@@ -79,7 +79,6 @@
   <!-- Build -->
 
   <Target Name="Build">
-    <CallTarget Targets="Clean" />
     <CallTarget Targets="Compile" />
     <CallTarget Targets="GenerateHelp" />
     <CallTarget Targets="GenerateSetup" />
@@ -99,9 +98,6 @@
     <MSBuild Projects="@(AllSolutionFiles)"
              Targets="Clean"
              Properties="$(ProjectProperties)" />
-    <Delete Files="@(CompilationFiles)" />
-    <RemoveDir Directories="$(CustomTasksDir)" />
-    <RemoveDir Directories="$(OutputDir)" />
   </Target>
 
   <!-- Compile MSBuild tasks needed by the build process itself -->
