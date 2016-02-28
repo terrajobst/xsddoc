@@ -17,6 +17,6 @@ using System.Runtime.InteropServices;
 
 internal static class XsdDocMetadata
 {
-    public const string Version = "15.1.12.0";
+    public const string Version = "15.10.10.0";
     public const string Copyright = "Copyright © 2009-2015 Immo Landwerth";
 }
