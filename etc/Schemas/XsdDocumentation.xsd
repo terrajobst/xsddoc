@@ -29,17 +29,17 @@
         elements, attributes, groups or types.
       </xs:documentation>
     </xs:annotation>
-	  <xs:complexType>
-		  <xs:simpleContent>
-			  <xs:extension base="xmlEntityUri">
-				  <xs:attribute name="linkText" type="xs:string" use="optional">
-					  <xs:annotation>
-						  <xs:documentation>The custom text of the link to use instead of topic's title.</xs:documentation>
-					  </xs:annotation>
-				  </xs:attribute>
-			  </xs:extension>
-		  </xs:simpleContent>
-	  </xs:complexType>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xmlEntityUri">
+          <xs:attribute name="linkText" type="xs:string" use="optional">
+            <xs:annotation>
+              <xs:documentation>The custom text of the link to use instead of topic's title.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
   </xs:element>
 
   <xs:element name="examples" type="ddue:namedSectionType">
