@@ -222,7 +222,6 @@
   <Target Name="GenerateRelease" DependsOnTargets="CompileBuildTasks">
     <ItemGroup>
       <GeneratedBuildServerFiles Include="$(GeneratedBinaries)\**\*.*" />
-      <GeneratedSourceCodeFiles Include="$(GeneratedSourceCode)\**\*.*" />
       <GeneratedSetupFiles Include="$(GeneratedSetup)\**\*.*" />
       <GeneratedSampleFiles Include="$(GeneratedSamples)\**\*.*" />
     </ItemGroup>
@@ -239,5 +238,8 @@
     <Zip WorkingDirectory="$(GeneratedSamples)"
          Files="@(GeneratedSampleFiles)"
          ZipFileName="$(GeneratedRelease)XsdDoc_Samples.zip" />
+
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)\NuGet\NuGet.exe&quot; Pack SHFB.XsdDocumentationPlugin.nuspec -NoPackageAnalysis -BasePath &quot;$(GeneratedBinaries.TrimEnd('\'))&quot; -OutputDirectory &quot;$(GeneratedRelease.TrimEnd('\'))&quot; -prop currentVersion=$(XsdDocVersion)" />
   </Target>
+ 
 </Project>

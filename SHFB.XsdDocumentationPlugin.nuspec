@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SHFB.XsdDocumentationPlugin</id>
+    <summary>XML Schema documentation plug-in for Sandcastle Help File Builder (SHFB)</summary>
+    <description>
+      XML Schema documentation plug-in for Sandcastle Help File Builder (SHFB)
+    </description>
+    <dependencies>
+    </dependencies>
+
+    <language>en-US</language>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <version>$currentVersion$</version>
+    <authors>terrajobs, cklutz</authors>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/cklutz/xsddoc</projectUrl>
+    <releaseNotes></releaseNotes>
+    <tags>SHFB Sandcastle XSD</tags>
+  </metadata>
+  <files>
+    <file src="*.dll" target="tools" />
+    <file src="*.xslt" target="tools" />
+    <file src="media\*.*" target="tools\media" />
+  </files>
+</package>
