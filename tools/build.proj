@@ -222,7 +222,6 @@
   <Target Name="GenerateRelease" DependsOnTargets="CompileBuildTasks">
     <ItemGroup>
       <GeneratedBuildServerFiles Include="$(GeneratedBinaries)\**\*.*" />
-      <GeneratedSourceCodeFiles Include="$(GeneratedSourceCode)\**\*.*" />
       <GeneratedSetupFiles Include="$(GeneratedSetup)\**\*.*" />
       <GeneratedSampleFiles Include="$(GeneratedSamples)\**\*.*" />
     </ItemGroup>
