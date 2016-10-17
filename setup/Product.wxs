@@ -30,7 +30,7 @@
       <DirectorySearch Id="ShfbRootSearch" Path="[%SHFBROOT]">
         <!-- We must set the minimum version number one lower than the actual file we are looking for. -->
         <FileSearch Name="SandcastleBuilderGUI.exe" MinVersion="15.7.25.0"
-                                                    MaxVersion="15.10.10.0"/>
+                                                    MaxVersion="16.9.17.0"/>
       </DirectorySearch>
     </Property>
 
