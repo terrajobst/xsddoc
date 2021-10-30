@@ -27,10 +27,10 @@
     <!-- Launch Condition Searches -->
 
     <Property Id="SHFB_EXISTS" Secure="yes">
-      <DirectorySearch Id="ShfbRootSearch" Path="[%SHFBROOT]">
+      <DirectorySearch Id="ShfbRootSearch" Path="[%SHFBROOT]\Tools\">
         <!-- We must set the minimum version number one lower than the actual file we are looking for. -->
-        <FileSearch Name="SandcastleBuilderGUI.exe" MinVersion="15.7.25.0"
-                                                    MaxVersion="21.4.9.0"/>
+        <FileSearch Name="SandcastleBuilderGUI.exe" MinVersion="21.10.22.0"
+                                                    MaxVersion="21.10.23.0"/>
       </DirectorySearch>
     </Property>
 
@@ -40,7 +40,7 @@
       Privileged
     </Condition>
 
-    <Condition Message="[ProductName] requires Sandcastle Help File Builder 2015.7.25.0. If you just installed it, please reboot in order to ensure required environment variables can be accessed.&#13;&#10;&#13;&#10;You can download it from http://shfb.codeplex.com/.">
+    <Condition Message="[ProductName] requires Sandcastle Help File Builder 2021.10.23.0. If you just installed it, please reboot in order to ensure required environment variables can be accessed.&#13;&#10;&#13;&#10;You can download it from https://github.com/EWSoftware/SHFB.">
       Installed OR SHFB_EXISTS
     </Condition>
 

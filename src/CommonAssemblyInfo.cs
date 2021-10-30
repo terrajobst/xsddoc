@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Resources;
 using System.Runtime.InteropServices;
 
@@ -17,6 +16,6 @@ using System.Runtime.InteropServices;
 
 internal static class XsdDocMetadata
 {
-    public const string Version = "16.9.17.0";
-    public const string Copyright = "Copyright © 2009-2015 Immo Landwerth";
+    public const string Version = "21.10.23.0";
+    public const string Copyright = "Copyright © 2009-2021 Immo Landwerth";
 }

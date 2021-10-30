@@ -1,30 +1,24 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Xml.XPath;
-
-using Microsoft.Build.Evaluation;
+using System.Xml.Linq;
 
 using SandcastleBuilder.Utils;
 using SandcastleBuilder.Utils.BuildComponent;
 using SandcastleBuilder.Utils.BuildEngine;
+using SandcastleBuilder.Utils.ConceptualContent;
 
 using XsdDocumentation.Model;
 using XsdDocumentation.PlugIn.Properties;
 
 namespace XsdDocumentation.PlugIn
 {
-    using SandcastleBuilder.Utils.ConceptualContent;
-
     [HelpFileBuilderPlugInExport(
         "XML Schema Documenter",
         Copyright = XsdDocMetadata.Copyright,
         Description = "This plug-in creates reference documentation for an XML schema set.",
-        IsConfigurable = true,
         RunsInPartialBuild = false,
         Version = XsdDocMetadata.Version)]
     public sealed class XsdPlugIn : IPlugIn
@@ -51,27 +45,6 @@ namespace XsdDocumentation.PlugIn
         }
 
         /// <summary>
-        /// This method is used by the Sandcastle Help File Builder to let the
-        /// plug-in perform its own configuration.
-        /// </summary>
-        /// <param name="project">A reference to the active project</param>
-        /// <param name="currentConfig">The current configuration XML fragment</param>
-        /// <returns>A string containing the new configuration XML fragment</returns>
-        /// <remarks>The configuration data will be stored in the help file
-        /// builder project.</remarks>
-        public string ConfigurePlugIn(SandcastleProject project, string currentConfig)
-        {
-            var configuration = XsdPlugInConfiguration.FromXml(project, currentConfig);
-
-            using (var dlg = new XsdConfigurationForm(configuration))
-            {
-                return (dlg.ShowDialog() == DialogResult.OK)
-                        ? XsdPlugInConfiguration.ToXml(dlg.NewConfiguration)
-                        : currentConfig;
-            }
-        }
-
-        /// <summary>
         /// This method is used to initialize the plug-in at the start of the
         /// build process.
         /// </summary>
@@ -79,9 +52,9 @@ namespace XsdDocumentation.PlugIn
         /// process.</param>
         /// <param name="configuration">The configuration data that the plug-in
         /// should use to initialize itself.</param>
-        public void Initialize(BuildProcess buildProcess, XPathNavigator configuration)
+        public void Initialize(BuildProcess buildProcess, XElement configuration)
         {
-            _configuration = XsdPlugInConfiguration.FromXml(buildProcess.CurrentProject, configuration);
+            _configuration = XsdPlugInConfiguration.FromXml(buildProcess.CurrentProject, configuration.ToString());
             _buildProcess = buildProcess;
             _buildProcess.ReportProgress(Resources.PlugInVersionFormatted, Resources.PlugInName, XsdDocMetadata.Version, XsdDocMetadata.Copyright);
         }
@@ -201,8 +174,7 @@ namespace XsdDocumentation.PlugIn
 
             public ContentFile Add(BuildAction buildAction, string fileName)
             {
-                List<ContentFile> itemsForAction;
-                if (!this.data.TryGetValue(buildAction, out itemsForAction))
+                if(!this.data.TryGetValue(buildAction, out List<ContentFile> itemsForAction))
                 {
                     itemsForAction = new List<ContentFile>();
                     this.data.Add(buildAction, itemsForAction);
@@ -217,9 +189,11 @@ namespace XsdDocumentation.PlugIn
             private ContentFile CreateContentFile(string fileName)
             {
                 var filePath = new FilePath(fileName, this.basePathProvider);
-                var contentFile = new ContentFile(filePath);
-                contentFile.LinkPath = filePath; // TODO: do we need this?
-                contentFile.ContentFileProvider = this;
+                var contentFile = new ContentFile(filePath)
+                {
+                    LinkPath = filePath, // TODO: do we need this?
+                    ContentFileProvider = this
+                };
                 return contentFile;
             }
         }
