@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
-
+using Sandcastle.Core;
 using Sandcastle.Core.BuildAssembler;
 using Sandcastle.Core.BuildAssembler.BuildComponent;
 
@@ -35,7 +35,7 @@ namespace XsdDocumentation.BuildComponents
 
         private TopicIndex _topicIndex;
 
-        public XsdResolveLinksComponent(BuildAssemblerCore assembler)
+        public XsdResolveLinksComponent(IBuildAssembler assembler)
             : base(assembler)
         {
             var versionInfo = GetVersionInfo();
