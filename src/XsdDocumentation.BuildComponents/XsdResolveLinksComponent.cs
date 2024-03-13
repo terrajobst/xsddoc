@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
-
+using Sandcastle.Core;
 using Sandcastle.Core.BuildAssembler;
 using Sandcastle.Core.BuildAssembler.BuildComponent;
 
@@ -17,7 +17,6 @@ namespace XsdDocumentation.BuildComponents
     {
         [BuildComponentExport("XsdResolveLinks",
             Copyright = XsdDocMetadata.Copyright,
-            IsConfigurable = false,
             IsVisible = false,
             Version = XsdDocMetadata.Version)]
         public sealed class Factory : BuildComponentFactory
@@ -36,7 +35,7 @@ namespace XsdDocumentation.BuildComponents
 
         private TopicIndex _topicIndex;
 
-        public XsdResolveLinksComponent(BuildAssemblerCore assembler)
+        public XsdResolveLinksComponent(IBuildAssembler assembler)
             : base(assembler)
         {
             var versionInfo = GetVersionInfo();
@@ -53,6 +52,9 @@ namespace XsdDocumentation.BuildComponents
 
         public override void Initialize(XPathNavigator configuration)
         {
+            if(configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
             var fileName = configuration.SelectSingleNode("indexFile/@location").Value;
             _topicIndex = new TopicIndex();
             _topicIndex.Load(fileName);
@@ -60,6 +62,9 @@ namespace XsdDocumentation.BuildComponents
 
         public override void Apply(XmlDocument document, string key)
         {
+            if(document == null)
+                throw new ArgumentNullException(nameof(document));
+
             var namespaceManager = new XmlNamespaceManager(document.NameTable);
             namespaceManager.AddNamespace("xsd", Namespaces.XsdDoc);
 

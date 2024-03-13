@@ -70,6 +70,7 @@
     <CleanIntermediates>True</CleanIntermediates>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
+    <PresentationStyle>VS2013</PresentationStyle>
   </PropertyGroup>
   <!--
 		There are no properties for these two groups but they need to appear in order for

@@ -1,12 +1,12 @@
-using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 
+using Sandcastle.Platform.Windows.Design;
+
 using SandcastleBuilder.Utils;
-using SandcastleBuilder.Utils.Design;
 
 namespace XsdDocumentation.PlugIn
 {
